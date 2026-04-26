@@ -1,16 +1,34 @@
 # proxu
 
-A V2Ray client for Android, support [Xray core](https://github.com/XTLS/Xray-core) and [v2fly core](https://github.com/v2fly/v2ray-core)
+A V2Ray client for Android based on [v2rayNG](https://github.com/2dust/v2rayNG), support [Xray core](https://github.com/XTLS/Xray-core) and [v2fly core](https://github.com/v2fly/v2ray-core).
+
+This is a fork of the original [v2rayNG](https://github.com/2dust/v2rayNG) project with the following modifications:
+- Renamed project from **v2rayNG** to **proxu**
+- Renamed package from `com.v2ray.ang` to `com.proxu.app`
+- Renamed all branding and resources accordingly
 
 [![API](https://img.shields.io/badge/API-24%2B-yellow.svg?style=flat)](https://developer.android.com/about/versions/lollipop)
-[![Kotlin Version](https://img.shields.io/badge/Kotlin-2.3.0-blue.svg)](https://kotlinlang.org)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/2dust/proxu)](https://github.com/2dust/proxu/commits/master)
-[![CodeFactor](https://www.codefactor.io/repository/github/2dust/v2rayng/badge)](https://www.codefactor.io/repository/github/2dust/v2rayng)
-[![GitHub Releases](https://img.shields.io/github/downloads/2dust/proxu/latest/total?logo=github)](https://github.com/2dust/proxu/releases)
-[![Chat on Telegram](https://img.shields.io/badge/Chat%20on-Telegram-brightgreen.svg)](https://t.me/v2rayn)
+[![Kotlin Version](https://img.shields.io/badge/Kotlin-2.3.10-blue.svg)](https://kotlinlang.org)
+[![GitHub commit activity](https://img.shields.io/github/commit-activity/m/ch32v003-cloud/proxu)](https://github.com/ch32v003-cloud/proxu/commits/master)
+[![GitHub Releases](https://img.shields.io/github/downloads/ch32v003-cloud/proxu/latest/total?logo=github)](https://github.com/ch32v003-cloud/proxu/releases)
 
-### Telegram Channel
-[github_2dust](https://t.me/github_2dust)
+### Upstream
+
+This project tracks the original [v2rayNG](https://github.com/2dust/v2rayNG) repository. 
+To manually pull updates from upstream:
+
+```bash
+# Fetch upstream changes
+git fetch upstream
+
+# View new commits
+git log --oneline HEAD..upstream/master
+
+# Cherry-pick specific commits
+git cherry-pick <commit-hash>
+```
+
+See [UPSTREAM.md](UPSTREAM.md) for detailed update workflow.
 
 ### Usage
 
@@ -20,13 +38,32 @@ A V2Ray client for Android, support [Xray core](https://github.com/XTLS/Xray-cor
 - latest official [domain list](https://github.com/Loyalsoldier/v2ray-rules-dat) and [ip list](https://github.com/Loyalsoldier/geoip) can be imported manually
 - possible to use third party dat file in the same folder, like [h2y](https://guide.v2fly.org/routing/sitedata.html#%E5%A4%96%E7%BD%AE%E7%9A%84%E5%9F%9F%E5%90%8D%E6%96%87%E4%BB%B6)
 
-### More in our [wiki](https://github.com/2dust/proxu/wiki)
-
 ### Development guide
 
-Android project under proxu folder can be compiled directly in Android Studio, or using Gradle wrapper. But the v2ray core inside the aar is (probably) outdated.  
+Android project under `proxu/` folder can be compiled directly in Android Studio, or using Gradle wrapper. But the v2ray core inside the aar is (probably) outdated.
+
 The aar can be compiled from the Golang project [AndroidLibV2rayLite](https://github.com/2dust/AndroidLibV2rayLite) or [AndroidLibXrayLite](https://github.com/2dust/AndroidLibXrayLite).
+
 For a quick start, read guide for [Go Mobile](https://github.com/golang/go/wiki/Mobile) and [Makefiles for Go Developers](https://tutorialedge.net/golang/makefiles-for-go-developers/)
 
 proxu can run on Android Emulators. For WSA, VPN permission need to be granted via
-`appops set [package name] ACTIVATE_VPN allow`
+`appops set com.proxu.app ACTIVATE_VPN allow`
+
+### Build
+
+```bash
+cd proxu
+./gradlew assembleRelease
+```
+
+APK files will be generated in `proxu/app/build/outputs/apk/`.
+
+### Credits
+
+- Original project: [v2rayNG](https://github.com/2dust/v2rayNG) by [2dust](https://github.com/2dust)
+- Xray core: [XTLS/Xray-core](https://github.com/XTLS/Xray-core)
+- v2fly core: [v2fly/v2ray-core](https://github.com/v2fly/v2ray-core)
+
+### License
+
+[GPLv3](LICENSE)
