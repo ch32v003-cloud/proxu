@@ -1,0 +1,178 @@
+[
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_check_update.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_check_update.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/item_recycler_main.xml",
+        "source": "com.proxu.app-main-70:/layout/item_recycler_main.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/widget_switch.xml",
+        "source": "com.proxu.app-main-70:/layout/widget_switch.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/dialog_webdav.xml",
+        "source": "com.proxu.app-main-70:/layout/dialog_webdav.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/layout_transport.xml",
+        "source": "com.proxu.app-main-70:/layout/layout_transport.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_sub_setting.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_sub_setting.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_tasker.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_tasker.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/item_qrcode.xml",
+        "source": "com.proxu.app-main-70:/layout/item_qrcode.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_bypass_list.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_bypass_list.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_server_shadowsocks.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_server_shadowsocks.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/nav_header.xml",
+        "source": "com.proxu.app-main-70:/layout/nav_header.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/item_recycler_logcat.xml",
+        "source": "com.proxu.app-main-70:/layout/item_recycler_logcat.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_sub_edit.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_sub_edit.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/layout_tls.xml",
+        "source": "com.proxu.app-main-70:/layout/layout_tls.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/item_recycler_bypass_list.xml",
+        "source": "com.proxu.app-main-70:/layout/item_recycler_bypass_list.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_server_vmess.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_server_vmess.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_routing_setting.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_routing_setting.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_user_asset_url.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_user_asset_url.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_server_vless.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_server_vless.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_server_hysteria2.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_server_hysteria2.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_user_asset.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_user_asset.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_server_group.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_server_group.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_routing_edit.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_routing_edit.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_settings.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_settings.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_server_trojan.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_server_trojan.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_server_custom_config.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_server_custom_config.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_about.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_about.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/item_recycler_user_asset.xml",
+        "source": "com.proxu.app-main-70:/layout/item_recycler_user_asset.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_app_picker.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_app_picker.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/item_recycler_footer.xml",
+        "source": "com.proxu.app-main-70:/layout/item_recycler_footer.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_base.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_base.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_none.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_none.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/layout_tls_hysteria2.xml",
+        "source": "com.proxu.app-main-70:/layout/layout_tls_hysteria2.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_main.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/dialog_config_filter.xml",
+        "source": "com.proxu.app-main-70:/layout/dialog_config_filter.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/fragment_group_server.xml",
+        "source": "com.proxu.app-main-70:/layout/fragment_group_server.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/preference_with_help_link.xml",
+        "source": "com.proxu.app-main-70:/layout/preference_with_help_link.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_backup.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_backup.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_logcat.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_logcat.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/item_recycler_sub_setting.xml",
+        "source": "com.proxu.app-main-70:/layout/item_recycler_sub_setting.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_server_wireguard.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_server_wireguard.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/item_recycler_routing_setting.xml",
+        "source": "com.proxu.app-main-70:/layout/item_recycler_routing_setting.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/layout_address_port.xml",
+        "source": "com.proxu.app-main-70:/layout/layout_address_port.xml"
+    },
+    {
+        "merged": "com.proxu.app-mergeFdroidDebugResources-65:/layout/activity_server_socks.xml",
+        "source": "com.proxu.app-main-70:/layout/activity_server_socks.xml"
+    }
+]

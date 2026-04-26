@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="quickie_please_wait">Please wait…</string>
+    <string name="quickie_scan_qr_code">Scan QR code</string>
+</resources>

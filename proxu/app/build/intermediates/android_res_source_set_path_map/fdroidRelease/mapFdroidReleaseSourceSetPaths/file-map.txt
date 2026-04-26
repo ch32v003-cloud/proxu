@@ -1,0 +1,11 @@
+com.proxu.app-fdroid-0 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/build/generated/res/pngs/fdroid/release
+com.proxu.app-fdroid-1 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/build/generated/res/resValues/fdroid/release
+com.proxu.app-updated_navigation_xml-2 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/build/generated/updated_navigation_xml/fdroidRelease
+com.proxu.app-packageFdroidReleaseResources-3 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/build/intermediates/incremental/fdroidRelease/packageFdroidReleaseResources/merged.dir
+com.proxu.app-packageFdroidReleaseResources-4 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/build/intermediates/incremental/fdroidRelease/packageFdroidReleaseResources/stripped.dir
+com.proxu.app-fdroidRelease-5 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/build/intermediates/merged_res/fdroidRelease/mergeFdroidReleaseResources
+com.proxu.app-fdroid-6 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/fdroid/res
+com.proxu.app-fdroidRelease-7 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/fdroidRelease/res
+com.proxu.app-main-8 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/res
+com.proxu.app-release-9 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/release/res
+gradleHome-0 /home/lvs/.gradle

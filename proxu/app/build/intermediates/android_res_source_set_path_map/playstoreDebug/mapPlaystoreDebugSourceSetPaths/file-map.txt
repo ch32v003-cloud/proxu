@@ -1,0 +1,11 @@
+com.proxu.app-playstore-0 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/build/generated/res/pngs/playstore/debug
+com.proxu.app-playstore-1 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/build/generated/res/resValues/playstore/debug
+com.proxu.app-updated_navigation_xml-2 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/build/generated/updated_navigation_xml/playstoreDebug
+com.proxu.app-packagePlaystoreDebugResources-3 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/build/intermediates/incremental/playstoreDebug/packagePlaystoreDebugResources/merged.dir
+com.proxu.app-packagePlaystoreDebugResources-4 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/build/intermediates/incremental/playstoreDebug/packagePlaystoreDebugResources/stripped.dir
+com.proxu.app-playstoreDebug-5 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/build/intermediates/merged_res/playstoreDebug/mergePlaystoreDebugResources
+com.proxu.app-debug-6 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/debug/res
+com.proxu.app-main-7 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/res
+com.proxu.app-playstore-8 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/playstore/res
+com.proxu.app-playstoreDebug-9 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/playstoreDebug/res
+gradleHome-0 /home/lvs/.gradle

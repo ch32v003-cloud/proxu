@@ -1,0 +1,11 @@
+com.proxu.app-fdroid-0 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/build/generated/res/pngs/fdroid/debug
+com.proxu.app-fdroid-1 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/build/generated/res/resValues/fdroid/debug
+com.proxu.app-updated_navigation_xml-2 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/build/generated/updated_navigation_xml/fdroidDebug
+com.proxu.app-packageFdroidDebugResources-3 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/build/intermediates/incremental/fdroidDebug/packageFdroidDebugResources/merged.dir
+com.proxu.app-packageFdroidDebugResources-4 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/build/intermediates/incremental/fdroidDebug/packageFdroidDebugResources/stripped.dir
+com.proxu.app-fdroidDebug-5 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/build/intermediates/merged_res/fdroidDebug/mergeFdroidDebugResources
+com.proxu.app-debug-6 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/debug/res
+com.proxu.app-fdroid-7 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/fdroid/res
+com.proxu.app-fdroidDebug-8 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/fdroidDebug/res
+com.proxu.app-main-9 /home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/res
+gradleHome-0 /home/lvs/.gradle

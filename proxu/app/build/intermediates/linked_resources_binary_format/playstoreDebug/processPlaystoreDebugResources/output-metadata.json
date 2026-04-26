@@ -1,0 +1,72 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "LINKED_RESOURCES_BINARY_FORMAT",
+    "kind": "Directory"
+  },
+  "applicationId": "com.proxu.app",
+  "variantName": "playstoreDebug",
+  "elements": [
+    {
+      "type": "UNIVERSAL",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 4000723,
+      "versionName": "2.1.3",
+      "outputFile": "linked-resources-binary-format-playstoreUniversalDebug.ap_"
+    },
+    {
+      "type": "ONE_OF_MANY",
+      "filters": [
+        {
+          "filterType": "ABI",
+          "value": "x86_64"
+        }
+      ],
+      "attributes": [],
+      "versionCode": 4000723,
+      "versionName": "2.1.3",
+      "outputFile": "linked-resources-binary-format-playstoreX86_64Debug.ap_"
+    },
+    {
+      "type": "ONE_OF_MANY",
+      "filters": [
+        {
+          "filterType": "ABI",
+          "value": "armeabi-v7a"
+        }
+      ],
+      "attributes": [],
+      "versionCode": 4000723,
+      "versionName": "2.1.3",
+      "outputFile": "linked-resources-binary-format-playstoreArmeabi-v7aDebug.ap_"
+    },
+    {
+      "type": "ONE_OF_MANY",
+      "filters": [
+        {
+          "filterType": "ABI",
+          "value": "x86"
+        }
+      ],
+      "attributes": [],
+      "versionCode": 4000723,
+      "versionName": "2.1.3",
+      "outputFile": "linked-resources-binary-format-playstoreX86Debug.ap_"
+    },
+    {
+      "type": "ONE_OF_MANY",
+      "filters": [
+        {
+          "filterType": "ABI",
+          "value": "arm64-v8a"
+        }
+      ],
+      "attributes": [],
+      "versionCode": 4000723,
+      "versionName": "2.1.3",
+      "outputFile": "linked-resources-binary-format-playstoreArm64-v8aDebug.ap_"
+    }
+  ],
+  "elementType": "File"
+}

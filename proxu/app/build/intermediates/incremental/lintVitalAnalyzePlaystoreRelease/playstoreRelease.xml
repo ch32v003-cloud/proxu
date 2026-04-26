@@ -1,0 +1,33 @@
+<variant
+    name="playstoreRelease"
+    package="com.proxu.app"
+    minSdkVersion="24"
+    targetSdkVersion="36.0"
+    mergedManifest="build/intermediates/merged_manifest/playstoreRelease/processPlaystoreReleaseMainManifest/AndroidManifest.xml"
+    proguardFiles="build/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.2.0:proguard-rules.pro"
+    partialResultsDir="build/intermediates/lint_vital_partial_results/playstoreRelease/lintVitalAnalyzePlaystoreRelease/out"
+    desugaredMethodsFiles="/home/lvs/.gradle/caches/9.4.1/transforms/938a373f6e5a2d1a595fb4a0f5bbe63b/transformed/desugar_jdk_libs_configuration-2.1.5-desugar-lint.txt:/home/lvs/.gradle/caches/9.4.1/transforms/1bc57a0469a65e9e1c3953d05bcfc336/transformed/D8BackportedDesugaredMethods.txt">
+  <buildFeatures
+      coreLibraryDesugaring="true"
+      viewBinding="true"/>
+  <sourceProviders>
+    <sourceProvider
+        manifests="src/main/AndroidManifest.xml"
+        javaDirectories="src/main/java:src/playstore/java:src/release/java:src/playstoreRelease/java:src/main/kotlin:src/playstore/kotlin:src/release/kotlin:src/playstoreRelease/kotlin"
+        resDirectories="src/main/res:src/playstore/res:src/release/res:src/playstoreRelease/res"
+        assetsDirectories="src/main/assets:src/playstore/assets:src/release/assets:src/playstoreRelease/assets"
+        keepRulesDirectories="src/main/keepRules:src/playstore/keepRules:src/release/keepRules:src/playstoreRelease/keepRules"/>
+  </sourceProviders>
+  <testSourceProviders>
+  </testSourceProviders>
+  <testFixturesSourceProviders>
+  </testFixturesSourceProviders>
+  <artifact
+      classOutputs="build/intermediates/javac/playstoreRelease/compilePlaystoreReleaseJavaWithJavac/classes:build/tmp/kotlin-classes/playstoreRelease:build/kotlinToolingMetadata:build/intermediates/compile_and_runtime_r_class_jar/playstoreRelease/processPlaystoreReleaseResources/R.jar"
+      type="MAIN"
+      applicationId="com.proxu.app"
+      generatedSourceFolders="build/generated/ap_generated_sources/playstoreRelease/out:build/generated/source/buildConfig/playstore/release:build/generated/data_binding_base_class_source_out/playstoreRelease/out"
+      generatedResourceFolders="build/generated/res/resValues/playstore/release"
+      desugaredMethodsFiles="/home/lvs/.gradle/caches/9.4.1/transforms/938a373f6e5a2d1a595fb4a0f5bbe63b/transformed/desugar_jdk_libs_configuration-2.1.5-desugar-lint.txt:/home/lvs/.gradle/caches/9.4.1/transforms/1bc57a0469a65e9e1c3953d05bcfc336/transformed/D8BackportedDesugaredMethods.txt">
+  </artifact>
+</variant>

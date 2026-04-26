@@ -1,0 +1,787 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.proxu.app"
+4    android:versionCode="4000723"
+5    android:versionName="2.1.3" >
+6
+7    <uses-sdk
+7-->INJECTED
+8        android:minSdkVersion="24"
+8-->INJECTED
+9        android:targetSdkVersion="36" />
+9-->INJECTED
+10
+11    <supports-screens
+11-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:6:5-11:40
+12        android:anyDensity="true"
+12-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:7:9-34
+13        android:largeScreens="true"
+13-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:8:9-36
+14        android:normalScreens="true"
+14-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:9:9-37
+15        android:smallScreens="true"
+15-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:10:9-36
+16        android:xlargeScreens="true" />
+16-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:11:9-37
+17
+18    <uses-feature
+18-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:13:5-15:36
+19        android:name="android.hardware.camera"
+19-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:14:9-47
+20        android:required="false" />
+20-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:15:9-33
+21    <uses-feature
+21-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:16:5-18:36
+22        android:name="android.hardware.camera.autofocus"
+22-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:17:9-57
+23        android:required="false" />
+23-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:18:9-33
+24    <uses-feature
+24-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:19:5-21:36
+25        android:name="android.software.leanback"
+25-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:20:9-49
+26        android:required="false" />
+26-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:21:9-33
+27    <uses-feature
+27-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:22:5-24:36
+28        android:name="android.hardware.touchscreen"
+28-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:23:9-52
+29        android:required="false" />
+29-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:24:9-33
+30
+31    <!-- https://developer.android.com/about/versions/11/privacy/package-visibility -->
+32    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+32-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:27:5-29:77
+32-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:28:9-61
+33    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+33-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:30:5-79
+33-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:30:22-76
+34    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+34-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:31:5-79
+34-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:31:22-76
+35    <uses-permission android:name="android.permission.INTERNET" />
+35-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:32:5-67
+35-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:32:22-64
+36    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+36-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:33:5-80
+36-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:33:22-77
+37    <uses-permission android:name="android.permission.CAMERA" />
+37-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:34:5-65
+37-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:34:22-62
+38    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+38-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:35:5-77
+38-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:35:22-74
+39    <uses-permission
+39-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:36:5-38:38
+40        android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"
+40-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:37:9-73
+41        android:minSdkVersion="34" />
+41-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:38:9-35
+42    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
+43    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+43-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:40:5-77
+43-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:40:22-74
+44    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+44-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:41:5-76
+44-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:41:22-73
+45    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+45-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:42:5-81
+45-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:42:22-78
+46    <uses-permission android:name="android.permission.WAKE_LOCK" />
+46-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:23:5-68
+46-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:23:22-65
+47
+48    <permission
+48-->[androidx.core:core:1.17.0] /home/lvs/.gradle/caches/9.4.1/transforms/a427d5ab58a6cd251e0f2023d32ff72c/transformed/core-1.17.0/AndroidManifest.xml:22:5-24:47
+49        android:name="com.proxu.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+49-->[androidx.core:core:1.17.0] /home/lvs/.gradle/caches/9.4.1/transforms/a427d5ab58a6cd251e0f2023d32ff72c/transformed/core-1.17.0/AndroidManifest.xml:23:9-81
+50        android:protectionLevel="signature" />
+50-->[androidx.core:core:1.17.0] /home/lvs/.gradle/caches/9.4.1/transforms/a427d5ab58a6cd251e0f2023d32ff72c/transformed/core-1.17.0/AndroidManifest.xml:24:9-44
+51
+52    <uses-permission android:name="com.proxu.app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+52-->[androidx.core:core:1.17.0] /home/lvs/.gradle/caches/9.4.1/transforms/a427d5ab58a6cd251e0f2023d32ff72c/transformed/core-1.17.0/AndroidManifest.xml:26:5-97
+52-->[androidx.core:core:1.17.0] /home/lvs/.gradle/caches/9.4.1/transforms/a427d5ab58a6cd251e0f2023d32ff72c/transformed/core-1.17.0/AndroidManifest.xml:26:22-94
+53
+54    <uses-feature
+54-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/0ec9a41da704642ef2142b3949cefe55/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:28:5-30:36
+55        android:name="android.hardware.camera.front"
+55-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/0ec9a41da704642ef2142b3949cefe55/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:29:9-53
+56        android:required="false" />
+56-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/0ec9a41da704642ef2142b3949cefe55/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:30:9-33
+57    <uses-feature
+57-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/0ec9a41da704642ef2142b3949cefe55/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:36:5-38:36
+58        android:name="android.hardware.camera.flash"
+58-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/0ec9a41da704642ef2142b3949cefe55/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:37:9-53
+59        android:required="false" />
+59-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/0ec9a41da704642ef2142b3949cefe55/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:38:9-33
+60    <uses-feature
+60-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/0ec9a41da704642ef2142b3949cefe55/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:39:5-41:36
+61        android:name="android.hardware.screen.landscape"
+61-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/0ec9a41da704642ef2142b3949cefe55/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:40:9-57
+62        android:required="false" />
+62-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/0ec9a41da704642ef2142b3949cefe55/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:41:9-33
+63    <uses-feature
+63-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/0ec9a41da704642ef2142b3949cefe55/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:42:5-44:36
+64        android:name="android.hardware.wifi"
+64-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/0ec9a41da704642ef2142b3949cefe55/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:43:9-45
+65        android:required="false" />
+65-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/0ec9a41da704642ef2142b3949cefe55/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:44:9-33
+66
+67    <application
+67-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:44:5-286:19
+68        android:name="com.proxu.app.ProxuApplication"
+68-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:45:9-41
+69        android:allowBackup="true"
+69-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:46:9-35
+70        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+70-->[androidx.core:core:1.17.0] /home/lvs/.gradle/caches/9.4.1/transforms/a427d5ab58a6cd251e0f2023d32ff72c/transformed/core-1.17.0/AndroidManifest.xml:28:18-86
+71        android:banner="@mipmap/ic_banner"
+71-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:47:9-43
+72        android:debuggable="true"
+73        android:extractNativeLibs="true"
+73-->INJECTED
+74        android:icon="@mipmap/ic_launcher"
+74-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:48:9-43
+75        android:label="@string/app_name"
+75-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:49:9-41
+76        android:networkSecurityConfig="@xml/network_security_config"
+76-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:50:9-69
+77        android:supportsRtl="true"
+77-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:51:9-35
+78        android:theme="@style/AppThemeDayNight.NoActionBar"
+78-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:52:9-60
+79        android:usesCleartextTraffic="true" >
+79-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:53:9-44
+80        <activity
+80-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:55:9-72:20
+81            android:name="com.proxu.app.ui.MainActivity"
+81-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:56:13-44
+82            android:exported="true"
+82-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:57:13-36
+83            android:launchMode="singleTask" >
+83-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:58:13-44
+84            <intent-filter>
+84-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:59:13-64:29
+85                <action android:name="android.intent.action.MAIN" />
+85-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:60:17-69
+85-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:60:25-66
+86
+87                <category android:name="android.intent.category.LAUNCHER" />
+87-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:62:17-77
+87-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:62:27-74
+88                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+88-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:63:17-86
+88-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:63:27-83
+89            </intent-filter>
+90            <intent-filter>
+90-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:65:13-67:29
+91                <action android:name="android.service.quicksettings.action.QS_TILE_PREFERENCES" />
+91-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:66:17-99
+91-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:66:25-96
+92            </intent-filter>
+93
+94            <meta-data
+94-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:69:13-71:53
+95                android:name="android.app.shortcuts"
+95-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:70:17-53
+96                android:resource="@xml/shortcuts" />
+96-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:71:17-50
+97        </activity>
+98        <activity
+98-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:73:9-76:60
+99            android:name="com.proxu.app.ui.ServerActivity"
+99-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:74:13-46
+100            android:exported="false"
+100-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:75:13-37
+101            android:windowSoftInputMode="stateUnchanged" />
+101-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:76:13-57
+102        <activity
+102-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:77:9-80:60
+103            android:name="com.proxu.app.ui.ServerCustomConfigActivity"
+103-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:78:13-58
+104            android:exported="false"
+104-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:79:13-37
+105            android:windowSoftInputMode="stateUnchanged" />
+105-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:80:13-57
+106        <activity
+106-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:81:9-84:60
+107            android:name="com.proxu.app.ui.ServerGroupActivity"
+107-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:82:13-51
+108            android:exported="false"
+108-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:83:13-37
+109            android:windowSoftInputMode="stateUnchanged" />
+109-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:84:13-57
+110        <activity
+110-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:85:9-87:40
+111            android:name="com.proxu.app.ui.SettingsActivity"
+111-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:86:13-48
+112            android:exported="false" />
+112-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:87:13-37
+113        <activity
+113-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:88:9-90:40
+114            android:name="com.proxu.app.ui.PerAppProxyActivity"
+114-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:89:13-51
+115            android:exported="false" />
+115-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:90:13-37
+116        <activity
+116-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:91:9-93:40
+117            android:name="com.proxu.app.ui.AppPickerActivity"
+117-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:92:13-49
+118            android:exported="false" />
+118-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:93:13-37
+119        <activity
+119-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:94:9-96:40
+120            android:name="com.proxu.app.ui.ScannerActivity"
+120-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:95:13-47
+121            android:exported="false" />
+121-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:96:13-37
+122        <activity
+122-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:97:9-99:40
+123            android:name="com.proxu.app.ui.LogcatActivity"
+123-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:98:13-46
+124            android:exported="false" />
+124-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:99:13-37
+125        <activity
+125-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:100:9-102:40
+126            android:name="com.proxu.app.ui.RoutingSettingActivity"
+126-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:101:13-54
+127            android:exported="false" />
+127-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:102:13-37
+128        <activity
+128-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:103:9-105:40
+129            android:name="com.proxu.app.ui.RoutingEditActivity"
+129-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:104:13-51
+130            android:exported="false" />
+130-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:105:13-37
+131        <activity
+131-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:106:9-108:40
+132            android:name="com.proxu.app.ui.SubSettingActivity"
+132-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:107:13-50
+133            android:exported="false" />
+133-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:108:13-37
+134        <activity
+134-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:109:9-111:40
+135            android:name="com.proxu.app.ui.UserAssetActivity"
+135-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:110:13-49
+136            android:exported="false" />
+136-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:111:13-37
+137        <activity
+137-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:112:9-114:40
+138            android:name="com.proxu.app.ui.UserAssetUrlActivity"
+138-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:113:13-52
+139            android:exported="false" />
+139-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:114:13-37
+140        <activity
+140-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:116:9-118:40
+141            android:name="com.proxu.app.ui.SubEditActivity"
+141-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:117:13-47
+142            android:exported="false" />
+142-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:118:13-37
+143        <activity
+143-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:119:9-121:40
+144            android:name="com.proxu.app.ui.ScScannerActivity"
+144-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:120:13-49
+145            android:exported="false" />
+145-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:121:13-37
+146        <activity
+146-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:122:9-127:79
+147            android:name="com.proxu.app.ui.ScSwitchActivity"
+147-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:123:13-48
+148            android:excludeFromRecents="true"
+148-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:124:13-46
+149            android:exported="false"
+149-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:125:13-37
+150            android:process=":RunProxuDaemon"
+150-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:126:13-46
+151            android:theme="@style/AppThemeDayNight.NoActionBar.Translucent" />
+151-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:127:13-76
+152        <activity
+152-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:128:9-133:79
+153            android:name="com.proxu.app.ui.ScStartActivity"
+153-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:129:13-47
+154            android:excludeFromRecents="true"
+154-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:130:13-46
+155            android:exported="false"
+155-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:131:13-37
+156            android:process=":RunProxuDaemon"
+156-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:132:13-46
+157            android:theme="@style/AppThemeDayNight.NoActionBar.Translucent" />
+157-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:133:13-76
+158        <activity
+158-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:134:9-139:79
+159            android:name="com.proxu.app.ui.ScStopActivity"
+159-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:135:13-46
+160            android:excludeFromRecents="true"
+160-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:136:13-46
+161            android:exported="false"
+161-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:137:13-37
+162            android:process=":RunProxuDaemon"
+162-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:138:13-46
+163            android:theme="@style/AppThemeDayNight.NoActionBar.Translucent" />
+163-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:139:13-76
+164        <activity
+164-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:141:9-159:20
+165            android:name="com.proxu.app.ui.UrlSchemeActivity"
+165-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:142:13-49
+166            android:exported="true" >
+166-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:143:13-36
+167            <intent-filter>
+167-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:144:13-148:29
+168                <action android:name="android.intent.action.SEND" />
+168-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:145:17-69
+168-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:145:25-66
+169
+170                <category android:name="android.intent.category.DEFAULT" />
+170-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:146:17-76
+170-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:146:27-73
+171
+172                <data android:mimeType="text/plain" />
+172-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:147:17-55
+172-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:147:23-52
+173            </intent-filter>
+174            <intent-filter>
+174-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:149:13-158:29
+175                <action android:name="android.intent.action.VIEW" />
+175-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:150:17-69
+175-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:150:25-66
+176
+177                <category android:name="android.intent.category.BROWSABLE" />
+177-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:152:17-78
+177-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:152:27-75
+178                <category android:name="android.intent.category.DEFAULT" />
+178-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:146:17-76
+178-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:146:27-73
+179
+180                <data android:scheme="proxu" />
+180-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:147:17-55
+180-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:155:23-45
+181                <data android:host="install-config" />
+181-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:147:17-55
+181-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:156:23-52
+182                <data android:host="install-sub" />
+182-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:147:17-55
+182-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:156:23-52
+183            </intent-filter>
+184        </activity>
+185        <activity
+185-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:160:9-162:40
+186            android:name="com.proxu.app.ui.CheckUpdateActivity"
+186-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:161:13-51
+187            android:exported="false" />
+187-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:162:13-37
+188        <activity
+188-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:163:9-165:40
+189            android:name="com.proxu.app.ui.BackupActivity"
+189-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:164:13-46
+190            android:exported="false" />
+190-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:165:13-37
+191        <activity
+191-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:166:9-168:40
+192            android:name="com.proxu.app.ui.AboutActivity"
+192-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:167:13-45
+193            android:exported="false" />
+193-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:168:13-37
+194
+195        <service
+195-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:170:9-188:19
+196            android:name="com.proxu.app.service.V2RayVpnService"
+196-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:171:13-52
+197            android:enabled="true"
+197-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:172:13-35
+198            android:exported="false"
+198-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:173:13-37
+199            android:foregroundServiceType="specialUse"
+199-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:174:13-55
+200            android:label="@string/app_name"
+200-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:175:13-45
+201            android:permission="android.permission.BIND_VPN_SERVICE"
+201-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:176:13-69
+202            android:process=":RunProxuDaemon" >
+202-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:177:13-46
+203            <intent-filter>
+203-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:179:13-181:29
+204                <action android:name="android.net.VpnService" />
+204-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:180:17-65
+204-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:180:25-62
+205            </intent-filter>
+206
+207            <meta-data
+207-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:182:13-184:40
+208                android:name="android.net.VpnService.SUPPORTS_ALWAYS_ON"
+208-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:183:17-73
+209                android:value="true" />
+209-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:184:17-37
+210
+211            <property
+211-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:185:13-187:39
+212                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+212-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:186:17-76
+213                android:value="vpn" />
+213-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:187:17-36
+214        </service>
+215        <service
+215-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:190:9-199:19
+216            android:name="com.proxu.app.service.V2RayProxyOnlyService"
+216-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:191:13-58
+217            android:exported="false"
+217-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:192:13-37
+218            android:foregroundServiceType="specialUse"
+218-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:193:13-55
+219            android:label="@string/app_name"
+219-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:194:13-45
+220            android:process=":RunProxuDaemon" >
+220-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:195:13-46
+221            <property
+221-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:185:13-187:39
+222                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+222-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:186:17-76
+223                android:value="proxy" />
+223-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:187:17-36
+224        </service>
+225        <service
+225-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:201:9-204:49
+226            android:name="com.proxu.app.service.V2RayTestService"
+226-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:202:13-53
+227            android:exported="false"
+227-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:203:13-37
+228            android:process=":RunProxuDaemon" />
+228-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:204:13-46
+229
+230        <receiver
+230-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:206:9-218:20
+231            android:name="com.proxu.app.receiver.WidgetProvider"
+231-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:207:13-52
+232            android:exported="true"
+232-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:208:13-36
+233            android:process=":RunProxuDaemon" >
+233-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:209:13-46
+234            <meta-data
+234-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:210:13-212:63
+235                android:name="android.appwidget.provider"
+235-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:211:17-58
+236                android:resource="@xml/app_widget_provider" />
+236-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:212:17-60
+237
+238            <intent-filter>
+238-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:213:13-217:29
+239                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+239-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:214:17-84
+239-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:214:25-81
+240                <action android:name="com.proxu.app.action.widget.click" />
+240-->INJECTED
+240-->INJECTED
+241                <action android:name="com.proxu.app.action.activity" />
+241-->INJECTED
+241-->INJECTED
+242            </intent-filter>
+243        </receiver>
+244        <receiver
+244-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:219:9-226:20
+245            android:name="com.proxu.app.receiver.BootReceiver"
+245-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:220:13-50
+246            android:exported="true"
+246-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:221:13-36
+247            android:label="BootReceiver" >
+247-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:222:13-41
+248            <intent-filter>
+248-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:223:13-225:29
+249                <action android:name="android.intent.action.BOOT_COMPLETED" />
+249-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:224:17-79
+249-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:224:25-76
+250            </intent-filter>
+251        </receiver>
+252
+253        <service
+253-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:228:9-242:19
+254            android:name="com.proxu.app.service.QSTileService"
+254-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:229:13-50
+255            android:exported="true"
+255-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:230:13-36
+256            android:foregroundServiceType="specialUse"
+256-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:231:13-55
+257            android:icon="@drawable/ic_stat_name"
+257-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:232:13-50
+258            android:label="@string/app_tile_name"
+258-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:233:13-50
+259            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+259-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:234:13-77
+260            android:process=":RunProxuDaemon" >
+260-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:235:13-46
+261            <intent-filter>
+261-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:236:13-238:29
+262                <action android:name="android.service.quicksettings.action.QS_TILE" />
+262-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:237:17-87
+262-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:237:25-84
+263            </intent-filter>
+264
+265            <property
+265-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:185:13-187:39
+266                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+266-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:186:17-76
+267                android:value="tile" />
+267-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:187:17-36
+268        </service>
+269        <!-- =====================Tasker===================== -->
+270        <activity
+270-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:244:9-251:20
+271            android:name="com.proxu.app.ui.TaskerActivity"
+271-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:245:13-46
+272            android:exported="true"
+272-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:246:13-36
+273            android:icon="@mipmap/ic_launcher" >
+273-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:247:13-47
+274            <intent-filter>
+274-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:248:13-250:29
+275                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
+275-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:249:17-95
+275-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:249:25-92
+276            </intent-filter>
+277        </activity>
+278
+279        <receiver
+279-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:253:9-261:20
+280            android:name="com.proxu.app.receiver.TaskerReceiver"
+280-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:254:13-52
+281            android:exported="true"
+281-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:255:13-36
+282            android:process=":RunProxuDaemon" >
+282-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:256:13-46
+283            <intent-filter>
+283-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:258:13-260:29
+284                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
+284-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:259:17-95
+284-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:259:25-92
+285            </intent-filter>
+286        </receiver>
+287        <!-- =====================Tasker===================== -->
+288        <provider
+288-->INJECTED
+289            android:name="androidx.startup.InitializationProvider"
+289-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:264:13-67
+290            android:authorities="com.proxu.app.androidx-startup"
+290-->INJECTED
+291            android:exported="false" >
+291-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:266:13-37
+292            <meta-data
+292-->[androidx.emoji2:emoji2:1.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/40401c383c281b4e6ac12b129b84b423/transformed/emoji2-1.3.0/AndroidManifest.xml:29:13-31:52
+293                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+293-->[androidx.emoji2:emoji2:1.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/40401c383c281b4e6ac12b129b84b423/transformed/emoji2-1.3.0/AndroidManifest.xml:30:17-75
+294                android:value="androidx.startup" />
+294-->[androidx.emoji2:emoji2:1.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/40401c383c281b4e6ac12b129b84b423/transformed/emoji2-1.3.0/AndroidManifest.xml:31:17-49
+295            <meta-data
+295-->[androidx.lifecycle:lifecycle-process:2.10.0] /home/lvs/.gradle/caches/9.4.1/transforms/91697b118ceb49ac2215adbb80da73af/transformed/lifecycle-process-2.10.0/AndroidManifest.xml:29:13-31:52
+296                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+296-->[androidx.lifecycle:lifecycle-process:2.10.0] /home/lvs/.gradle/caches/9.4.1/transforms/91697b118ceb49ac2215adbb80da73af/transformed/lifecycle-process-2.10.0/AndroidManifest.xml:30:17-78
+297                android:value="androidx.startup" />
+297-->[androidx.lifecycle:lifecycle-process:2.10.0] /home/lvs/.gradle/caches/9.4.1/transforms/91697b118ceb49ac2215adbb80da73af/transformed/lifecycle-process-2.10.0/AndroidManifest.xml:31:17-49
+298            <meta-data
+298-->[androidx.profileinstaller:profileinstaller:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/6d51479b5503301c7125d85e99ca3fd2/transformed/profileinstaller-1.4.1/AndroidManifest.xml:29:13-31:52
+299                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+299-->[androidx.profileinstaller:profileinstaller:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/6d51479b5503301c7125d85e99ca3fd2/transformed/profileinstaller-1.4.1/AndroidManifest.xml:30:17-85
+300                android:value="androidx.startup" />
+300-->[androidx.profileinstaller:profileinstaller:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/6d51479b5503301c7125d85e99ca3fd2/transformed/profileinstaller-1.4.1/AndroidManifest.xml:31:17-49
+301            <meta-data
+301-->[com.squareup.okhttp3:okhttp-android:5.3.2] /home/lvs/.gradle/caches/9.4.1/transforms/1ac9ee5f7e01fba34c8778c9de092db6/transformed/okhttp-release/AndroidManifest.xml:16:13-18:52
+302                android:name="okhttp3.internal.platform.PlatformInitializer"
+302-->[com.squareup.okhttp3:okhttp-android:5.3.2] /home/lvs/.gradle/caches/9.4.1/transforms/1ac9ee5f7e01fba34c8778c9de092db6/transformed/okhttp-release/AndroidManifest.xml:17:17-77
+303                android:value="androidx.startup" />
+303-->[com.squareup.okhttp3:okhttp-android:5.3.2] /home/lvs/.gradle/caches/9.4.1/transforms/1ac9ee5f7e01fba34c8778c9de092db6/transformed/okhttp-release/AndroidManifest.xml:18:17-49
+304        </provider>
+305        <provider
+305-->INJECTED
+306            android:name="androidx.core.content.FileProvider"
+306-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:277:13-62
+307            android:authorities="com.proxu.app.cache"
+307-->INJECTED
+308            android:exported="false"
+308-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:279:13-37
+309            android:grantUriPermissions="true" >
+309-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:280:13-47
+310            <meta-data
+310-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:281:13-283:55
+311                android:name="android.support.FILE_PROVIDER_PATHS"
+311-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:282:17-67
+312                android:resource="@xml/cache_paths" />
+312-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:283:17-52
+313        </provider>
+314
+315        <activity
+315-->[com.github.T8RIN.QuickieExtended:quickie-foss:1.14.0] /home/lvs/.gradle/caches/9.4.1/transforms/416e936ea12a979b55c6882689d5d8ee/transformed/quickie-foss-1.14.0/AndroidManifest.xml:15:9-19:45
+316            android:name="io.github.g00fy2.quickie.QRScannerActivity"
+316-->[com.github.T8RIN.QuickieExtended:quickie-foss:1.14.0] /home/lvs/.gradle/caches/9.4.1/transforms/416e936ea12a979b55c6882689d5d8ee/transformed/quickie-foss-1.14.0/AndroidManifest.xml:16:13-70
+317            android:screenOrientation="behind"
+317-->[com.github.T8RIN.QuickieExtended:quickie-foss:1.14.0] /home/lvs/.gradle/caches/9.4.1/transforms/416e936ea12a979b55c6882689d5d8ee/transformed/quickie-foss-1.14.0/AndroidManifest.xml:17:13-47
+318            android:theme="@style/QuickieScannerActivity" />
+318-->[com.github.T8RIN.QuickieExtended:quickie-foss:1.14.0] /home/lvs/.gradle/caches/9.4.1/transforms/416e936ea12a979b55c6882689d5d8ee/transformed/quickie-foss-1.14.0/AndroidManifest.xml:18:13-58
+319        <!--
+320        Service for holding metadata. Cannot be instantiated.
+321        Metadata will be merged from other manifests.
+322        -->
+323        <service
+323-->[androidx.camera:camera-core:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/3ce8763a9d75e47d584695f06fc81688/transformed/camera-core-1.4.1/AndroidManifest.xml:29:9-33:78
+324            android:name="androidx.camera.core.impl.MetadataHolderService"
+324-->[androidx.camera:camera-core:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/3ce8763a9d75e47d584695f06fc81688/transformed/camera-core-1.4.1/AndroidManifest.xml:30:13-75
+325            android:enabled="false"
+325-->[androidx.camera:camera-core:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/3ce8763a9d75e47d584695f06fc81688/transformed/camera-core-1.4.1/AndroidManifest.xml:31:13-36
+326            android:exported="false" >
+326-->[androidx.camera:camera-core:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/3ce8763a9d75e47d584695f06fc81688/transformed/camera-core-1.4.1/AndroidManifest.xml:32:13-37
+327            <meta-data
+327-->[androidx.camera:camera-camera2:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/e82603c8409c67309d0c2b267916ac36/transformed/camera-camera2-1.4.1/AndroidManifest.xml:30:13-32:89
+328                android:name="androidx.camera.core.impl.MetadataHolderService.DEFAULT_CONFIG_PROVIDER"
+328-->[androidx.camera:camera-camera2:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/e82603c8409c67309d0c2b267916ac36/transformed/camera-camera2-1.4.1/AndroidManifest.xml:31:17-103
+329                android:value="androidx.camera.camera2.Camera2Config$DefaultProvider" />
+329-->[androidx.camera:camera-camera2:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/e82603c8409c67309d0c2b267916ac36/transformed/camera-camera2-1.4.1/AndroidManifest.xml:32:17-86
+330        </service>
+331        <service
+331-->[androidx.work:work-multiprocess:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/b7869969335ab469a0f34aefd351a61d/transformed/work-multiprocess-2.11.1/AndroidManifest.xml:24:9-27:63
+332            android:name="androidx.work.multiprocess.RemoteWorkManagerService"
+332-->[androidx.work:work-multiprocess:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/b7869969335ab469a0f34aefd351a61d/transformed/work-multiprocess-2.11.1/AndroidManifest.xml:25:13-79
+333            android:exported="false" />
+333-->[androidx.work:work-multiprocess:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/b7869969335ab469a0f34aefd351a61d/transformed/work-multiprocess-2.11.1/AndroidManifest.xml:26:13-37
+334        <service
+334-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:39:9-45:35
+335            android:name="androidx.work.impl.background.systemjob.SystemJobService"
+335-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:40:13-84
+336            android:directBootAware="false"
+336-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:41:13-44
+337            android:enabled="@bool/enable_system_job_service_default"
+337-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:42:13-70
+338            android:exported="true"
+338-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:43:13-36
+339            android:permission="android.permission.BIND_JOB_SERVICE" />
+339-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:44:13-69
+340        <service
+340-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:46:9-52:35
+341            android:name="androidx.work.impl.foreground.SystemForegroundService"
+341-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:47:13-81
+342            android:directBootAware="false"
+342-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:48:13-44
+343            android:enabled="@bool/enable_system_foreground_service_default"
+343-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:49:13-77
+344            android:exported="false" />
+344-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:50:13-37
+345
+346        <receiver
+346-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:54:9-59:35
+347            android:name="androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver"
+347-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:55:13-88
+348            android:directBootAware="false"
+348-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:56:13-44
+349            android:enabled="true"
+349-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:57:13-35
+350            android:exported="false" />
+350-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:58:13-37
+351        <receiver
+351-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:60:9-69:20
+352            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
+352-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:61:13-88
+353            android:directBootAware="false"
+353-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:62:13-44
+354            android:enabled="false"
+354-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:63:13-36
+355            android:exported="false" >
+355-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:64:13-37
+356            <intent-filter>
+356-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:223:13-225:29
+357                <action android:name="android.intent.action.BOOT_COMPLETED" />
+357-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:224:17-79
+357-->/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/src/main/AndroidManifest.xml:224:25-76
+358            </intent-filter>
+359        </receiver>
+360        <receiver
+360-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:70:9-80:20
+361            android:name="androidx.work.impl.diagnostics.DiagnosticsReceiver"
+361-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:71:13-78
+362            android:directBootAware="false"
+362-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:72:13-44
+363            android:enabled="true"
+363-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:73:13-35
+364            android:exported="true"
+364-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:74:13-36
+365            android:permission="android.permission.DUMP" >
+365-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:75:13-57
+366            <intent-filter>
+366-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:77:13-79:29
+367                <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS" />
+367-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:78:17-88
+367-->[androidx.work:work-runtime:2.11.1] /home/lvs/.gradle/caches/9.4.1/transforms/320bb023cd65c4b767b074cf119e2639/transformed/work-runtime-2.11.1/AndroidManifest.xml:78:25-85
+368            </intent-filter>
+369        </receiver>
+370
+371        <uses-library
+371-->[androidx.window:window:1.0.0] /home/lvs/.gradle/caches/9.4.1/transforms/f1061cf85939662dd9618f65aed95bfc/transformed/window-1.0.0/AndroidManifest.xml:25:9-27:40
+372            android:name="androidx.window.extensions"
+372-->[androidx.window:window:1.0.0] /home/lvs/.gradle/caches/9.4.1/transforms/f1061cf85939662dd9618f65aed95bfc/transformed/window-1.0.0/AndroidManifest.xml:26:13-54
+373            android:required="false" />
+373-->[androidx.window:window:1.0.0] /home/lvs/.gradle/caches/9.4.1/transforms/f1061cf85939662dd9618f65aed95bfc/transformed/window-1.0.0/AndroidManifest.xml:27:13-37
+374        <uses-library
+374-->[androidx.window:window:1.0.0] /home/lvs/.gradle/caches/9.4.1/transforms/f1061cf85939662dd9618f65aed95bfc/transformed/window-1.0.0/AndroidManifest.xml:28:9-30:40
+375            android:name="androidx.window.sidecar"
+375-->[androidx.window:window:1.0.0] /home/lvs/.gradle/caches/9.4.1/transforms/f1061cf85939662dd9618f65aed95bfc/transformed/window-1.0.0/AndroidManifest.xml:29:13-51
+376            android:required="false" />
+376-->[androidx.window:window:1.0.0] /home/lvs/.gradle/caches/9.4.1/transforms/f1061cf85939662dd9618f65aed95bfc/transformed/window-1.0.0/AndroidManifest.xml:30:13-37
+377
+378        <receiver
+378-->[androidx.profileinstaller:profileinstaller:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/6d51479b5503301c7125d85e99ca3fd2/transformed/profileinstaller-1.4.1/AndroidManifest.xml:34:9-52:20
+379            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+379-->[androidx.profileinstaller:profileinstaller:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/6d51479b5503301c7125d85e99ca3fd2/transformed/profileinstaller-1.4.1/AndroidManifest.xml:35:13-76
+380            android:directBootAware="false"
+380-->[androidx.profileinstaller:profileinstaller:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/6d51479b5503301c7125d85e99ca3fd2/transformed/profileinstaller-1.4.1/AndroidManifest.xml:36:13-44
+381            android:enabled="true"
+381-->[androidx.profileinstaller:profileinstaller:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/6d51479b5503301c7125d85e99ca3fd2/transformed/profileinstaller-1.4.1/AndroidManifest.xml:37:13-35
+382            android:exported="true"
+382-->[androidx.profileinstaller:profileinstaller:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/6d51479b5503301c7125d85e99ca3fd2/transformed/profileinstaller-1.4.1/AndroidManifest.xml:38:13-36
+383            android:permission="android.permission.DUMP" >
+383-->[androidx.profileinstaller:profileinstaller:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/6d51479b5503301c7125d85e99ca3fd2/transformed/profileinstaller-1.4.1/AndroidManifest.xml:39:13-57
+384            <intent-filter>
+384-->[androidx.profileinstaller:profileinstaller:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/6d51479b5503301c7125d85e99ca3fd2/transformed/profileinstaller-1.4.1/AndroidManifest.xml:40:13-42:29
+385                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+385-->[androidx.profileinstaller:profileinstaller:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/6d51479b5503301c7125d85e99ca3fd2/transformed/profileinstaller-1.4.1/AndroidManifest.xml:41:17-91
+385-->[androidx.profileinstaller:profileinstaller:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/6d51479b5503301c7125d85e99ca3fd2/transformed/profileinstaller-1.4.1/AndroidManifest.xml:41:25-88
+386            </intent-filter>
+387            <intent-filter>
+387-->[androidx.profileinstaller:profileinstaller:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/6d51479b5503301c7125d85e99ca3fd2/transformed/profileinstaller-1.4.1/AndroidManifest.xml:43:13-45:29
+388                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+388-->[androidx.profileinstaller:profileinstaller:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/6d51479b5503301c7125d85e99ca3fd2/transformed/profileinstaller-1.4.1/AndroidManifest.xml:44:17-85
+388-->[androidx.profileinstaller:profileinstaller:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/6d51479b5503301c7125d85e99ca3fd2/transformed/profileinstaller-1.4.1/AndroidManifest.xml:44:25-82
+389            </intent-filter>
+390            <intent-filter>
+390-->[androidx.profileinstaller:profileinstaller:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/6d51479b5503301c7125d85e99ca3fd2/transformed/profileinstaller-1.4.1/AndroidManifest.xml:46:13-48:29
+391                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+391-->[androidx.profileinstaller:profileinstaller:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/6d51479b5503301c7125d85e99ca3fd2/transformed/profileinstaller-1.4.1/AndroidManifest.xml:47:17-88
+391-->[androidx.profileinstaller:profileinstaller:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/6d51479b5503301c7125d85e99ca3fd2/transformed/profileinstaller-1.4.1/AndroidManifest.xml:47:25-85
+392            </intent-filter>
+393            <intent-filter>
+393-->[androidx.profileinstaller:profileinstaller:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/6d51479b5503301c7125d85e99ca3fd2/transformed/profileinstaller-1.4.1/AndroidManifest.xml:49:13-51:29
+394                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+394-->[androidx.profileinstaller:profileinstaller:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/6d51479b5503301c7125d85e99ca3fd2/transformed/profileinstaller-1.4.1/AndroidManifest.xml:50:17-95
+394-->[androidx.profileinstaller:profileinstaller:1.4.1] /home/lvs/.gradle/caches/9.4.1/transforms/6d51479b5503301c7125d85e99ca3fd2/transformed/profileinstaller-1.4.1/AndroidManifest.xml:50:25-92
+395            </intent-filter>
+396        </receiver>
+397
+398        <service
+398-->[androidx.room:room-runtime-android:2.7.0] /home/lvs/.gradle/caches/9.4.1/transforms/0a77b4b835bf1c45ec0a58043e1bf37a/transformed/room-runtime-release/AndroidManifest.xml:24:9-28:63
+399            android:name="androidx.room.MultiInstanceInvalidationService"
+399-->[androidx.room:room-runtime-android:2.7.0] /home/lvs/.gradle/caches/9.4.1/transforms/0a77b4b835bf1c45ec0a58043e1bf37a/transformed/room-runtime-release/AndroidManifest.xml:25:13-74
+400            android:directBootAware="true"
+400-->[androidx.room:room-runtime-android:2.7.0] /home/lvs/.gradle/caches/9.4.1/transforms/0a77b4b835bf1c45ec0a58043e1bf37a/transformed/room-runtime-release/AndroidManifest.xml:26:13-43
+401            android:exported="false" />
+401-->[androidx.room:room-runtime-android:2.7.0] /home/lvs/.gradle/caches/9.4.1/transforms/0a77b4b835bf1c45ec0a58043e1bf37a/transformed/room-runtime-release/AndroidManifest.xml:27:13-37
+402
+403        <activity
+403-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/0ec9a41da704642ef2142b3949cefe55/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:47:9-53:63
+404            android:name="com.journeyapps.barcodescanner.CaptureActivity"
+404-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/0ec9a41da704642ef2142b3949cefe55/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:48:13-74
+405            android:clearTaskOnLaunch="true"
+405-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/0ec9a41da704642ef2142b3949cefe55/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:49:13-45
+406            android:screenOrientation="sensorLandscape"
+406-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/0ec9a41da704642ef2142b3949cefe55/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:50:13-56
+407            android:stateNotNeeded="true"
+407-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/0ec9a41da704642ef2142b3949cefe55/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:51:13-42
+408            android:theme="@style/zxing_CaptureTheme"
+408-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/0ec9a41da704642ef2142b3949cefe55/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:52:13-54
+409            android:windowSoftInputMode="stateAlwaysHidden" />
+409-->[com.journeyapps:zxing-android-embedded:4.3.0] /home/lvs/.gradle/caches/9.4.1/transforms/0ec9a41da704642ef2142b3949cefe55/transformed/zxing-android-embedded-4.3.0/AndroidManifest.xml:53:13-60
+410    </application>
+411
+412</manifest>

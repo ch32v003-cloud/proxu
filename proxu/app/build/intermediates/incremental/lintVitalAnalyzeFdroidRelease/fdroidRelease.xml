@@ -1,0 +1,33 @@
+<variant
+    name="fdroidRelease"
+    package="com.proxu.app"
+    minSdkVersion="24"
+    targetSdkVersion="36.0"
+    mergedManifest="build/intermediates/merged_manifest/fdroidRelease/processFdroidReleaseMainManifest/AndroidManifest.xml"
+    proguardFiles="build/intermediates/default_proguard_files/global/proguard-android-optimize.txt-9.2.0:proguard-rules.pro"
+    partialResultsDir="build/intermediates/lint_vital_partial_results/fdroidRelease/lintVitalAnalyzeFdroidRelease/out"
+    desugaredMethodsFiles="/home/lvs/.gradle/caches/9.4.1/transforms/938a373f6e5a2d1a595fb4a0f5bbe63b/transformed/desugar_jdk_libs_configuration-2.1.5-desugar-lint.txt:/home/lvs/.gradle/caches/9.4.1/transforms/1bc57a0469a65e9e1c3953d05bcfc336/transformed/D8BackportedDesugaredMethods.txt">
+  <buildFeatures
+      coreLibraryDesugaring="true"
+      viewBinding="true"/>
+  <sourceProviders>
+    <sourceProvider
+        manifests="src/main/AndroidManifest.xml"
+        javaDirectories="src/main/java:src/fdroid/java:src/release/java:src/fdroidRelease/java:src/main/kotlin:src/fdroid/kotlin:src/release/kotlin:src/fdroidRelease/kotlin"
+        resDirectories="src/main/res:src/fdroid/res:src/release/res:src/fdroidRelease/res"
+        assetsDirectories="src/main/assets:src/fdroid/assets:src/release/assets:src/fdroidRelease/assets"
+        keepRulesDirectories="src/main/keepRules:src/fdroid/keepRules:src/release/keepRules:src/fdroidRelease/keepRules"/>
+  </sourceProviders>
+  <testSourceProviders>
+  </testSourceProviders>
+  <testFixturesSourceProviders>
+  </testFixturesSourceProviders>
+  <artifact
+      classOutputs="build/intermediates/javac/fdroidRelease/compileFdroidReleaseJavaWithJavac/classes:build/tmp/kotlin-classes/fdroidRelease:build/kotlinToolingMetadata:build/intermediates/compile_and_runtime_r_class_jar/fdroidRelease/processFdroidReleaseResources/R.jar"
+      type="MAIN"
+      applicationId="com.proxu.app.fdroid"
+      generatedSourceFolders="build/generated/ap_generated_sources/fdroidRelease/out:build/generated/source/buildConfig/fdroid/release:build/generated/data_binding_base_class_source_out/fdroidRelease/out"
+      generatedResourceFolders="build/generated/res/resValues/fdroid/release"
+      desugaredMethodsFiles="/home/lvs/.gradle/caches/9.4.1/transforms/938a373f6e5a2d1a595fb4a0f5bbe63b/transformed/desugar_jdk_libs_configuration-2.1.5-desugar-lint.txt:/home/lvs/.gradle/caches/9.4.1/transforms/1bc57a0469a65e9e1c3953d05bcfc336/transformed/D8BackportedDesugaredMethods.txt">
+  </artifact>
+</variant>
