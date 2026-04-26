@@ -1,4 +1,4 @@
-#Sun Apr 26 23:57:56 KRAT 2026
+#Mon Apr 27 00:13:05 KRAT 2026
 base.0=/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/build/intermediates/dex/fdroidDebug/mergeExtDexFdroidDebug/classes.dex
 base.1=/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/build/intermediates/dex/fdroidDebug/mergeProjectDexFdroidDebug/0/classes.dex
 base.10=/home/lvs/Documents/PlatformIO/Projects/proxu/proxu/app/build/intermediates/dex/fdroidDebug/mergeProjectDexFdroidDebug/7/classes.dex
