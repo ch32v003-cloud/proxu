@@ -53,7 +53,7 @@ class MainRecyclerAdapter(
             val guid = data[position].guid
             val profile = data[position].profile
 
-            holder.itemView.setBackgroundColor(Color.TRANSPARENT)
+            holder.itemMainBinding.itemBg.setBackgroundResource(R.drawable.bg_proxu_glass_card)
 
             //Name address
             holder.itemMainBinding.tvName.text = profile.remarks

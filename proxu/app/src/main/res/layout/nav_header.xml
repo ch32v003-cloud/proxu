@@ -2,20 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/view_height_dp160"
-    android:background="@drawable/nav_header_bg"
+    android:background="@drawable/bg_proxu_header"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="@dimen/padding_spacing_dp16">
+    android:padding="@dimen/proxu_spacing_24">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:fontFamily="@font/montserrat_thin"
+        android:fontFamily="sans"
         android:gravity="center"
-        android:paddingTop="@dimen/padding_spacing_dp8"
+        android:letterSpacing="-0.025"
         android:text="@string/app_name"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
+        android:textAppearance="@style/TextAppearance.Proxu.Headline" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/proxu_spacing_6"
+        android:gravity="center"
+        android:text="Vision VPN Framework"
+        android:textAppearance="@style/TextAppearance.Proxu.Label"
+        android:textColor="@color/proxu_primary" />
 
 </LinearLayout>

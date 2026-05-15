@@ -5,6 +5,11 @@
     android:id="@+id/item_bg"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/proxu_spacing_12"
+    android:layout_marginTop="@dimen/proxu_spacing_8"
+    android:layout_marginEnd="@dimen/proxu_spacing_12"
+    android:layout_marginBottom="@dimen/proxu_spacing_4"
+    android:background="@drawable/bg_proxu_glass_card"
     android:gravity="center_vertical">
 
     <LinearLayout
@@ -18,17 +23,18 @@
         android:gravity="center"
         android:nextFocusRight="@+id/layout_share"
         android:orientation="horizontal"
-        android:paddingStart="@dimen/padding_spacing_dp4"
-        android:paddingTop="@dimen/padding_spacing_dp8"
-        android:paddingEnd="@dimen/padding_spacing_dp4"
-        android:paddingBottom="@dimen/padding_spacing_dp8">
+        android:paddingStart="@dimen/proxu_spacing_12"
+        android:paddingTop="@dimen/proxu_spacing_16"
+        android:paddingEnd="@dimen/proxu_spacing_8"
+        android:paddingBottom="@dimen/proxu_spacing_16">
 
-        <LinearLayout
-            android:id="@+id/layout_indicator"
-            android:layout_width="@dimen/padding_spacing_dp4"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:orientation="vertical" />
+            <LinearLayout
+                android:id="@+id/layout_indicator"
+                android:layout_width="@dimen/proxu_spacing_4"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_proxu_indicator"
+                android:orientation="vertical" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,7 +64,8 @@
                             android:layout_height="wrap_content"
                             android:maxLines="2"
                             android:minLines="1"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+                            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                            android:textColor="@color/proxu_text_primary" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -78,8 +85,9 @@
                                     android:id="@+id/tv_subscription"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                                    android:textSize="11sp"
+                                    android:textAppearance="@style/TextAppearance.Proxu.Label"
+                                    android:textColor="@color/proxu_text_inverse"
+                                    android:textSize="10sp"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +99,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:lines="1"
-                                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                                android:textAppearance="@style/TextAppearance.Proxu.Body" />
 
                         </LinearLayout>
 
@@ -121,6 +129,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/image_size_dp24"
+                            app:tint="@color/proxu_text_secondary"
                             app:srcCompat="@drawable/ic_share_24dp" />
 
                     </LinearLayout>
@@ -140,6 +149,7 @@
                         <ImageView
                             android:layout_width="@dimen/image_size_dp24"
                             android:layout_height="@dimen/image_size_dp24"
+                            app:tint="@color/proxu_text_secondary"
                             app:srcCompat="@drawable/ic_edit_24dp" />
 
                     </LinearLayout>
@@ -159,6 +169,7 @@
                         <ImageView
                             android:layout_width="@dimen/image_size_dp24"
                             android:layout_height="@dimen/image_size_dp24"
+                            app:tint="@color/proxu_text_secondary"
                             app:srcCompat="@drawable/ic_delete_24dp" />
 
                     </LinearLayout>
@@ -178,6 +189,7 @@
                         <ImageView
                             android:layout_width="@dimen/image_size_dp24"
                             android:layout_height="@dimen/image_size_dp24"
+                            app:tint="@color/proxu_text_secondary"
                             app:srcCompat="@drawable/ic_more_vert_24dp" />
 
                     </LinearLayout>
@@ -189,9 +201,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingStart="@dimen/padding_spacing_dp8"
-                android:paddingTop="@dimen/padding_spacing_dp8"
-                android:paddingEnd="@dimen/padding_spacing_dp8">
+                    android:paddingStart="@dimen/proxu_spacing_8"
+                    android:paddingTop="@dimen/proxu_spacing_8"
+                    android:paddingEnd="@dimen/proxu_spacing_8">
 
                 <TextView
                     android:id="@+id/tv_type"
@@ -199,9 +211,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:lines="1"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textAppearance="@style/TextAppearance.Proxu.Label"
                     android:textColor="@color/colorConfigType"
-                    android:textSize="11sp"
+                    android:textSize="10sp"
                     tools:text="VLESS" />
 
                 <TextView
@@ -209,9 +221,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:lines="1"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textAppearance="@style/TextAppearance.Proxu.Label"
                     android:textColor="@color/colorPing"
-                    android:textSize="11sp"
+                    android:textSize="10sp"
                     tools:text="214ms" />
 
             </LinearLayout>

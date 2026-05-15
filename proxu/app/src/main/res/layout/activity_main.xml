@@ -8,17 +8,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/bg_proxu_screen"
         android:fitsSystemWindows="true"
         android:orientation="vertical">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            app:elevation="0dp">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize" />
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                android:theme="@style/AppThemeDayNight.NoActionBar"
+                app:titleTextColor="@color/proxu_text_primary" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -42,15 +48,20 @@
                         android:layout_height="wrap_content"
                         android:indeterminate="true"
                         android:visibility="invisible"
-                        app:indicatorColor="@color/color_fab_active" />
+                        app:indicatorColor="@color/proxu_primary"
+                        app:trackColor="@color/proxu_surface_glass" />
 
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tab_group"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        app:tabIndicatorColor="@color/proxu_primary"
                         app:tabIndicatorFullWidth="false"
                         app:tabMode="scrollable"
-                        app:tabTextAppearance="@style/TabLayoutTextStyle" />
+                        app:tabSelectedTextColor="@color/proxu_text_primary"
+                        app:tabTextAppearance="@style/TabLayoutTextStyle"
+                        app:tabTextColor="@color/proxu_text_muted" />
 
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/view_pager"
@@ -64,6 +75,10 @@
                         android:id="@+id/layout_test"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/view_height_dp64"
+                        android:layout_marginStart="@dimen/proxu_spacing_12"
+                        android:layout_marginEnd="@dimen/proxu_spacing_12"
+                        android:layout_marginBottom="@dimen/proxu_spacing_12"
+                        android:background="@drawable/bg_proxu_glass_panel"
                         android:clickable="true"
                         android:contentDescription="@string/connection_test_pending"
                         android:focusable="true"
@@ -74,7 +89,7 @@
                         <View
                             android:layout_width="wrap_content"
                             android:layout_height="1dp"
-                            android:background="@color/divider_color_light" />
+                            android:background="@android:color/transparent" />
 
                         <TextView
                             android:id="@+id/tv_test_state"
@@ -83,9 +98,10 @@
                             android:gravity="start|center"
                             android:maxLines="2"
                             android:minLines="1"
-                            android:paddingStart="@dimen/padding_spacing_dp16"
+                            android:paddingStart="@dimen/proxu_spacing_20"
+                            android:paddingEnd="@dimen/proxu_spacing_72"
                             android:text="@string/connection_test_pending"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                            android:textAppearance="@style/TextAppearance.Proxu.Body" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -108,7 +124,9 @@
                         android:focusable="true"
                         android:nextFocusLeft="@+id/layout_test"
                         android:src="@drawable/ic_play_24dp"
-                        app:tint="@color/colorWhite"
+                        app:backgroundTint="@color/color_fab_active"
+                        app:elevation="6dp"
+                        app:tint="@color/proxu_text_inverse"
                         app:useCompatPadding="true"
                         app:layout_anchorGravity="bottom|right|end" />
 
@@ -122,7 +140,10 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@color/md_theme_surface"
         app:headerLayout="@layout/nav_header"
+        app:itemIconTint="@color/proxu_text_secondary"
+        app:itemTextColor="@color/proxu_text_primary"
         app:menu="@menu/menu_drawer">
 
     </com.google.android.material.navigation.NavigationView>

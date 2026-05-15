@@ -51,15 +51,20 @@
         <item name="colorPrimaryInverse">@color/md_theme_inversePrimary</item>
 
         <!-- Status bar and navigation bar - system bars -->
-        <item name="android:statusBarColor">@color/md_theme_surface</item>
-        <item name="android:navigationBarColor">@color/md_theme_surface</item>
+        <item name="android:statusBarColor">@color/proxu_background</item>
+        <item name="android:navigationBarColor">@color/proxu_background</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="materialButtonStyle">@style/Widget.Proxu.Button</item>
+        <item name="floatingActionButtonStyle">@style/Widget.Proxu.FloatingActionButton</item>
     </style>
 
     <!-- Day/Night theme: inherit common values and set light-mode-specific items -->
     <style name="AppThemeDayNight" parent="AppThemeBase">
-        <!-- day/night-specific overrides (light/default) -->
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="27">true</item>
+        <!-- Vision Framework is dark-first, even in default mode. -->
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
     </style>
 
     <!-- Theme without ActionBar -->
@@ -76,6 +81,23 @@
 
     <style name="BrandedSwitch" parent="AppThemeDayNight">
         <item name="colorPrimary">@color/color_fab_active</item>
+    </style>
+
+    <style name="Widget.Proxu.Button" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/proxu_surface</item>
+        <item name="android:textColor">@color/proxu_text_inverse</item>
+        <item name="cornerRadius">48dp</item>
+    </style>
+
+    <style name="Widget.Proxu.FloatingActionButton" parent="Widget.Material3.FloatingActionButton.Primary">
+        <item name="backgroundTint">@color/color_fab_active</item>
+        <item name="tint">@color/proxu_text_inverse</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.Proxu.Fab</item>
+    </style>
+
+    <style name="ShapeAppearance.Proxu.Fab" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">24dp</item>
     </style>
 
 </resources>
