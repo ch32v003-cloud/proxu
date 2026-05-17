@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TabLayoutTextStyle" parent="TextAppearance.Design.Tab">
+        <item name="android:textColor">@color/proxu_text_secondary</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="TextAppearance.Proxu.Headline" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:textSize">34sp</item>
+        <item name="android:textColor">@color/proxu_text_primary</item>
+        <item name="android:letterSpacing">-0.025</item>
+    </style>
+
+    <style name="TextAppearance.Proxu.Body" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/proxu_text_secondary</item>
+        <item name="android:lineSpacingExtra">3dp</item>
+    </style>
+
+    <style name="TextAppearance.Proxu.Label" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:fontFamily">sans-medium</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/proxu_text_muted</item>
+        <item name="android:letterSpacing">0.025</item>
+    </style>
+</resources>

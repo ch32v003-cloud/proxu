@@ -31,11 +31,14 @@ ln -s "$__dir/hev-socks5-tunnel" jni/hev-socks5-tunnel
     APP_PLATFORM=android-24 \
     NDK_LIBS_OUT="$TMPDIR/libs" \
     NDK_OUT="$TMPDIR/obj" \
-    "APP_CFLAGS=-O3 -DPKGNAME=com/v2ray/ang/service" \
+    "APP_CFLAGS=-O3 -DPKGNAME=com/proxu/app/service" \
     "APP_LDFLAGS=-Wl,--build-id=none -Wl,--hash-style=gnu" \
 
 mkdir -p "$__dir/libs"
 cp -r "$TMPDIR/libs/"* "$__dir/libs/"
+
+mkdir -p "$__dir/proxu/app/src/main/jniLibs"
+cp -r "$TMPDIR/libs/"* "$__dir/proxu/app/src/main/jniLibs/"
 
 popd
 rm -rf $TMPDIR

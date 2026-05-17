@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_spacing_dp4">4dp</dimen>
+    <dimen name="padding_spacing_dp8">8dp</dimen>
+    <dimen name="padding_spacing_dp16">16dp</dimen>
+    <dimen name="image_size_dp24">24dp</dimen>
+    <dimen name="view_height_dp36">36dp</dimen>
+    <dimen name="view_height_dp48">48dp</dimen>
+    <dimen name="view_height_dp64">64dp</dimen>
+    <dimen name="view_height_dp120">120dp</dimen>
+    <dimen name="view_height_dp160">160dp</dimen>
+
+    <!-- Vision Framework rhythm -->
+    <dimen name="proxu_spacing_1">1dp</dimen>
+    <dimen name="proxu_spacing_2">2dp</dimen>
+    <dimen name="proxu_spacing_4">4dp</dimen>
+    <dimen name="proxu_spacing_6">6dp</dimen>
+    <dimen name="proxu_spacing_8">8dp</dimen>
+    <dimen name="proxu_spacing_12">12dp</dimen>
+    <dimen name="proxu_spacing_16">16dp</dimen>
+    <dimen name="proxu_spacing_20">20dp</dimen>
+    <dimen name="proxu_spacing_24">24dp</dimen>
+    <dimen name="proxu_spacing_72">72dp</dimen>
+    <dimen name="proxu_radius_19">19dp</dimen>
+    <dimen name="proxu_radius_20">20dp</dimen>
+    <dimen name="proxu_radius_23">23dp</dimen>
+    <dimen name="proxu_radius_24">24dp</dimen>
+    <dimen name="proxu_radius_48">48dp</dimen>
+    <dimen name="proxu_card_padding">20dp</dimen>
+</resources>

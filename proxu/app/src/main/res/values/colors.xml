@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Vision Framework palette -->
+    <color name="proxu_background">#000000</color>
+    <color name="proxu_background_deep">#02070A</color>
+    <color name="proxu_primary">#00F0FF</color>
+    <color name="proxu_primary_soft">#8000F0FF</color>
+    <color name="proxu_tertiary">#0A45FF</color>
+    <color name="proxu_surface">#FFFFFF</color>
+    <color name="proxu_surface_glass">#1AFFFFFF</color>
+    <color name="proxu_surface_glass_strong">#26FFFFFF</color>
+    <color name="proxu_surface_dark_glass">#99000000</color>
+    <color name="proxu_text_primary">#FFFFFF</color>
+    <color name="proxu_text_secondary">#B3FFFFFF</color>
+    <color name="proxu_text_muted">#80FFFFFF</color>
+    <color name="proxu_text_inverse">#000000</color>
+    <color name="proxu_border_glass">#40FFFFFF</color>
+    <color name="proxu_border_accent">#9900F0FF</color>
+
+    <color name="colorPing">#00F0FF</color>
+    <color name="colorPingRed">#FF4F9A</color>
+    <color name="colorConfigType">#00F0FF</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="color_fab_active">#00F0FF</color>
+    <color name="color_fab_inactive">#2A3A40</color>
+    <color name="divider_color_light">#26FFFFFF</color>
+    <color name="colorIndicator">@color/proxu_primary</color>
+
+    <!-- Material roles mapped to Vision Framework -->
+    <color name="md_theme_primary">#00F0FF</color>
+    <color name="md_theme_onPrimary">#000000</color>
+    <color name="md_theme_primaryContainer">#003A40</color>
+    <color name="md_theme_onPrimaryContainer">#FFFFFF</color>
+
+    <color name="md_theme_secondary">#FFFFFF</color>
+    <color name="md_theme_onSecondary">#000000</color>
+    <color name="md_theme_secondaryContainer">#1AFFFFFF</color>
+    <color name="md_theme_onSecondaryContainer">#FFFFFF</color>
+
+    <color name="md_theme_tertiary">#0A45FF</color>
+    <color name="md_theme_onTertiary">#FFFFFF</color>
+    <color name="md_theme_tertiaryContainer">#102966</color>
+    <color name="md_theme_onTertiaryContainer">#FFFFFF</color>
+
+    <color name="md_theme_error">#FFB4AB</color>
+    <color name="md_theme_errorContainer">#93000A</color>
+    <color name="md_theme_onError">#690005</color>
+    <color name="md_theme_onErrorContainer">#FFDAD6</color>
+
+    <color name="md_theme_background">#000000</color>
+    <color name="md_theme_onBackground">#FFFFFF</color>
+
+    <color name="md_theme_surface">#05090C</color>
+    <color name="md_theme_onSurface">#FFFFFF</color>
+    <color name="md_theme_surfaceVariant">#11191D</color>
+    <color name="md_theme_onSurfaceVariant">#B3FFFFFF</color>
+    <color name="md_theme_inverseSurface">#FFFFFF</color>
+    <color name="md_theme_inverseOnSurface">#000000</color>
+
+    <color name="md_theme_outline">#66FFFFFF</color>
+    <color name="md_theme_outlineVariant">#26FFFFFF</color>
+
+    <color name="md_theme_inversePrimary">#003A40</color>
+    <color name="md_theme_shadow">#000000</color>
+    <color name="md_theme_surfaceTint">#00F0FF</color>
+    <color name="md_theme_scrim">#000000</color>
+</resources>
