@@ -24,6 +24,7 @@ import com.proxu.app.AppConfig
 import com.proxu.app.R
 import com.proxu.app.auth.ProxuAuthManager
 import com.proxu.app.auth.ProxuLoginActivity
+import com.proxu.app.auth.ProxuProfileSync
 import com.proxu.app.core.CoreServiceManager
 import com.proxu.app.databinding.ActivityMainBinding
 import com.proxu.app.enums.EConfigType
@@ -711,6 +712,8 @@ private fun updateToolbarTitle() {
     }
 
     private fun performLogout() {
+        // Clear all proxu.pro VPN profiles on logout to ensure fresh sync on next login
+        ProxuProfileSync.clearCloudProfiles()
         ProxuAuthManager.clearAuth(this)
         updateAccountMenu()
         toast(R.string.auth_logout_successful)

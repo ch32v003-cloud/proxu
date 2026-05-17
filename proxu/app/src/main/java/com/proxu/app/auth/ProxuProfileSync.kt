@@ -133,22 +133,22 @@ object ProxuProfileSync {
                     }
                 }
 
-                LogUtil.e(TAG, "Finished processing proxies. added=$added, skipped=$skipped, newServerList=${newServerList.size}")
+                LogUtil.e(TAG, "Finished processing proxies. added=$added, skipped=$skipped, newServerList=${newServerList.size}, existing=${existingServers.size}")
                 
-                // Only remove old profiles if we successfully got new ones from server
-                // This prevents deleting local profiles when API returns empty/error
-                if (newServerList.isNotEmpty()) {
+                // CRITICAL: Remove old profiles that are no longer on server
+                // If API returned empty list (user deleted all profiles), we must clear them
+                // If API returned null (error), we keep existing profiles
+                if (proxies != null) {
                     for (oldKey in existingServers) {
                         if (!newServerList.contains(oldKey)) {
                             MmkvManager.removeServer(oldKey)
                             LogUtil.i(TAG, "Removed old proxy: $oldKey")
                         }
                     }
-                    // Only overwrite server list if we got new profiles from server
                     MmkvManager.encodeServerList(newServerList.toMutableList(), SUBSCRIPTION_ID)
                     LogUtil.e(TAG, "Saved server list to MmkvManager: $newServerList")
                 } else {
-                    LogUtil.w(TAG, "No new profiles from server - keeping existing ${existingServers.size} profiles and server list")
+                    LogUtil.w(TAG, "API returned null (error) - keeping existing ${existingServers.size} profiles")
                 }
                 
                 // Verify what was saved
