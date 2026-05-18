@@ -131,8 +131,6 @@
                         app:iconPadding="0dp"
                         app:iconSize="38dp"
                         app:iconTint="@color/proxu_text_primary"
-                        app:strokeWidth="2dp"
-                        app:strokeColor="@color/proxu_primary"
                         app:elevation="6dp" />
 
                 </FrameLayout>
