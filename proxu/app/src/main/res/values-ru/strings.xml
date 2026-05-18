@@ -299,6 +299,8 @@
     <string name="proxu_creating_profile">Создание…</string>
     <string name="proxu_profile_created">Профиль создан</string>
     <string name="proxu_profile_creation_failed">Не удалось создать профиль. Нет доступных VPN. Создайте через сайт proxu.pro.</string>
+    <string name="extended_menu_enabled">Расширенное меню включено</string>
+    <string name="extended_menu_hidden">Расширенное меню скрыто</string>
 
     <!-- Payments -->
     <string name="proxu_recharge_balance">Пополнить баланс</string>

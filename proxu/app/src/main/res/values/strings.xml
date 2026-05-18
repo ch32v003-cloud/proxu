@@ -53,6 +53,8 @@
     <string name="proxu_recharge_success">Payment created! Opening payment page…</string>
     <string name="proxu_recharge_failed">Failed to create payment</string>
     <string name="proxu_recharge_error_open">Failed to open payment page</string>
+    <string name="extended_menu_enabled">Extended menu enabled</string>
+    <string name="extended_menu_hidden">Extended menu hidden</string>
 
     <!-- Notifications -->
     <string name="notification_action_stop_v2ray">Stop</string>

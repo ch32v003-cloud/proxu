@@ -70,6 +70,8 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
         }
     }
     private var loginGateVisible = false
+    private var accountClickCount = 0
+    private var hiddenMenuVisible = false
     private val authActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         loginGateVisible = false
         updateAccountMenu()
@@ -109,6 +111,10 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
         toggle.syncState()
         binding.navView.setNavigationItemSelectedListener(this)
         updateAccountMenu()
+        
+        // Hide advanced menu items by default (easter egg: 10 clicks on Account to show)
+        setHiddenMenuVisible(false)
+        
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -307,6 +313,19 @@ private fun updateToolbarTitle() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
+
+        // Hide advanced menu items when hidden menu is not visible (easter egg)
+        menu.findItem(R.id.search_view)?.isVisible = hiddenMenuVisible
+        menu.findItem(R.id.del_all_config)?.isVisible = hiddenMenuVisible
+        menu.findItem(R.id.del_duplicate_config)?.isVisible = hiddenMenuVisible
+        menu.findItem(R.id.del_invalid_config)?.isVisible = hiddenMenuVisible
+        menu.findItem(R.id.export_all)?.isVisible = hiddenMenuVisible
+        menu.findItem(R.id.ping_all)?.isVisible = hiddenMenuVisible
+        menu.findItem(R.id.real_ping_all)?.isVisible = hiddenMenuVisible
+        menu.findItem(R.id.sort_by_test_results)?.isVisible = hiddenMenuVisible
+        menu.findItem(R.id.locate_selected_config)?.isVisible = hiddenMenuVisible
+        menu.findItem(R.id.sub_update)?.isVisible = hiddenMenuVisible
+        menu.findItem(R.id.service_restart)?.isVisible = hiddenMenuVisible
 
         val searchItem = menu.findItem(R.id.search_view)
         if (searchItem != null) {
@@ -736,14 +755,66 @@ private fun updateToolbarTitle() {
         val email = ProxuAuthManager.getUserEmail(this)
         binding.navView.menu.findItem(R.id.account)?.title = email ?: getString(R.string.auth_account)
         binding.navView.menu.findItem(R.id.logout)?.isVisible = isLoggedIn
+        // Recharge only visible when logged in AND hidden menu is visible (easter egg)
+        binding.navView.menu.findItem(R.id.recharge)?.isVisible = isLoggedIn && hiddenMenuVisible
     }
 
     private fun handleAccountClick() {
+        // Easter egg: 10 clicks on account toggles hidden menu items
+        accountClickCount++
+        LogUtil.d("MainActivity", "Account clicked: $accountClickCount/10")
+        if (accountClickCount >= 10) {
+            accountClickCount = 0
+            LogUtil.d("MainActivity", "Toggling hidden menu!")
+            toggleHiddenMenu()
+            return
+        }
+
         if (ProxuAuthManager.isLoggedIn(this)) {
             ProxuAuthManager.getUserEmail(this)?.let { toast(it) } ?: toast(R.string.auth_account)
         } else {
             authActivityLauncher.launch(ProxuLoginActivity.createIntent(this))
         }
+    }
+
+    private fun setHiddenMenuVisible(visible: Boolean) {
+        hiddenMenuVisible = visible
+
+        // Update drawer menu visibility
+        binding.navView.menu.findItem(R.id.sub_setting)?.isVisible = hiddenMenuVisible
+        binding.navView.menu.findItem(R.id.per_app_proxy_settings)?.isVisible = hiddenMenuVisible
+        binding.navView.menu.findItem(R.id.routing_setting)?.isVisible = hiddenMenuVisible
+        binding.navView.menu.findItem(R.id.user_asset_setting)?.isVisible = hiddenMenuVisible
+        binding.navView.menu.findItem(R.id.logcat)?.isVisible = hiddenMenuVisible
+        binding.navView.menu.findItem(R.id.check_for_update)?.isVisible = hiddenMenuVisible
+        binding.navView.menu.findItem(R.id.backup_restore)?.isVisible = hiddenMenuVisible
+        binding.navView.menu.findItem(R.id.about)?.isVisible = hiddenMenuVisible
+        // Update recharge visibility based on login state
+        updateAccountMenu()
+
+        // Update toolbar menu visibility
+        invalidateOptionsMenu()
+    }
+
+    private fun toggleHiddenMenu() {
+        hiddenMenuVisible = !hiddenMenuVisible
+        val message = if (hiddenMenuVisible) getString(R.string.extended_menu_enabled) else getString(R.string.extended_menu_hidden)
+        toast(message)
+
+        // Update drawer menu visibility
+        binding.navView.menu.findItem(R.id.sub_setting)?.isVisible = hiddenMenuVisible
+        binding.navView.menu.findItem(R.id.per_app_proxy_settings)?.isVisible = hiddenMenuVisible
+        binding.navView.menu.findItem(R.id.routing_setting)?.isVisible = hiddenMenuVisible
+        binding.navView.menu.findItem(R.id.user_asset_setting)?.isVisible = hiddenMenuVisible
+        binding.navView.menu.findItem(R.id.logcat)?.isVisible = hiddenMenuVisible
+        binding.navView.menu.findItem(R.id.check_for_update)?.isVisible = hiddenMenuVisible
+        binding.navView.menu.findItem(R.id.backup_restore)?.isVisible = hiddenMenuVisible
+        binding.navView.menu.findItem(R.id.about)?.isVisible = hiddenMenuVisible
+        // Update recharge visibility based on login state
+        updateAccountMenu()
+
+        // Update toolbar menu visibility
+        invalidateOptionsMenu()
     }
 
     private fun performLogout() {
