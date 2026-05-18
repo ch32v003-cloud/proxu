@@ -305,7 +305,7 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
 
         if (isRunning) {
             binding.fab.setIconResource(R.drawable.ic_stop_24dp)
-            binding.fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.color_fab_active))
+            binding.fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.proxu_surface_glass))
             binding.fab.contentDescription = getString(R.string.action_stop_service)
             setTestState(getString(R.string.connection_connected))
             binding.layoutTest.isFocusable = true
