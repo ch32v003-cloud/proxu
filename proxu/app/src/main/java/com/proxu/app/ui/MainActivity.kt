@@ -155,6 +155,11 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
         mainViewModel.isRunning.observe(this) { isRunning ->
             applyRunningState(false, isRunning)
         }
+        mainViewModel.updateListAction.observe(this) {
+            val hasServers = mainViewModel.serversCache.isNotEmpty()
+            binding.fab.isVisible = hasServers
+            binding.layoutTest.isVisible = hasServers
+        }
         mainViewModel.startListenBroadcast()
         mainViewModel.initAssets(assets)
         
