@@ -263,6 +263,56 @@
     <string name="summary_pref_feedback">Предложить улучшение или сообщить об ошибке на GitHub</string>
     <string name="summary_pref_tg_group">Присоединиться к группе в Telegram</string>
     <string name="toast_tg_app_not_found">Приложение Telegram не найдено</string>
+
+    <!-- Authentication -->
+    <string name="auth_title">Аккаунт</string>
+    <string name="auth_web_title">Вход через браузер</string>
+    <string name="auth_subtitle">Войдите через Google, чтобы подключить аккаунт proxu.</string>
+    <string name="auth_continue_with_google">Продолжить через Google</string>
+    <string name="auth_continue_in_browser">Продолжить в браузере</string>
+    <string name="auth_login_successful">Вход выполнен</string>
+    <string name="auth_logout">Выйти</string>
+    <string name="auth_logout_successful">Выход выполнен</string>
+    <string name="auth_not_logged_in">Не вошли в аккаунт</string>
+    <string name="auth_account">Аккаунт</string>
+    <string name="auth_google_play_services_unavailable">Сервисы Google Play недоступны на этом устройстве.</string>
+    <string name="auth_google_token_missing">Google не вернул токен. Попробуйте вход через браузер.</string>
+    <string name="auth_google_signin_config_error">Ошибка конфигурации Google Sign-In. Проверьте имя пакета и SHA-1 в Google Console.</string>
+    <string name="auth_google_signin_error_with_code">Ошибка Google Sign-In: %d</string>
+    <string name="auth_network_error">Ошибка сети. Проверьте подключение.</string>
+    <string name="auth_network_error_with_message">Ошибка сети: %s</string>
+    <string name="auth_cancelled">Вход отменён</string>
+    <string name="auth_error_with_code">Ошибка входа: код %d</string>
+    <string name="auth_error_with_message">Ошибка входа: %s</string>
+    <string name="auth_unknown_error">Неизвестная ошибка</string>
+    <string name="auth_invalid_request">Неверный запрос авторизации.</string>
+    <string name="auth_invalid_google_token">Неверный токен Google.</string>
+    <string name="auth_endpoint_not_found">Точка авторизации не найдена.</string>
+    <string name="auth_server_error_with_code">Ошибка сервера: %d</string>
+    <string name="auth_syncing_profiles">Синхронизация профилей с proxu.pro…</string>
+    <string name="auth_sync_complete">Синхронизация завершена: %1$d добавлено, %2$d пропущено</string>
+    <string name="auth_sync_failed">Ошибка синхронизации: %s</string>
+    <string name="auth_sync_no_proxies">Нет доступных прокси</string>
+    <string name="auth_login_required">Требуется вход</string>
+    <string name="proxu_no_profiles">Нет VPN профилей</string>
+    <string name="proxu_create_profile">Создать профиль</string>
+    <string name="proxu_creating_profile">Создание…</string>
+    <string name="proxu_profile_created">Профиль создан</string>
+    <string name="proxu_profile_creation_failed">Не удалось создать профиль. Нет доступных VPN. Создайте через сайт proxu.pro.</string>
+
+    <!-- Payments -->
+    <string name="proxu_recharge_balance">Пополнить баланс</string>
+    <string name="proxu_recharge_title">Пополнение баланса</string>
+    <string name="proxu_recharge_amount_hint">Сумма (руб.)</string>
+    <string name="proxu_recharge_method_label">Способ оплаты:</string>
+    <string name="proxu_payment_sbp">СБП (Система быстрых платежей)</string>
+    <string name="proxu_payment_card">Банковская карта</string>
+    <string name="proxu_recharge_button">Пополнить</string>
+    <string name="proxu_recharge_error_amount">Введите сумму от 10 до 50000 руб.</string>
+    <string name="proxu_recharge_creating">Создание платежа…</string>
+    <string name="proxu_recharge_success">Платёж создан! Открытие страницы оплаты…</string>
+    <string name="proxu_recharge_failed">Не удалось создать платёж</string>
+    <string name="proxu_recharge_error_open">Не удалось открыть страницу оплаты</string>
     <string name="title_privacy_policy">Политика конфиденциальности</string>
     <string name="title_qr_code">QR-код</string>
     <string name="title_about">О приложении</string>
