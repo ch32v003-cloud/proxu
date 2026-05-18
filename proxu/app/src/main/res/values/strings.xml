@@ -16,7 +16,7 @@
     <string name="auth_title">Account</string>
     <string name="auth_web_title">Web Login</string>
     <string name="auth_subtitle">Sign in with Google to connect your Proxu account.</string>
-    <string name="auth_continue_with_google">Continue with Google</string>
+    <string name="auth_continue_with_google">Sign in with Google</string>
     <string name="auth_continue_in_browser">Continue in browser</string>
     <string name="auth_login_successful">Login successful</string>
     <string name="auth_logout">Logout</string>
@@ -67,7 +67,7 @@
     <string name="toast_services_failure">Start Services Failure</string>
 
     <!--ServerActivity-->
-    <string name="title_server">Config</string>
+    <string name="title_server">Proxu</string>
     <string name="menu_item_add_config">Add config</string>
     <string name="menu_item_save_config">Save config</string>
     <string name="menu_item_edit_config">Edit config</string>

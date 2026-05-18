@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@color/proxu_surface_dark_glass">
+    android:background="@drawable/bg_payment_sheet">
 
     <TextView
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Сумма (руб.)"
+        android:hint="@string/proxu_recharge_amount_hint"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_marginBottom="16dp">
 
@@ -65,6 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/proxu_recharge_button"
-        android:backgroundTint="@color/proxu_primary" />
+        android:backgroundTint="@color/proxu_primary"
+        android:textColor="@android:color/black" />
 
 </LinearLayout>

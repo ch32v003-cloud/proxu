@@ -193,9 +193,14 @@ object ProxuProfileSync {
                     LogUtil.e(TAG, "Failed to check storage keys", e)
                 }
 
-firstServerKey?.let {
-                    MmkvManager.setSelectServer(it)
-                    LogUtil.i(TAG, "Selected first server: $it")
+                val currentSelected = MmkvManager.getSelectServer()
+                if (currentSelected.isNullOrEmpty() || !currentSelected.startsWith("proxu_")) {
+                    firstServerKey?.let {
+                        MmkvManager.setSelectServer(it)
+                        LogUtil.i(TAG, "Selected first server: $it")
+                    }
+                } else {
+                    LogUtil.i(TAG, "Keeping current selection: $currentSelected")
                 }
                 
                 MmkvManager.encodeSettings(AppConfig.CACHE_SUBSCRIPTION_ID, "")
@@ -267,24 +272,6 @@ firstServerKey?.let {
             if (proxy.id.startsWith("vpn_") || proxy.protocol == "vpn") {
                 LogUtil.e(TAG, "Detected VPN type, calling convertVpnProxy")
                 return convertVpnProxy(token, proxy)
-            }
-            
-            if (proxy.protocol.lowercase() == "vless" && proxy.id.startsWith("vpn_")) {
-                LogUtil.e(TAG, "VLESS proxy with VPN ID, fetching full config via getVpnConfigJson")
-                val vpnConfigJson = ProxuApiService.getVpnConfigJson(token, proxy.id)
-                if (vpnConfigJson != null) {
-                    val link = vpnConfigJson.optString("link", "")
-                    if (link.isNotBlank() && link.startsWith("vless://")) {
-                        LogUtil.e(TAG, "Got VPN link from config: ${link.take(50)}...")
-                        val profile = importVlessLink(link)
-                        if (profile != null) {
-                            profile.subscriptionId = SUBSCRIPTION_ID
-                            profile.description = "PROXU.PRO"
-                            return profile
-                        }
-                    }
-                }
-                LogUtil.e(TAG, "Could not get VPN link, falling through to standard conversion")
             }
             
             LogUtil.d(TAG, "Converting as standard proxy type: ${proxy.protocol}")

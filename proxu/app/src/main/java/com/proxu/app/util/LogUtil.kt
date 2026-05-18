@@ -7,7 +7,7 @@ import java.util.Locale
 
 object LogUtil {
 
-    private const val DEFAULT_LEVEL = "debug"
+    private val DEFAULT_LEVEL = if (com.proxu.app.BuildConfig.DEBUG) "debug" else "info"
     private const val CACHE_UNSET = Int.MIN_VALUE
 
     @Volatile

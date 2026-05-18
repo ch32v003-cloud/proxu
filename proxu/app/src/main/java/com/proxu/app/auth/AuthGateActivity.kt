@@ -8,11 +8,27 @@ import com.proxu.app.ui.MainActivity
 class AuthGateActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (ProxuAuthManager.isLoggedIn(this)) {
-            startActivity(Intent(this, MainActivity::class.java))
-        } else {
-            startActivity(ProxuLoginActivity.createIntent(this, required = true, openMainOnSuccess = true))
+        try {
+            if (ProxuAuthManager.isLoggedIn(this)) {
+                startActivity(Intent(this, MainActivity::class.java))
+            } else {
+                startActivity(ProxuLoginActivity.createIntent(this, required = true, openMainOnSuccess = true))
+            }
+        } finally {
+            finish()
         }
-        finish()
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        try {
+            if (ProxuAuthManager.isLoggedIn(this)) {
+                startActivity(Intent(this, MainActivity::class.java))
+            } else {
+                startActivity(ProxuLoginActivity.createIntent(this, required = true, openMainOnSuccess = true))
+            }
+        } finally {
+            finish()
+        }
     }
 }

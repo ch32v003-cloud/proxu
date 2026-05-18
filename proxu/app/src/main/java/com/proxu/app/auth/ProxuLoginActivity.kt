@@ -65,7 +65,10 @@ class ProxuLoginActivity : BaseActivity() {
         // Edge-to-edge: draw behind system bars (status bar / nav bar)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         if (!Utils.getDarkModeStatus(this)) {
-            WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = true
+            WindowCompat.getInsetsController(window, window.decorView).apply {
+                isAppearanceLightStatusBars = true
+                isAppearanceLightNavigationBars = true
+            }
         }
 
         // Optional: hide the system ActionBar so nothing overlaps the background
@@ -73,6 +76,13 @@ class ProxuLoginActivity : BaseActivity() {
 
         // For non-required login (e.g. launched from Settings), keep system back button only
         configureRequiredLoginGate()
+
+        // Hide Google Sign-In if Play Services are unavailable (e.g. F-Droid builds)
+        val availability = GoogleApiAvailability.getInstance()
+        if (availability.isGooglePlayServicesAvailable(this) != ConnectionResult.SUCCESS) {
+            binding.googleSignInButton.visibility = View.GONE
+            binding.webSignInButton.visibility = View.VISIBLE
+        }
 
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions())
 

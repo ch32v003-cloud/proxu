@@ -138,12 +138,12 @@ object NotificationManager {
             .setOnlyAlertOnce(true)
             .setContentIntent(contentPendingIntent)
             .addAction(
-                R.drawable.ic_delete_24dp,
+                R.drawable.ic_stop_24dp,
                 service.getString(R.string.notification_action_stop_v2ray),
                 stopV2RayPendingIntent
             )
             .addAction(
-                R.drawable.ic_delete_24dp,
+                R.drawable.ic_play_24dp,
                 service.getString(R.string.title_service_restart),
                 restartV2RayPendingIntent
             )

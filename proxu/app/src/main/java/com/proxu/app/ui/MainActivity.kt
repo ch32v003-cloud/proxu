@@ -56,6 +56,7 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
     val mainViewModel: MainViewModel by viewModels()
     private lateinit var groupPagerAdapter: GroupPagerAdapter
     private var tabMediator: TabLayoutMediator? = null
+    private var toolbarTitleView: android.widget.TextView? = null
 
     private val requestVpnPermission = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == RESULT_OK) {
@@ -217,33 +218,24 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
             getString(R.string.title_server)
         }
         supportActionBar?.setTitle(titleText)
-        // Smaller title text size for balance display
+        // Use single cached title view to avoid recreation on every balance update
         supportActionBar?.let { actionBar ->
-            val titleView = actionBar.customView
-            if (titleView == null || titleView !is android.widget.TextView) {
-                val textView = android.widget.TextView(this).apply {
-                    text = titleText
-                    setTextColor(resources.getColor(R.color.proxu_text_primary, null))
-                    textSize = 16f
-                    maxLines = 1
-                    ellipsize = android.text.TextUtils.TruncateAt.END
-                    isClickable = true
-                    isFocusable = true
-                    setOnClickListener {
-                        refreshBalanceManual()
-                    }
+            val tv = toolbarTitleView ?: android.widget.TextView(this).apply {
+                setTextColor(ContextCompat.getColor(this@MainActivity, R.color.proxu_text_primary))
+                textSize = 16f
+                maxLines = 1
+                ellipsize = android.text.TextUtils.TruncateAt.END
+                isClickable = true
+                isFocusable = true
+                setOnClickListener {
+                    refreshBalanceManual()
                 }
                 actionBar.setDisplayShowTitleEnabled(false)
                 actionBar.setDisplayShowCustomEnabled(true)
-                actionBar.customView = textView
-            } else {
-                (actionBar.customView as android.widget.TextView).apply {
-                    text = titleText
-                    setOnClickListener {
-                        refreshBalanceManual()
-                    }
-                }
+                actionBar.customView = this
+                toolbarTitleView = this
             }
+            tv.text = titleText
         }
     }
 
@@ -397,6 +389,7 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
 
     override fun onPause() {
         super.onPause()
+        balanceSyncJob?.cancel()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -907,6 +900,12 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
         // Clear all proxu.pro VPN profiles on logout to ensure fresh sync on next login
         ProxuProfileSync.clearCloudProfiles()
         ProxuAuthManager.clearAuth(this)
+        loginGateVisible = false
+        // Clear WebView cookies/storage so next browser login starts fresh
+        try {
+            android.webkit.CookieManager.getInstance().removeAllCookies(null)
+            android.webkit.WebStorage.getInstance().deleteAllData()
+        } catch (_: Exception) { }
         updateAccountMenu()
         toast(R.string.auth_logout_successful)
         binding.root.post { showLoginGateIfRequired() }

@@ -268,7 +268,7 @@
     <string name="auth_title">Аккаунт</string>
     <string name="auth_web_title">Вход через браузер</string>
     <string name="auth_subtitle">Войдите через Google, чтобы подключить аккаунт Proxu.</string>
-    <string name="auth_continue_with_google">Продолжить через Google</string>
+    <string name="auth_continue_with_google">Войти через Google</string>
     <string name="auth_continue_in_browser">Продолжить в браузере</string>
     <string name="auth_login_successful">Вход выполнен</string>
     <string name="auth_logout">Выйти</string>

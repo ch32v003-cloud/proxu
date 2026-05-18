@@ -53,7 +53,6 @@
         <!-- Status bar and navigation bar - system bars -->
         <item name="android:statusBarColor">@color/proxu_background</item>
         <item name="android:navigationBarColor">@color/proxu_background</item>
-        <item name="android:windowLightStatusBar">false</item>
         <item name="android:fontFamily">sans</item>
         <item name="android:windowNoTitle">true</item>
         <item name="materialButtonStyle">@style/Widget.Proxu.Button</item>
@@ -62,9 +61,9 @@
 
     <!-- Day/Night theme: inherit common values and set light-mode-specific items -->
     <style name="AppThemeDayNight" parent="AppThemeBase">
-        <!-- Vision Framework is dark-first, even in default mode. -->
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="27">false</item>
+        <!-- Light mode: dark icons on light system bars -->
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 
     <!-- Theme without ActionBar -->
@@ -88,8 +87,7 @@
     </style>
 
     <style name="Widget.Proxu.Button" parent="Widget.Material3.Button">
-        <item name="backgroundTint">@color/proxu_surface</item>
-        <item name="android:textColor">@color/proxu_text_inverse</item>
+        <item name="backgroundTint">@color/proxu_primary</item>
         <item name="cornerRadius">48dp</item>
     </style>
 
