@@ -916,7 +916,11 @@ private fun updateToolbarTitle() {
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.account -> handleAccountClick()
+            R.id.account -> {
+                handleAccountClick()
+                // Don't close drawer - allow multiple clicks for easter egg (10 clicks toggles hidden menu)
+                return true
+            }
             R.id.recharge -> showRechargeDialog()
             R.id.logout -> performLogout()
             R.id.sub_setting -> requestActivityLauncher.launch(Intent(this, SubSettingActivity::class.java))
