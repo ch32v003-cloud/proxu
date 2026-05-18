@@ -310,7 +310,7 @@
     <string name="proxu_payment_sbp">СБП (Система быстрых платежей)</string>
     <string name="proxu_payment_card">Банковская карта</string>
     <string name="proxu_recharge_button">Пополнить</string>
-    <string name="proxu_recharge_error_amount">Введите сумму от 100 до 50000 руб.</string>
+    <string name="proxu_recharge_error_amount">Введите сумму от 100 руб.</string>
     <string name="proxu_recharge_creating">Создание платежа…</string>
     <string name="proxu_recharge_success">Платёж создан! Открытие страницы оплаты…</string>
     <string name="proxu_recharge_failed">Не удалось создать платёж</string>

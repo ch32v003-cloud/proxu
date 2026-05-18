@@ -48,7 +48,7 @@
     <string name="proxu_payment_sbp">SBP (Fast Payment System)</string>
     <string name="proxu_payment_card">Bank card</string>
     <string name="proxu_recharge_button">Recharge</string>
-    <string name="proxu_recharge_error_amount">Enter amount from 100 to 50000 RUB</string>
+    <string name="proxu_recharge_error_amount">Enter amount from 100 RUB</string>
     <string name="proxu_recharge_creating">Creating payment…</string>
     <string name="proxu_recharge_success">Payment created! Opening payment page…</string>
     <string name="proxu_recharge_failed">Failed to create payment</string>

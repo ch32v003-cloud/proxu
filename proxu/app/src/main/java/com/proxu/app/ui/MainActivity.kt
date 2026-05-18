@@ -992,7 +992,8 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
         paymentId: String,
         attempt: Int = 1,
         maxAttempts: Int = 10,
-        delayMs: Long = 5000L
+        delayMs: Long = 5000L,
+        silent: Boolean = false
     ) {
         lifecycleScope.launch {
             val token = ProxuAuthManager.getToken(this@MainActivity)
@@ -1028,7 +1029,7 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
                 // Success case: balance actually increased
                 if (diff > 0) {
                     val msg = "Баланс пополнен на $diff руб.! Текущий баланс: $newBalance р."
-                    toast(msg)
+                    if (!silent) toast(msg)
                     LogUtil.d("MainActivity", msg)
                     // Clear pending payment - confirmed!
                     clearPendingPayment(paymentId)
@@ -1052,14 +1053,10 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
                         // Payment succeeded but balance same - server webhook may be delayed
                         if (attempt < maxAttempts) {
                             LogUtil.d("MainActivity", "Payment succeeded but balance not updated yet. Retrying in ${delayMs}ms...")
-                            if (attempt == 1) toast("Платёж принят! Ждём зачисления...")
                             delay(delayMs)
-                            refreshBalanceWithRetry(paymentId, attempt + 1, maxAttempts, delayMs)
+                            refreshBalanceWithRetry(paymentId, attempt + 1, maxAttempts, delayMs, silent)
                         } else {
-                            val msg = "Платёж успешен! Баланс обновится в течение минуты (сервер обрабатывает вебхук)"
-                            toast(msg)
-                            LogUtil.d("MainActivity", msg)
-                            // Keep pending_payment_id for background sync to pick up
+                            LogUtil.d("MainActivity", "Payment succeeded but balance not updated after max attempts. Will retry in background sync.")
                         }
                         return@launch
                     }
@@ -1067,35 +1064,29 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
                     // Payment still processing
                     if (attempt < maxAttempts) {
                         LogUtil.d("MainActivity", "Payment pending (status=$paymentStatus), retrying in ${delayMs}ms...")
-                        if (attempt == 1) toast("Платёж обрабатывается, ждём подтверждения...")
                         delay(delayMs)
-                        refreshBalanceWithRetry(paymentId, attempt + 1, maxAttempts, delayMs)
+                        refreshBalanceWithRetry(paymentId, attempt + 1, maxAttempts, delayMs, silent)
                     } else {
-                        toast("Платёж обрабатывается. Проверка будет продолжена в фоне.")
+                        LogUtil.d("MainActivity", "Payment still pending after max attempts. Will retry in background sync.")
                         // Keep pending_payment_id for background sync
                     }
                     return@launch
                 } else if (paymentStatus.equals("canceled", true) || paymentStatus.equals("failed", true)) {
                     // Payment failed
-                    val msg = "Платёж отменён или не выполнен: $paymentStatus"
-                    toast(msg)
-                    LogUtil.d("MainActivity", msg)
+                    LogUtil.d("MainActivity", "Payment canceled or failed: $paymentStatus")
                     clearPendingPayment(paymentId)
                     return@launch
                 } else {
-                    val msg = "Статус платежа: $paymentStatus"
-                    toast(msg)
-                    LogUtil.d("MainActivity", msg)
+                    LogUtil.d("MainActivity", "Payment status: $paymentStatus")
                     clearPendingPayment(paymentId)
                 }
             } catch (e: Exception) {
                 LogUtil.e("MainActivity", "Payment check error (attempt $attempt): ${e.message}", e)
                 if (attempt < maxAttempts) {
-                    if (attempt == 1) toast("Ошибка проверки, повтор через ${delayMs / 1000} сек...")
                     delay(delayMs)
-                    refreshBalanceWithRetry(paymentId, attempt + 1, maxAttempts, delayMs)
+                    refreshBalanceWithRetry(paymentId, attempt + 1, maxAttempts, delayMs, silent)
                 } else {
-                    toast("Ошибка проверки платежа. Проверка будет продолжена в фоне.")
+                    LogUtil.d("MainActivity", "Payment check failed after max attempts. Will retry in background sync.")
                 }
             }
         }
@@ -1114,8 +1105,9 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
         val prefs = getSharedPreferences("proxu_auth", Context.MODE_PRIVATE)
         val paymentId = prefs.getString("pending_payment_id", null)
         if (paymentId != null) {
-            LogUtil.d("MainActivity", "Background sync: found pending payment $paymentId, checking...")
-            refreshBalanceWithRetry(paymentId, maxAttempts = 3, delayMs = 10000L)
+            LogUtil.d("MainActivity", "Background sync: found pending payment $paymentId, checking silently...")
+            // Silent = true: do not show toasts during background checks
+            refreshBalanceWithRetry(paymentId, maxAttempts = 3, delayMs = 10000L, silent = true)
         }
     }
 
