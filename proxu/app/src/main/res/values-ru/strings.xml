@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_widget_name">proxu</string>
-    <string name="app_tile_name">proxu</string>
+    <string name="app_widget_name">Proxu</string>
+    <string name="app_tile_name">Proxu</string>
     <string name="app_tile_first_use">Первое использование этой функции, пожалуйста, используйте приложение, чтобы добавить профиль</string>
     <string name="navigation_drawer_open">Открыть панель навигации</string>
     <string name="navigation_drawer_close">Закрыть панель навигации</string>
@@ -267,7 +267,7 @@
     <!-- Authentication -->
     <string name="auth_title">Аккаунт</string>
     <string name="auth_web_title">Вход через браузер</string>
-    <string name="auth_subtitle">Войдите через Google, чтобы подключить аккаунт proxu.</string>
+    <string name="auth_subtitle">Войдите через Google, чтобы подключить аккаунт Proxu.</string>
     <string name="auth_continue_with_google">Продолжить через Google</string>
     <string name="auth_continue_in_browser">Продолжить в браузере</string>
     <string name="auth_login_successful">Вход выполнен</string>
@@ -289,7 +289,7 @@
     <string name="auth_invalid_google_token">Неверный токен Google.</string>
     <string name="auth_endpoint_not_found">Точка авторизации не найдена.</string>
     <string name="auth_server_error_with_code">Ошибка сервера: %d</string>
-    <string name="auth_syncing_profiles">Синхронизация профилей с proxu.pro…</string>
+    <string name="auth_syncing_profiles">Синхронизация профилей с Proxu.pro…</string>
     <string name="auth_sync_complete">Синхронизация завершена: %1$d добавлено, %2$d пропущено</string>
     <string name="auth_sync_failed">Ошибка синхронизации: %s</string>
     <string name="auth_sync_no_proxies">Нет доступных прокси</string>
@@ -298,7 +298,7 @@
     <string name="proxu_create_profile">Создать профиль</string>
     <string name="proxu_creating_profile">Создание…</string>
     <string name="proxu_profile_created">Профиль создан</string>
-    <string name="proxu_profile_creation_failed">Не удалось создать профиль. Нет доступных VPN. Создайте через сайт proxu.pro.</string>
+    <string name="proxu_profile_creation_failed">Не удалось создать профиль. Нет доступных VPN. Создайте через сайт Proxu.pro.</string>
     <string name="extended_menu_enabled">Расширенное меню включено</string>
     <string name="extended_menu_hidden">Расширенное меню скрыто</string>
 
@@ -310,7 +310,7 @@
     <string name="proxu_payment_sbp">СБП (Система быстрых платежей)</string>
     <string name="proxu_payment_card">Банковская карта</string>
     <string name="proxu_recharge_button">Пополнить</string>
-    <string name="proxu_recharge_error_amount">Введите сумму от 10 до 50000 руб.</string>
+    <string name="proxu_recharge_error_amount">Введите сумму от 100 до 50000 руб.</string>
     <string name="proxu_recharge_creating">Создание платежа…</string>
     <string name="proxu_recharge_success">Платёж создан! Открытие страницы оплаты…</string>
     <string name="proxu_recharge_failed">Не удалось создать платёж</string>

@@ -29,7 +29,7 @@ class ProxuPaymentBottomSheetDialog(
             val amountText = amountInput.text.toString()
             val amount = amountText.toDoubleOrNull()
             
-            if (amount == null || amount < 10 || amount > 50000) {
+            if (amount == null || amount < 100 || amount > 50000) {
                 amountInput.error = context.getString(R.string.proxu_recharge_error_amount)
                 return@setOnClickListener
             }

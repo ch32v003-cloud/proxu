@@ -95,6 +95,21 @@ object ProxuApiService {
         }
     }
 
+    fun getProfileRaw(token: String): JSONObject? {
+        val request = createAuthRequest(token, "$BASE_URL/profile").build()
+        return try {
+            client.newCall(request).execute().use { response ->
+                val body = response.body?.string() ?: return null
+                LogUtil.e("ProxuApiService", "getProfileRaw HTTP ${response.code}: ${body.take(500)}")
+                if (response.code != 200) return null
+                JSONObject(body)
+            }
+        } catch (e: Exception) {
+            LogUtil.e("ProxuApiService", "getProfileRaw failed", e)
+            null
+        }
+    }
+
     fun getVpnServers(token: String): List<ProxuVpnServer>? {
         val request = createAuthRequest(token, "$BASE_URL/vpn-servers").build()
         return try {

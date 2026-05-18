@@ -17,13 +17,4 @@
         android:text="@string/app_name"
         android:textAppearance="@style/TextAppearance.Proxu.Headline" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/proxu_spacing_6"
-        android:gravity="center"
-        android:text="Vision VPN Framework"
-        android:textAppearance="@style/TextAppearance.Proxu.Label"
-        android:textColor="@color/proxu_primary" />
-
 </LinearLayout>

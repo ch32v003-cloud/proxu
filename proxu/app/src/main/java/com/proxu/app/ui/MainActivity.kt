@@ -23,6 +23,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.proxu.app.AppConfig
 import com.proxu.app.R
+import com.proxu.app.auth.ProxuApiModels
 import com.proxu.app.auth.ProxuApiService
 import com.proxu.app.auth.ProxuAuthManager
 import com.proxu.app.auth.ProxuLoginActivity
@@ -208,7 +209,7 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
         }
     }
 
-private fun updateToolbarTitle() {
+    private fun updateToolbarTitle() {
         val balance = ProxuAuthManager.getBalance(this)
         val titleText = if (!balance.isNullOrBlank()) {
             "Баланс: $balance р."
@@ -216,6 +217,65 @@ private fun updateToolbarTitle() {
             getString(R.string.title_server)
         }
         supportActionBar?.setTitle(titleText)
+        // Smaller title text size for balance display
+        supportActionBar?.let { actionBar ->
+            val titleView = actionBar.customView
+            if (titleView == null || titleView !is android.widget.TextView) {
+                val textView = android.widget.TextView(this).apply {
+                    text = titleText
+                    setTextColor(resources.getColor(R.color.proxu_text_primary, null))
+                    textSize = 16f
+                    maxLines = 1
+                    ellipsize = android.text.TextUtils.TruncateAt.END
+                    isClickable = true
+                    isFocusable = true
+                    setOnClickListener {
+                        refreshBalanceManual()
+                    }
+                }
+                actionBar.setDisplayShowTitleEnabled(false)
+                actionBar.setDisplayShowCustomEnabled(true)
+                actionBar.customView = textView
+            } else {
+                (actionBar.customView as android.widget.TextView).apply {
+                    text = titleText
+                    setOnClickListener {
+                        refreshBalanceManual()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun refreshBalanceManual() {
+        lifecycleScope.launch {
+            val token = ProxuAuthManager.getToken(this@MainActivity)
+            if (!token.isNullOrBlank()) {
+                try {
+                    toast("Обновление баланса...")
+                    val profile = withContext(Dispatchers.IO) {
+                        ProxuApiService.getProfile(token)
+                    }
+                    profile?.balance?.let { balance ->
+                        val oldBalance = ProxuAuthManager.getBalance(this@MainActivity)
+                        ProxuAuthManager.updateBalance(this@MainActivity, balance)
+                        updateToolbarTitle()
+                        updateAccountMenu()
+                        val diff = (balance.toIntOrNull() ?: 0) - (oldBalance?.toIntOrNull() ?: 0)
+                        if (diff != 0) {
+                            toast("Баланс обновлён: $balance р. (изменение: ${if (diff > 0) "+$diff" else "$diff"})")
+                        } else {
+                            toast("Баланс: $balance р.")
+                        }
+                    } ?: toast("Не удалось получить баланс")
+                } catch (e: Exception) {
+                    LogUtil.e("MainActivity", "Manual balance refresh error: ${e.message}")
+                    toast("Ошибка обновления баланса")
+                }
+            } else {
+                toast("Войдите в аккаунт для просмотра баланса")
+            }
+        }
     }
 
     private fun startV2Ray() {
@@ -281,27 +341,55 @@ private fun updateToolbarTitle() {
         startBalanceSync()
     }
     
+    private var balanceSyncJob: kotlinx.coroutines.Job? = null
+
     private fun startBalanceSync() {
-        lifecycleScope.launch {
+        balanceSyncJob?.cancel()
+        balanceSyncJob = lifecycleScope.launch {
+            var tick = 0
             while (isActive) {
-                delay(300_000) // 5 minutes
-                if (ProxuAuthManager.isLoggedIn(this@MainActivity)) {
-                    val token = ProxuAuthManager.getToken(this@MainActivity)
-                    if (!token.isNullOrBlank()) {
-                        try {
-                            val profile = withContext(Dispatchers.IO) {
-                                ProxuApiService.getProfile(token)
+                // Check every 30 seconds if there is a pending payment, otherwise every 5 minutes
+                val prefs = getSharedPreferences("proxu_auth", Context.MODE_PRIVATE)
+                val hasPendingPayment = prefs.getString("pending_payment_id", null) != null
+                val delayMs = if (hasPendingPayment) 30_000L else 300_000L // 30 sec or 5 min
+
+                if (tick > 0 || hasPendingPayment) { // First immediate tick only if pending
+                    delay(delayMs)
+                }
+                tick++
+
+                if (!ProxuAuthManager.isLoggedIn(this@MainActivity)) continue
+                val token = ProxuAuthManager.getToken(this@MainActivity)
+                if (token.isNullOrBlank()) continue
+
+                try {
+                    // If pending payment exists, try to resolve it in background
+                    if (hasPendingPayment) {
+                        pollPendingPaymentInBackground()
+                    }
+
+                    // Regular balance refresh
+                    val profile = withContext(Dispatchers.IO) {
+                        ProxuApiService.getProfile(token)
+                    }
+                    profile?.balance?.let { balance ->
+                        val oldBalance = ProxuAuthManager.getBalance(this@MainActivity)
+                        ProxuAuthManager.updateBalance(this@MainActivity, balance)
+                        updateToolbarTitle()
+                        updateAccountMenu()
+                        val oldValue = oldBalance?.toIntOrNull() ?: 0
+                        val newValue = balance.toIntOrNull() ?: 0
+                        if (newValue != oldValue) {
+                            LogUtil.i("MainActivity", "Balance changed: $oldValue -> $newValue")
+                            if (newValue > oldValue) {
+                                toast("Баланс пополнен! Текущий баланс: $balance р.")
                             }
-                            profile?.balance?.let { balance ->
-                                ProxuAuthManager.updateBalance(this@MainActivity, balance)
-                                updateToolbarTitle()
-                                updateAccountMenu()
-                                LogUtil.i("MainActivity", "Balance synced: $balance")
-                            }
-                        } catch (e: Exception) {
-                            LogUtil.e("MainActivity", "Balance sync failed", e)
+                        } else {
+                            LogUtil.d("MainActivity", "Balance synced: $balance")
                         }
                     }
+                } catch (e: Exception) {
+                    LogUtil.e("MainActivity", "Balance sync failed", e)
                 }
             }
         }
@@ -326,6 +414,12 @@ private fun updateToolbarTitle() {
         menu.findItem(R.id.locate_selected_config)?.isVisible = hiddenMenuVisible
         menu.findItem(R.id.sub_update)?.isVisible = hiddenMenuVisible
         menu.findItem(R.id.service_restart)?.isVisible = hiddenMenuVisible
+        // Hide entire Add config submenu
+        menu.findItem(R.id.action_add)?.isVisible = hiddenMenuVisible
+
+        // Recharge button: always visible when logged in
+        val isLoggedIn = ProxuAuthManager.isLoggedIn(this)
+        menu.findItem(R.id.action_recharge)?.isVisible = isLoggedIn
 
         val searchItem = menu.findItem(R.id.search_view)
         if (searchItem != null) {
@@ -348,6 +442,11 @@ private fun updateToolbarTitle() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_recharge -> {
+            showRechargeDialog()
+            true
+        }
+
         R.id.import_qrcode -> {
             importQRcode()
             true
@@ -755,8 +854,8 @@ private fun updateToolbarTitle() {
         val email = ProxuAuthManager.getUserEmail(this)
         binding.navView.menu.findItem(R.id.account)?.title = email ?: getString(R.string.auth_account)
         binding.navView.menu.findItem(R.id.logout)?.isVisible = isLoggedIn
-        // Recharge only visible when logged in AND hidden menu is visible (easter egg)
-        binding.navView.menu.findItem(R.id.recharge)?.isVisible = isLoggedIn && hiddenMenuVisible
+        // Recharge always visible when logged in
+        binding.navView.menu.findItem(R.id.recharge)?.isVisible = isLoggedIn
     }
 
     private fun handleAccountClick() {
@@ -779,6 +878,7 @@ private fun updateToolbarTitle() {
 
     private fun setHiddenMenuVisible(visible: Boolean) {
         hiddenMenuVisible = visible
+        mainViewModel.hiddenMenuVisible = visible
         updateHiddenMenuVisibility()
     }
 
@@ -797,6 +897,11 @@ private fun updateToolbarTitle() {
 
         // Update toolbar menu visibility
         invalidateOptionsMenu()
+
+        // Sync with ViewModel so adapters can hide/show action buttons
+        mainViewModel.hiddenMenuVisible = hiddenMenuVisible
+        // Refresh all visible server cards
+        mainViewModel.reloadServerList()
     }
 
     private fun performLogout() {
@@ -834,18 +939,26 @@ private fun updateToolbarTitle() {
                 }
 
                 if (response != null) {
+                    LogUtil.d("MainActivity", "createPayment response: ${response.toString().take(500)}")
                     val paymentUrl = response.optString("payment_url", "")
+                    // Try different possible keys for payment ID
                     val paymentId = response.optString("payment_id", "")
+                        .ifBlank { response.optString("id", "") }
+                        .ifBlank { response.optJSONObject("payment")?.optString("id", "") ?: "" }
+
+                    LogUtil.d("MainActivity", "Payment URL: $paymentUrl, Payment ID: $paymentId")
 
                     if (paymentUrl.isNotEmpty() && paymentId.isNotEmpty()) {
                         // Save payment ID for confirmation
                         getSharedPreferences("proxu_auth", Context.MODE_PRIVATE)
                             .edit().putString("pending_payment_id", paymentId).apply()
+                        LogUtil.d("MainActivity", "Saved pending_payment_id: $paymentId")
                         // Open payment URL
                         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(paymentUrl))
                         startActivity(intent)
                         toast(R.string.proxu_recharge_success)
                     } else {
+                        LogUtil.e("MainActivity", "Missing payment_url or payment_id in response")
                         toast(R.string.proxu_recharge_failed)
                     }
                 } else {
@@ -861,37 +974,148 @@ private fun updateToolbarTitle() {
     private fun checkPendingPayment() {
         val prefs = getSharedPreferences("proxu_auth", Context.MODE_PRIVATE)
         val paymentId = prefs.getString("pending_payment_id", null)
+        LogUtil.d("MainActivity", "checkPendingPayment: paymentId=$paymentId")
 
         if (paymentId != null) {
-            // Clear pending payment
-            prefs.edit().remove("pending_payment_id").apply()
-            // Check payment status and refresh balance
-            lifecycleScope.launch {
-                val token = ProxuAuthManager.getToken(this@MainActivity)
-                if (!token.isNullOrBlank()) {
-                    try {
-                        val status = withContext(Dispatchers.IO) {
-                            ProxuApiService.getPaymentStatus(token, paymentId)
+            // DO NOT clear pending_payment_id here - let refreshBalanceWithRetry clear it on success
+            // Server may need time to process webhook from YooKassa
+            refreshBalanceWithRetry(paymentId, maxAttempts = 10, delayMs = 5000L)
+        }
+    }
+
+    /**
+     * Aggressive balance refresh with retry for payment confirmation.
+     * Polling every 5 seconds up to 10 attempts (50 seconds total).
+     * Clears pending_payment_id only on confirmed balance change.
+     */
+    private fun refreshBalanceWithRetry(
+        paymentId: String,
+        attempt: Int = 1,
+        maxAttempts: Int = 10,
+        delayMs: Long = 5000L
+    ) {
+        lifecycleScope.launch {
+            val token = ProxuAuthManager.getToken(this@MainActivity)
+            if (token.isNullOrBlank()) {
+                LogUtil.w("MainActivity", "Token is null, cannot refresh balance")
+                return@launch
+            }
+
+            try {
+                // Get current balance BEFORE server call
+                val oldBalance = ProxuAuthManager.getBalance(this@MainActivity)
+                val oldValue = oldBalance?.toIntOrNull() ?: 0
+
+                // Always refresh balance from server (regardless of payment status)
+                val rawProfile = withContext(Dispatchers.IO) {
+                    ProxuApiService.getProfileRaw(token)
+                }
+                LogUtil.e("MainActivity", "RAW PROFILE attempt $attempt: ${rawProfile?.toString()?.take(500)}")
+
+                val profile = rawProfile?.let { ProxuApiModels.parseUserProfile(it) }
+                val newBalance = profile?.balance
+                val newValue = newBalance?.toIntOrNull() ?: 0
+                val diff = newValue - oldValue
+
+                LogUtil.e("MainActivity", "Balance check attempt $attempt: old=$oldValue, new=$newValue, diff=$diff")
+
+                if (newBalance != null) {
+                    ProxuAuthManager.updateBalance(this@MainActivity, newBalance)
+                    updateToolbarTitle()
+                    updateAccountMenu()
+                }
+
+                // Success case: balance actually increased
+                if (diff > 0) {
+                    val msg = "Баланс пополнен на $diff руб.! Текущий баланс: $newBalance р."
+                    toast(msg)
+                    LogUtil.d("MainActivity", msg)
+                    // Clear pending payment - confirmed!
+                    clearPendingPayment(paymentId)
+                    return@launch
+                }
+
+                // Also check payment status endpoint for additional confirmation
+                val status = withContext(Dispatchers.IO) {
+                    ProxuApiService.getPaymentStatus(token, paymentId)
+                }
+                LogUtil.d("MainActivity", "Payment status (attempt $attempt): ${status?.toString()?.take(500)}")
+
+                val paymentStatus = status?.optString("status", "") ?: ""
+                val isSucceeded = paymentStatus.equals("succeeded", true) ||
+                        paymentStatus.equals("paid", true) ||
+                        paymentStatus.equals("completed", true) ||
+                        status?.optBoolean("success", false) == true
+
+                if (isSucceeded) {
+                    if (diff == 0 && newBalance != null) {
+                        // Payment succeeded but balance same - server webhook may be delayed
+                        if (attempt < maxAttempts) {
+                            LogUtil.d("MainActivity", "Payment succeeded but balance not updated yet. Retrying in ${delayMs}ms...")
+                            if (attempt == 1) toast("Платёж принят! Ждём зачисления...")
+                            delay(delayMs)
+                            refreshBalanceWithRetry(paymentId, attempt + 1, maxAttempts, delayMs)
+                        } else {
+                            val msg = "Платёж успешен! Баланс обновится в течение минуты (сервер обрабатывает вебхук)"
+                            toast(msg)
+                            LogUtil.d("MainActivity", msg)
+                            // Keep pending_payment_id for background sync to pick up
                         }
-                        if (status != null) {
-                            val success = status.optBoolean("success", false)
-                            if (success) {
-                                // Refresh balance
-                                val profile = withContext(Dispatchers.IO) {
-                                    ProxuApiService.getProfile(token)
-                                }
-                                profile?.balance?.let { balance ->
-                                    ProxuAuthManager.updateBalance(this@MainActivity, balance)
-                                    updateToolbarTitle()
-                                    toast("Payment successful! Balance updated.")
-                                }
-                            }
-                        }
-                    } catch (e: Exception) {
-                        LogUtil.e("MainActivity", "Payment check error: ${e.message}")
+                        return@launch
                     }
+                } else if (paymentStatus.equals("pending", true) || paymentStatus.isBlank() || paymentStatus.equals("wait_for_capture", true)) {
+                    // Payment still processing
+                    if (attempt < maxAttempts) {
+                        LogUtil.d("MainActivity", "Payment pending (status=$paymentStatus), retrying in ${delayMs}ms...")
+                        if (attempt == 1) toast("Платёж обрабатывается, ждём подтверждения...")
+                        delay(delayMs)
+                        refreshBalanceWithRetry(paymentId, attempt + 1, maxAttempts, delayMs)
+                    } else {
+                        toast("Платёж обрабатывается. Проверка будет продолжена в фоне.")
+                        // Keep pending_payment_id for background sync
+                    }
+                    return@launch
+                } else if (paymentStatus.equals("canceled", true) || paymentStatus.equals("failed", true)) {
+                    // Payment failed
+                    val msg = "Платёж отменён или не выполнен: $paymentStatus"
+                    toast(msg)
+                    LogUtil.d("MainActivity", msg)
+                    clearPendingPayment(paymentId)
+                    return@launch
+                } else {
+                    val msg = "Статус платежа: $paymentStatus"
+                    toast(msg)
+                    LogUtil.d("MainActivity", msg)
+                    clearPendingPayment(paymentId)
+                }
+            } catch (e: Exception) {
+                LogUtil.e("MainActivity", "Payment check error (attempt $attempt): ${e.message}", e)
+                if (attempt < maxAttempts) {
+                    if (attempt == 1) toast("Ошибка проверки, повтор через ${delayMs / 1000} сек...")
+                    delay(delayMs)
+                    refreshBalanceWithRetry(paymentId, attempt + 1, maxAttempts, delayMs)
+                } else {
+                    toast("Ошибка проверки платежа. Проверка будет продолжена в фоне.")
                 }
             }
+        }
+    }
+
+    private fun clearPendingPayment(expectedId: String) {
+        val prefs = getSharedPreferences("proxu_auth", Context.MODE_PRIVATE)
+        val currentId = prefs.getString("pending_payment_id", null)
+        if (currentId == expectedId) {
+            prefs.edit().remove("pending_payment_id").apply()
+            LogUtil.d("MainActivity", "Cleared pending_payment_id: $expectedId")
+        }
+    }
+
+    private fun pollPendingPaymentInBackground() {
+        val prefs = getSharedPreferences("proxu_auth", Context.MODE_PRIVATE)
+        val paymentId = prefs.getString("pending_payment_id", null)
+        if (paymentId != null) {
+            LogUtil.d("MainActivity", "Background sync: found pending payment $paymentId, checking...")
+            refreshBalanceWithRetry(paymentId, maxAttempts = 3, delayMs = 10000L)
         }
     }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">proxu</string>
+    <string name="app_name" translatable="false">Proxu</string>
     <string name="app_widget_name">Switch</string>
     <string name="app_tile_name">Switch</string>
     <string name="app_tile_first_use">First use of this feature, please use the app to add server</string>
@@ -15,7 +15,7 @@
     <string name="google_web_client_id" translatable="false">297158154604-up9542l0rfk37nu3dr2rdfsv6bkhj1nq.apps.googleusercontent.com</string>
     <string name="auth_title">Account</string>
     <string name="auth_web_title">Web Login</string>
-    <string name="auth_subtitle">Sign in with Google to connect your proxu account.</string>
+    <string name="auth_subtitle">Sign in with Google to connect your Proxu account.</string>
     <string name="auth_continue_with_google">Continue with Google</string>
     <string name="auth_continue_in_browser">Continue in browser</string>
     <string name="auth_login_successful">Login successful</string>
@@ -37,7 +37,7 @@
     <string name="auth_invalid_google_token">Invalid Google token.</string>
     <string name="auth_endpoint_not_found">Auth endpoint was not found.</string>
     <string name="auth_server_error_with_code">Server error: %d</string>
-    <string name="auth_syncing_profiles">Syncing profiles from proxu.pro…</string>
+    <string name="auth_syncing_profiles">Syncing profiles from Proxu.pro…</string>
     <string name="auth_sync_complete">Profile sync complete: %1$d added, %2$d skipped</string>
     <string name="auth_sync_failed">Profile sync failed: %s</string>
     <string name="auth_sync_no_proxies">No proxies available</string>
@@ -48,7 +48,7 @@
     <string name="proxu_payment_sbp">SBP (Fast Payment System)</string>
     <string name="proxu_payment_card">Bank card</string>
     <string name="proxu_recharge_button">Recharge</string>
-    <string name="proxu_recharge_error_amount">Enter amount from 10 to 50000 RUB</string>
+    <string name="proxu_recharge_error_amount">Enter amount from 100 to 50000 RUB</string>
     <string name="proxu_recharge_creating">Creating payment…</string>
     <string name="proxu_recharge_success">Payment created! Opening payment page…</string>
     <string name="proxu_recharge_failed">Failed to create payment</string>
@@ -522,7 +522,7 @@
     <string name="proxu_create_profile">Create Profile</string>
     <string name="proxu_creating_profile">Creating...</string>
     <string name="proxu_profile_created">Profile created</string>
-    <string name="proxu_profile_creation_failed">Failed to create profile. No available VPN inbounds. Please create via proxu.pro dashboard.</string>
+    <string name="proxu_profile_creation_failed">Failed to create profile. No available VPN inbounds. Please create via Proxu.pro dashboard.</string>
     <string name="auth_login_required">Please login first</string>
 
 </resources>

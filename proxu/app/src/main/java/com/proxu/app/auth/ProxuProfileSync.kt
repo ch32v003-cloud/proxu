@@ -180,7 +180,7 @@ object ProxuProfileSync {
                             
                             // Create subscription entry
                             val subItem = com.proxu.app.dto.entities.SubscriptionItem()
-                            subItem.remarks = "proxu.pro VPN"
+                            subItem.remarks = "PROXU.PRO"
                             subItem.url = ""
                             subItem.enabled = true
                             com.proxu.app.handler.MmkvManager.encodeSubscription(SUBSCRIPTION_ID, subItem)
@@ -279,7 +279,7 @@ firstServerKey?.let {
                         val profile = importVlessLink(link)
                         if (profile != null) {
                             profile.subscriptionId = SUBSCRIPTION_ID
-                            profile.description = "VPN from proxu.pro"
+                            profile.description = "PROXU.PRO"
                             return profile
                         }
                     }
@@ -318,7 +318,7 @@ firstServerKey?.let {
                     val profile = importFromLink(link, proxy.id)
                     if (profile != null) {
                         profile.subscriptionId = SUBSCRIPTION_ID
-                        profile.description = "VPN from proxu.pro"
+                        profile.description = "PROXU.PRO"
                         return profile
                     }
                     LogUtil.e(TAG, "Failed to parse VPN link")
@@ -353,7 +353,7 @@ firstServerKey?.let {
             
             profile?.let {
                 it.subscriptionId = SUBSCRIPTION_ID
-                it.description = "VPN from proxu.pro"
+                it.description = "PROXU.PRO"
             }
             
             profile
@@ -397,9 +397,19 @@ firstServerKey?.let {
             profile.echConfigList = uri.getQueryParameter("ech") ?: ""
             profile.secretKey = uri.getQueryParameter("scy") ?: ""
             
-            profile.remarks = uri.fragment ?: "proxu.pro VPN"
+            // Extract fragment manually - Uri.parse() fails with non-ASCII chars in vless:// URLs
+            val rawFragment = link.substringAfterLast("#", "")
+            profile.remarks = if (rawFragment.isNotEmpty()) {
+                try {
+                    java.net.URLDecoder.decode(rawFragment, "UTF-8")
+                } catch (e: Exception) {
+                    rawFragment
+                }
+            } else {
+                "PROXU.PRO"
+            }
             
-            LogUtil.e(TAG, "Imported VLESS profile: server=${profile.server}, port=${profile.serverPort}, security=${profile.security}, flow=${profile.flow}, sni=${profile.sni}, publicKey=${profile.publicKey?.take(10)}..., shortId=${profile.shortId}")
+            LogUtil.e(TAG, "Imported VLESS profile: server=${profile.server}, port=${profile.serverPort}, security=${profile.security}, flow=${profile.flow}, sni=${profile.sni}, publicKey=${profile.publicKey?.take(10)}..., shortId=${profile.shortId}, remarks=${profile.remarks}")
             
             profile
         } catch (e: Exception) {
@@ -729,7 +739,7 @@ firstServerKey?.let {
                     LogUtil.e(TAG, "STEP 3: Profile not null, saving...")
                     // Save to default subscription so it shows up immediately in UI
                     profile.subscriptionId = ""
-                    profile.description = "VPN from proxu.pro"
+                    profile.description = "PROXU.PRO"
                     val serverKey = "proxu_${vpnConfig.id}"
                     LogUtil.e(TAG, "STEP 4: serverKey=$serverKey")
                     val key = MmkvManager.encodeServerConfig(serverKey, profile)

@@ -20,13 +20,17 @@
 
     <group android:id="@+id/group_visible">
         <item
+            android:id="@+id/per_app_proxy_settings"
+            android:icon="@drawable/ic_per_apps_24dp"
+            android:title="@string/per_app_proxy_settings" />
+        <item
             android:id="@+id/settings"
             android:icon="@drawable/ic_settings_24dp"
             android:title="@string/title_settings" />
         <item
-            android:id="@+id/promotion"
-            android:icon="@drawable/ic_promotion_24dp"
-            android:title="@string/title_pref_promotion" />
+            android:id="@+id/about"
+            android:icon="@drawable/ic_about_24dp"
+            android:title="@string/title_about" />
     </group>
 
     <!-- Hidden group - toggled by easter egg (10 clicks on Account) -->
@@ -37,10 +41,6 @@
             android:id="@+id/sub_setting"
             android:icon="@drawable/ic_subscriptions_24dp"
             android:title="@string/title_sub_setting" />
-        <item
-            android:id="@+id/per_app_proxy_settings"
-            android:icon="@drawable/ic_per_apps_24dp"
-            android:title="@string/per_app_proxy_settings" />
         <item
             android:id="@+id/routing_setting"
             android:icon="@drawable/ic_routing_24dp"
@@ -62,9 +62,9 @@
             android:icon="@drawable/ic_restore_24dp"
             android:title="@string/title_configuration_backup_restore" />
         <item
-            android:id="@+id/about"
-            android:icon="@drawable/ic_about_24dp"
-            android:title="@string/title_about" />
+            android:id="@+id/promotion"
+            android:icon="@drawable/ic_promotion_24dp"
+            android:title="@string/title_pref_promotion" />
     </group>
 
     <group android:id="@+id/group_footer">

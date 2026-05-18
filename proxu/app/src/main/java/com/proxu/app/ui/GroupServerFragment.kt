@@ -132,6 +132,11 @@ class GroupServerFragment : BaseFragment<FragmentGroupServerBinding>(),
                 
                 if (result.added > 0) {
                     ownerActivity.toastSuccess(R.string.proxu_profile_created)
+                    // Sync profiles from server to get correct names (createVpn API returns auto-generated names)
+                    val syncToken = ProxuAuthManager.getToken(ownerActivity)
+                    if (!syncToken.isNullOrBlank()) {
+                        ProxuProfileSync.syncProfilesAndSelectFirst(ownerActivity, syncToken)
+                    }
                     // Force refresh UI after profile creation
                     mainViewModel.reloadServerList()
                     updateEmptyState()

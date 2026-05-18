@@ -82,7 +82,13 @@ class MainRecyclerAdapter(
             holder.itemMainBinding.layoutSubscription.visibility = if (subRemarks.isEmpty()) View.GONE else View.VISIBLE
 
             //layout
-            if (doubleColumnDisplay) {
+            if (!mainViewModel.hiddenMenuVisible) {
+                // Easter egg: hide all action buttons when hidden menu is not visible
+                holder.itemMainBinding.layoutShare.visibility = View.GONE
+                holder.itemMainBinding.layoutEdit.visibility = View.GONE
+                holder.itemMainBinding.layoutRemove.visibility = View.GONE
+                holder.itemMainBinding.layoutMore.visibility = View.GONE
+            } else if (doubleColumnDisplay) {
                 holder.itemMainBinding.layoutShare.visibility = View.GONE
                 holder.itemMainBinding.layoutEdit.visibility = View.GONE
                 holder.itemMainBinding.layoutRemove.visibility = View.GONE
