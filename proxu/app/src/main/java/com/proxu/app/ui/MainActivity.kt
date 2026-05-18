@@ -1,5 +1,6 @@
 package com.proxu.app.ui
 
+import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.net.Uri
@@ -22,6 +23,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.proxu.app.AppConfig
 import com.proxu.app.R
+import com.proxu.app.auth.ProxuApiService
 import com.proxu.app.auth.ProxuAuthManager
 import com.proxu.app.auth.ProxuLoginActivity
 import com.proxu.app.auth.ProxuProfileSync
@@ -41,6 +43,7 @@ import com.proxu.app.util.Utils
 import com.proxu.app.viewmodel.MainViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -264,6 +267,38 @@ private fun updateToolbarTitle() {
         }
         updateToolbarTitle()
         binding.root.post { showLoginGateIfRequired() }
+        
+        // Check if returning from payment
+        checkPendingPayment()
+        
+        // Start periodic balance sync (every 5 minutes)
+        startBalanceSync()
+    }
+    
+    private fun startBalanceSync() {
+        lifecycleScope.launch {
+            while (isActive) {
+                delay(300_000) // 5 minutes
+                if (ProxuAuthManager.isLoggedIn(this@MainActivity)) {
+                    val token = ProxuAuthManager.getToken(this@MainActivity)
+                    if (!token.isNullOrBlank()) {
+                        try {
+                            val profile = withContext(Dispatchers.IO) {
+                                ProxuApiService.getProfile(token)
+                            }
+                            profile?.balance?.let { balance ->
+                                ProxuAuthManager.updateBalance(this@MainActivity, balance)
+                                updateToolbarTitle()
+                                updateAccountMenu()
+                                LogUtil.i("MainActivity", "Balance synced: $balance")
+                            }
+                        } catch (e: Exception) {
+                            LogUtil.e("MainActivity", "Balance sync failed", e)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     override fun onPause() {
@@ -720,10 +755,98 @@ private fun updateToolbarTitle() {
         binding.root.post { showLoginGateIfRequired() }
     }
 
+    private fun showRechargeDialog() {
+        if (!ProxuAuthManager.isLoggedIn(this)) {
+            toast(R.string.auth_login_required)
+            return
+        }
+        ProxuPaymentBottomSheetDialog(this) { amount, method ->
+            createPayment(amount, method)
+        }.show()
+    }
+
+    private fun createPayment(amount: Double, paymentMethod: String) {
+        lifecycleScope.launch {
+            val token = ProxuAuthManager.getToken(this@MainActivity)
+            if (token.isNullOrBlank()) {
+                toast(R.string.auth_login_required)
+                return@launch
+            }
+
+            toast(R.string.proxu_recharge_creating)
+
+            try {
+                val response = withContext(Dispatchers.IO) {
+                    ProxuApiService.createPayment(token, amount, paymentMethod)
+                }
+
+                if (response != null) {
+                    val paymentUrl = response.optString("payment_url", "")
+                    val paymentId = response.optString("payment_id", "")
+
+                    if (paymentUrl.isNotEmpty() && paymentId.isNotEmpty()) {
+                        // Save payment ID for confirmation
+                        getSharedPreferences("proxu_auth", Context.MODE_PRIVATE)
+                            .edit().putString("pending_payment_id", paymentId).apply()
+                        // Open payment URL
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(paymentUrl))
+                        startActivity(intent)
+                        toast(R.string.proxu_recharge_success)
+                    } else {
+                        toast(R.string.proxu_recharge_failed)
+                    }
+                } else {
+                    toast(R.string.proxu_recharge_failed)
+                }
+            } catch (e: Exception) {
+                LogUtil.e("MainActivity", "Payment creation error: ${e.message}")
+                toast(R.string.proxu_recharge_failed)
+            }
+        }
+    }
+
+    private fun checkPendingPayment() {
+        val prefs = getSharedPreferences("proxu_auth", Context.MODE_PRIVATE)
+        val paymentId = prefs.getString("pending_payment_id", null)
+
+        if (paymentId != null) {
+            // Clear pending payment
+            prefs.edit().remove("pending_payment_id").apply()
+            // Check payment status and refresh balance
+            lifecycleScope.launch {
+                val token = ProxuAuthManager.getToken(this@MainActivity)
+                if (!token.isNullOrBlank()) {
+                    try {
+                        val status = withContext(Dispatchers.IO) {
+                            ProxuApiService.getPaymentStatus(token, paymentId)
+                        }
+                        if (status != null) {
+                            val success = status.optBoolean("success", false)
+                            if (success) {
+                                // Refresh balance
+                                val profile = withContext(Dispatchers.IO) {
+                                    ProxuApiService.getProfile(token)
+                                }
+                                profile?.balance?.let { balance ->
+                                    ProxuAuthManager.updateBalance(this@MainActivity, balance)
+                                    updateToolbarTitle()
+                                    toast("Payment successful! Balance updated.")
+                                }
+                            }
+                        }
+                    } catch (e: Exception) {
+                        LogUtil.e("MainActivity", "Payment check error: ${e.message}")
+                    }
+                }
+            }
+        }
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.account -> handleAccountClick()
+            R.id.recharge -> showRechargeDialog()
             R.id.logout -> performLogout()
             R.id.sub_setting -> requestActivityLauncher.launch(Intent(this, SubSettingActivity::class.java))
             R.id.per_app_proxy_settings -> requestActivityLauncher.launch(Intent(this, PerAppProxyActivity::class.java))

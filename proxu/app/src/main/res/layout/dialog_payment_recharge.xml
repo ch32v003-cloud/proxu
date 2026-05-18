@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/proxu_surface_dark_glass">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/proxu_recharge_title"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/proxu_text_primary"
+        android:layout_marginBottom="16dp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/proxu_recharge_amount_hint"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_marginBottom="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/amountInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:textColor="@color/proxu_text_primary" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/proxu_recharge_method_label"
+        android:textSize="14sp"
+        android:textColor="@color/proxu_text_secondary"
+        android:layout_marginBottom="8dp" />
+
+    <RadioGroup
+        android:id="@+id/paymentMethodGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+
+        <RadioButton
+            android:id="@+id/methodSbp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/proxu_payment_sbp"
+            android:textColor="@color/proxu_text_primary"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/methodCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/proxu_payment_card"
+            android:textColor="@color/proxu_text_primary" />
+    </RadioGroup>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/rechargeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/proxu_recharge_button"
+        android:backgroundTint="@color/proxu_primary" />
+
+</LinearLayout>

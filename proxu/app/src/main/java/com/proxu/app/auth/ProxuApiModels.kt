@@ -115,11 +115,7 @@ object ProxuApiModels {
     fun parseUserProfile(json: JSONObject): ProxuUserProfile? {
         return try {
             val balanceValue = json.optDouble("balance", -1.0)
-            val balanceStr = if (balanceValue >= 0) {
-                // Preserve decimal places, remove trailing .0
-                val s = balanceValue.toString()
-                if (s.endsWith(".0")) s.substring(0, s.length - 2) else s
-            } else null
+            val balanceStr = if (balanceValue >= 0) balanceValue.toInt().toString() else null
             ProxuUserProfile(
                 id = json.getString("id"),
                 email = json.getString("email"),

@@ -235,6 +235,42 @@ object ProxuApiService {
         return executeRequest(request) { it }
     }
 
+    fun createPayment(token: String, amount: Double, method: String): JSONObject? {
+        val bodyJson = JSONObject()
+            .put("amount", amount)
+            .put("payment_method", method)
+            .put("client_type", "mobile")
+        val request = createAuthRequest(token, "$BASE_URL/payments/create", "POST", bodyJson.toString()).build()
+        return try {
+            client.newCall(request).execute().use { response ->
+                val body = response.body?.string() ?: return null
+                LogUtil.e("ProxuApiService", "createPayment HTTP ${response.code}: ${body.take(200)}")
+                if (response.code != 200) {
+                    LogUtil.e("ProxuApiService", "createPayment failed: HTTP ${response.code}")
+                    return null
+                }
+                JSONObject(body)
+            }
+        } catch (e: Exception) {
+            LogUtil.e("ProxuApiService", "createPayment failed", e)
+            null
+        }
+    }
+
+    fun getPaymentStatus(token: String, paymentId: String): JSONObject? {
+        val request = createAuthRequest(token, "$BASE_URL/payments/$paymentId/status").build()
+        return try {
+            client.newCall(request).execute().use { response ->
+                val body = response.body?.string() ?: return null
+                if (response.code != 200) return null
+                JSONObject(body)
+            }
+        } catch (e: Exception) {
+            LogUtil.e("ProxuApiService", "getPaymentStatus failed", e)
+            null
+        }
+    }
+
     private inline fun <T> executeRequest(request: Request, parse: (JSONObject) -> T): T? {
         return try {
             client.newCall(request).execute().use { response ->

@@ -41,6 +41,18 @@
     <string name="auth_sync_complete">Profile sync complete: %1$d added, %2$d skipped</string>
     <string name="auth_sync_failed">Profile sync failed: %s</string>
     <string name="auth_sync_no_proxies">No proxies available</string>
+    <string name="proxu_recharge_balance">Recharge balance</string>
+    <string name="proxu_recharge_title">Balance recharge</string>
+    <string name="proxu_recharge_amount_hint">Amount (RUB)</string>
+    <string name="proxu_recharge_method_label">Payment method:</string>
+    <string name="proxu_payment_sbp">SBP (Fast Payment System)</string>
+    <string name="proxu_payment_card">Bank card</string>
+    <string name="proxu_recharge_button">Recharge</string>
+    <string name="proxu_recharge_error_amount">Enter amount from 10 to 50000 RUB</string>
+    <string name="proxu_recharge_creating">Creating payment…</string>
+    <string name="proxu_recharge_success">Payment created! Opening payment page…</string>
+    <string name="proxu_recharge_failed">Failed to create payment</string>
+    <string name="proxu_recharge_error_open">Failed to open payment page</string>
 
     <!-- Notifications -->
     <string name="notification_action_stop_v2ray">Stop</string>

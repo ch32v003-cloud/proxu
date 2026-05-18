@@ -9,6 +9,10 @@
             android:icon="@drawable/ic_account_24dp"
             android:title="@string/auth_account" />
         <item
+            android:id="@+id/recharge"
+            android:icon="@drawable/ic_add_24dp"
+            android:title="@string/proxu_recharge_balance" />
+        <item
             android:id="@+id/logout"
             android:icon="@drawable/ic_logout_24dp"
             android:title="@string/auth_logout" />
