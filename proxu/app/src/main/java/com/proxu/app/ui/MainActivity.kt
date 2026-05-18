@@ -779,37 +779,19 @@ private fun updateToolbarTitle() {
 
     private fun setHiddenMenuVisible(visible: Boolean) {
         hiddenMenuVisible = visible
-
-        // Update drawer menu visibility
-        binding.navView.menu.findItem(R.id.sub_setting)?.isVisible = hiddenMenuVisible
-        binding.navView.menu.findItem(R.id.per_app_proxy_settings)?.isVisible = hiddenMenuVisible
-        binding.navView.menu.findItem(R.id.routing_setting)?.isVisible = hiddenMenuVisible
-        binding.navView.menu.findItem(R.id.user_asset_setting)?.isVisible = hiddenMenuVisible
-        binding.navView.menu.findItem(R.id.logcat)?.isVisible = hiddenMenuVisible
-        binding.navView.menu.findItem(R.id.check_for_update)?.isVisible = hiddenMenuVisible
-        binding.navView.menu.findItem(R.id.backup_restore)?.isVisible = hiddenMenuVisible
-        binding.navView.menu.findItem(R.id.about)?.isVisible = hiddenMenuVisible
-        // Update recharge visibility based on login state
-        updateAccountMenu()
-
-        // Update toolbar menu visibility
-        invalidateOptionsMenu()
+        updateHiddenMenuVisibility()
     }
 
     private fun toggleHiddenMenu() {
         hiddenMenuVisible = !hiddenMenuVisible
         val message = if (hiddenMenuVisible) getString(R.string.extended_menu_enabled) else getString(R.string.extended_menu_hidden)
         toast(message)
+        updateHiddenMenuVisibility()
+    }
 
-        // Update drawer menu visibility
-        binding.navView.menu.findItem(R.id.sub_setting)?.isVisible = hiddenMenuVisible
-        binding.navView.menu.findItem(R.id.per_app_proxy_settings)?.isVisible = hiddenMenuVisible
-        binding.navView.menu.findItem(R.id.routing_setting)?.isVisible = hiddenMenuVisible
-        binding.navView.menu.findItem(R.id.user_asset_setting)?.isVisible = hiddenMenuVisible
-        binding.navView.menu.findItem(R.id.logcat)?.isVisible = hiddenMenuVisible
-        binding.navView.menu.findItem(R.id.check_for_update)?.isVisible = hiddenMenuVisible
-        binding.navView.menu.findItem(R.id.backup_restore)?.isVisible = hiddenMenuVisible
-        binding.navView.menu.findItem(R.id.about)?.isVisible = hiddenMenuVisible
+    private fun updateHiddenMenuVisibility() {
+        // Toggle entire hidden group visibility (works reliably with NavigationView)
+        binding.navView.menu.setGroupVisible(R.id.group_hidden, hiddenMenuVisible)
         // Update recharge visibility based on login state
         updateAccountMenu()
 
