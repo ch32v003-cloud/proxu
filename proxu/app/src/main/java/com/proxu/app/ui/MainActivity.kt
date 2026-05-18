@@ -302,18 +302,18 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
 
     private fun applyRunningState(isLoading: Boolean, isRunning: Boolean) {
         if (isLoading) {
-            binding.fab.setImageResource(R.drawable.ic_fab_check)
+            binding.fab.setIconResource(R.drawable.ic_fab_check)
             return
         }
 
         if (isRunning) {
-            binding.fab.setImageResource(R.drawable.ic_stop_24dp)
+            binding.fab.setIconResource(R.drawable.ic_stop_24dp)
             binding.fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.color_fab_active))
             binding.fab.contentDescription = getString(R.string.action_stop_service)
             setTestState(getString(R.string.connection_connected))
             binding.layoutTest.isFocusable = true
         } else {
-            binding.fab.setImageResource(R.drawable.ic_play_24dp)
+            binding.fab.setIconResource(R.drawable.ic_play_24dp)
             binding.fab.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.color_fab_inactive))
             binding.fab.contentDescription = getString(R.string.tasker_start_service)
             setTestState(getString(R.string.connection_not_connected))
@@ -416,10 +416,7 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
         menu.findItem(R.id.service_restart)?.isVisible = hiddenMenuVisible
         // Hide entire Add config submenu
         menu.findItem(R.id.action_add)?.isVisible = hiddenMenuVisible
-
-        // Recharge button: always visible when logged in
-        val isLoggedIn = ProxuAuthManager.isLoggedIn(this)
-        menu.findItem(R.id.action_recharge)?.isVisible = isLoggedIn
+        menu.findItem(R.id.action_recharge)?.isVisible = ProxuAuthManager.isLoggedIn(this)
 
         val searchItem = menu.findItem(R.id.search_view)
         if (searchItem != null) {
@@ -442,11 +439,6 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
     }
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
-        R.id.action_recharge -> {
-            showRechargeDialog()
-            true
-        }
-
         R.id.import_qrcode -> {
             importQRcode()
             true
@@ -561,6 +553,11 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
 
         R.id.locate_selected_config -> {
             locateSelectedServer()
+            true
+        }
+
+        R.id.action_recharge -> {
+            showRechargeDialog()
             true
         }
 
@@ -852,10 +849,12 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
     private fun updateAccountMenu() {
         val isLoggedIn = ProxuAuthManager.isLoggedIn(this)
         val email = ProxuAuthManager.getUserEmail(this)
+        // Update navigation drawer items
         binding.navView.menu.findItem(R.id.account)?.title = email ?: getString(R.string.auth_account)
-        binding.navView.menu.findItem(R.id.logout)?.isVisible = isLoggedIn
-        // Recharge always visible when logged in
         binding.navView.menu.findItem(R.id.recharge)?.isVisible = isLoggedIn
+        binding.navView.menu.findItem(R.id.logout)?.isVisible = isLoggedIn
+        // Update overflow menu items visibility
+        invalidateOptionsMenu()
     }
 
     private fun handleAccountClick() {

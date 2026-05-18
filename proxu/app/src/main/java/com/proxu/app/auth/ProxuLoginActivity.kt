@@ -22,6 +22,8 @@ import com.proxu.app.handler.SettingsChangeManager
 import com.proxu.app.ui.BaseActivity
 import com.proxu.app.ui.MainActivity
 import com.proxu.app.util.LogUtil
+import com.proxu.app.util.Utils
+import androidx.core.view.WindowCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -58,7 +60,18 @@ class ProxuLoginActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProxuLoginBinding.inflate(layoutInflater)
-        setContentViewWithToolbar(binding.root, showHomeAsUp = !isRequiredLogin, title = "")
+        setContentView(binding.root)
+
+        // Edge-to-edge: draw behind system bars (status bar / nav bar)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+        if (!Utils.getDarkModeStatus(this)) {
+            WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = true
+        }
+
+        // Optional: hide the system ActionBar so nothing overlaps the background
+        supportActionBar?.hide()
+
+        // For non-required login (e.g. launched from Settings), keep system back button only
         configureRequiredLoginGate()
 
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions())
