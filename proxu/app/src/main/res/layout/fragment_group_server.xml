@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/proxu_create_profile"
-            android:textColor="@color/proxu_text_primary"
+            android:textColor="@android:color/black"
             app:backgroundTint="@color/proxu_primary"
             app:cornerRadius="8dp" />
 
