@@ -162,10 +162,6 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
         binding.fab.setOnClickListener { handleFabAction() }
         binding.layoutTest.setOnClickListener { handleLayoutTestClick() }
 
-        // Clear stale proxu profiles before building UI tabs (sync will repopulate with fresh data)
-        if (ProxuAuthManager.isLoggedIn(this)) {
-            ProxuProfileSync.clearCloudProfiles()
-        }
         setupGroupTab()
         setupViewModel()
         SubscriptionUpdater.sync()
