@@ -1000,6 +1000,11 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
     }
 
     private fun performLogout() {
+        // Stop VPN service before clearing profiles (user no longer has valid access)
+        if (mainViewModel.isRunning.value == true) {
+            CoreServiceManager.stopVService(this)
+            toast(R.string.auth_vpn_stopped_on_logout)
+        }
         // Clear all proxu.pro VPN profiles on logout to ensure fresh sync on next login
         ProxuProfileSync.clearCloudProfiles()
         ProxuAuthManager.clearAuth(this)

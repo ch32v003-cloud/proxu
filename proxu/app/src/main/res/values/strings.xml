@@ -21,6 +21,7 @@
     <string name="auth_login_successful">Login successful</string>
     <string name="auth_logout">Logout</string>
     <string name="auth_logout_successful">Logged out</string>
+    <string name="auth_vpn_stopped_on_logout">VPN disconnected</string>
     <string name="auth_not_logged_in">Not signed in</string>
     <string name="auth_account">Account</string>
     <string name="auth_google_play_services_unavailable">Google Play services are unavailable on this device.</string>
