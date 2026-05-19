@@ -256,10 +256,10 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
                     
                     // Check if account is blocked
                     if (profile == null) {
-                        val rawResponse = withContext(Dispatchers.IO) {
-                            ProxuApiService.getProfileRaw(token)
+                        val rawBody = withContext(Dispatchers.IO) {
+                            ProxuApiService.getProfileRawString(token)
                         }
-                        if (ProxuApiService.isBlockedResponse(rawResponse?.toString())) {
+                        if (ProxuApiService.isBlockedResponse(rawBody)) {
                             toast(R.string.auth_account_blocked)
                             performLogout()
                             return@launch
@@ -385,10 +385,10 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
                     
                     // Check if account is blocked
                     if (profile == null) {
-                        val rawResponse = withContext(Dispatchers.IO) {
-                            ProxuApiService.getProfileRaw(token)
+                        val rawBody = withContext(Dispatchers.IO) {
+                            ProxuApiService.getProfileRawString(token)
                         }
-                        if (ProxuApiService.isBlockedResponse(rawResponse?.toString())) {
+                        if (ProxuApiService.isBlockedResponse(rawBody)) {
                             withContext(Dispatchers.Main) {
                                 toast(R.string.auth_account_blocked)
                                 performLogout()

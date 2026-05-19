@@ -96,16 +96,28 @@ object ProxuApiService {
     }
 
     fun getProfileRaw(token: String): JSONObject? {
+        val body = getProfileRawString(token) ?: return null
+        return try {
+            JSONObject(body)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    /**
+     * Returns raw response body string even for non-200 HTTP codes.
+     * Needed to check error messages like "Account blocked" (HTTP 403).
+     */
+    fun getProfileRawString(token: String): String? {
         val request = createAuthRequest(token, "$BASE_URL/profile").build()
         return try {
             client.newCall(request).execute().use { response ->
-                val body = response.body?.string() ?: return null
-                LogUtil.e("ProxuApiService", "getProfileRaw HTTP ${response.code}: ${body.take(500)}")
-                if (response.code != 200) return null
-                JSONObject(body)
+                val body = response.body?.string()
+                LogUtil.d("ProxuApiService", "getProfileRawString HTTP ${response.code}: ${body?.take(500)}")
+                body
             }
         } catch (e: Exception) {
-            LogUtil.e("ProxuApiService", "getProfileRaw failed", e)
+            LogUtil.e("ProxuApiService", "getProfileRawString failed", e)
             null
         }
     }

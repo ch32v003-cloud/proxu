@@ -202,10 +202,10 @@ class ProxuLoginActivity : BaseActivity() {
             lifecycleScope.launch(Dispatchers.IO) {
                 try {
                     val profile = ProxuApiService.getProfile(token)
-                    val rawResponse = ProxuApiService.getProfileRaw(token)
+                    val rawBody = ProxuApiService.getProfileRawString(token)
                     
                     withContext(Dispatchers.Main) {
-                        if (profile == null && ProxuApiService.isBlockedResponse(rawResponse?.toString())) {
+                        if (profile == null && ProxuApiService.isBlockedResponse(rawBody)) {
                             LogUtil.e(TAG, "Account is BLOCKED! Clearing auth and showing error.")
                             ProxuAuthManager.clearAuth(this@ProxuLoginActivity)
                             showError(getString(R.string.auth_account_blocked))
