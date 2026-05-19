@@ -284,6 +284,7 @@
     <string name="auth_redirecting_to_web_register">Аккаунт не найден. Открываю веб-регистрацию...</string>
     <string name="auth_auto_registering">Создание аккаунта автоматически...</string>
     <string name="auth_auto_register_failed">Не удалось создать аккаунт. Попробуйте вход через браузер.</string>
+    <string name="auth_account_blocked">Аккаунт заблокирован. Обратитесь в поддержку.</string>
     <string name="auth_network_error">Ошибка сети. Проверьте подключение.</string>
     <string name="auth_network_error_with_message">Ошибка сети: %s</string>
     <string name="auth_cancelled">Вход отменён</string>

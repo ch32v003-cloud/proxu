@@ -206,6 +206,14 @@ class ProxuLoginActivity : BaseActivity() {
             return
         }
 
+        // Check if account is blocked
+        if (response.isBlocked) {
+            val blockedMessage = response.error ?: getString(R.string.auth_account_blocked)
+            LogUtil.w(TAG, "Account blocked: $blockedMessage")
+            showError(blockedMessage)
+            return
+        }
+
         val message = when (response.code) {
             400 -> response.error ?: getString(R.string.auth_invalid_request)
             401 -> response.error ?: getString(R.string.auth_invalid_google_token)

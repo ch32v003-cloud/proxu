@@ -67,9 +67,15 @@ object ProxuAuthApiService {
                 LogUtil.i("ProxuAuthApiService", "New user registered automatically!")
             }
 
-            val error = if (!success && code != 200) {
+            val errorStr = if (!success && code != 200) {
                 json.optString("error", json.optString("message", "Unknown error"))
             } else null
+
+            // Check if account is blocked
+            val isBlocked = errorStr?.contains("заблокирован", true) == true
+                    || errorStr?.contains("blocked", true) == true
+                    || json.optString("details", "").contains("blocked", true)
+                    || code == 403
 
             AuthResponse(
                 code = code,
@@ -77,8 +83,9 @@ object ProxuAuthApiService {
                 token = token,
                 refreshToken = refreshToken,
                 message = json.optString("message", "").takeIf { it.isNotBlank() },
-                error = error,
-                balance = balance
+                error = errorStr,
+                balance = balance,
+                isBlocked = isBlocked
             )
         } catch (e: Exception) {
             LogUtil.e("ProxuAuthApiService", "Failed to parse auth response", e)
@@ -94,5 +101,6 @@ data class AuthResponse(
     val refreshToken: String?,
     val message: String?,
     val error: String?,
-    val balance: String?
+    val balance: String?,
+    val isBlocked: Boolean = false
 )

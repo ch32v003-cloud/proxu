@@ -253,6 +253,19 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
                     val profile = withContext(Dispatchers.IO) {
                         ProxuApiService.getProfile(token)
                     }
+                    
+                    // Check if account is blocked
+                    if (profile == null) {
+                        val rawResponse = withContext(Dispatchers.IO) {
+                            ProxuApiService.getProfileRaw(token)
+                        }
+                        if (ProxuApiService.isBlockedResponse(rawResponse?.toString())) {
+                            toast(R.string.auth_account_blocked)
+                            performLogout()
+                            return@launch
+                        }
+                    }
+                    
                     profile?.balance?.let { balance ->
                         val oldBalance = ProxuAuthManager.getBalance(this@MainActivity)
                         ProxuAuthManager.updateBalance(this@MainActivity, balance)
@@ -369,6 +382,21 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
                     val profile = withContext(Dispatchers.IO) {
                         ProxuApiService.getProfile(token)
                     }
+                    
+                    // Check if account is blocked
+                    if (profile == null) {
+                        val rawResponse = withContext(Dispatchers.IO) {
+                            ProxuApiService.getProfileRaw(token)
+                        }
+                        if (ProxuApiService.isBlockedResponse(rawResponse?.toString())) {
+                            withContext(Dispatchers.Main) {
+                                toast(R.string.auth_account_blocked)
+                                performLogout()
+                            }
+                            return@launch
+                        }
+                    }
+                    
                     profile?.balance?.let { balance ->
                         val oldBalance = ProxuAuthManager.getBalance(this@MainActivity)
                         ProxuAuthManager.updateBalance(this@MainActivity, balance)

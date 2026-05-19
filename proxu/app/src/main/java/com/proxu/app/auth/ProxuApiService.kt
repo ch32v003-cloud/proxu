@@ -302,6 +302,13 @@ object ProxuApiService {
         return try {
             client.newCall(request).execute().use { response ->
                 val body = response.body?.string() ?: return null
+                
+                // Check if account is blocked
+                if (isBlockedResponse(body)) {
+                    LogUtil.e(TAG, "Account blocked! Response: ${body.take(200)}")
+                    return null
+                }
+                
                 if (response.code != 200) {
                     return null
                 }
@@ -316,10 +323,29 @@ object ProxuApiService {
     private fun executeSimpleRequest(request: Request): Boolean {
         return try {
             client.newCall(request).execute().use { response ->
+                val body = response.body?.string() ?: ""
+                
+                // Check if account is blocked
+                if (isBlockedResponse(body)) {
+                    LogUtil.e(TAG, "Account blocked! Response: ${body.take(200)}")
+                    return false
+                }
+                
                 response.code == 200 || response.code == 204
             }
         } catch (e: Exception) {
             false
         }
+    }
+
+    /**
+     * Checks if API response indicates account is blocked.
+     * Server returns 403 with "Пользователь не найден или заблокирован" or similar.
+     */
+    fun isBlockedResponse(body: String?): Boolean {
+        if (body.isNullOrBlank()) return false
+        return body.contains("заблокирован", true)
+                || body.contains("blocked", true)
+                || body.contains("не найден", true)
     }
 }
