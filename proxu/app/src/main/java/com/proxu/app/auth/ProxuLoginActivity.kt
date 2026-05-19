@@ -237,44 +237,18 @@ class ProxuLoginActivity : BaseActivity() {
     private fun finishLoginSuccessfully() {
         Toast.makeText(this, R.string.auth_login_successful, Toast.LENGTH_SHORT).show()
         setResult(RESULT_OK)
-        
-        val token = ProxuAuthManager.getToken(this)
-        if (!token.isNullOrBlank()) {
-            lifecycleScope.launch {
-                // Always start fresh — remove any stale profiles from previous user/session
-                ProxuProfileSync.clearCloudProfiles()
-                // Sync profiles from server
-                Toast.makeText(this@ProxuLoginActivity, R.string.auth_syncing_profiles, Toast.LENGTH_SHORT).show()
-                val result = ProxuProfileSync.syncProfilesAndSelectFirst(this@ProxuLoginActivity, token)
-                LogUtil.i(TAG, "Profile sync result: ${result.message} (added=${result.added}, skipped=${result.skipped})")
-                
-                // Download and apply remote configuration (if available)
-                LogUtil.i(TAG, "Attempting to download remote config...")
-                val configApplied = ProxuConfigDownloader.downloadAndApplyConfig(this@ProxuLoginActivity)
-                if (configApplied) {
-                    Toast.makeText(this@ProxuLoginActivity, R.string.auth_downloading_config, Toast.LENGTH_SHORT).show()
-                } else {
-                    LogUtil.i(TAG, "Remote config not available or failed to apply")
-                }
-                
-                // Request MainActivity to refresh groups
-                SettingsChangeManager.makeSetupGroupTab()
-                
-                if (shouldOpenMainOnSuccess) {
-                    val intent = Intent(this@ProxuLoginActivity, MainActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-                    startActivity(intent)
-                }
-                finish()
-            }
-        } else {
-            if (shouldOpenMainOnSuccess) {
-                val intent = Intent(this, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-                startActivity(intent)
-            }
-            finish()
+
+        // Always start fresh — remove any stale profiles from previous user/session
+        ProxuProfileSync.clearCloudProfiles()
+        // Request MainActivity to refresh groups (sync will happen in MainActivity.onCreate)
+        SettingsChangeManager.makeSetupGroupTab()
+
+        if (shouldOpenMainOnSuccess) {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
         }
+        finish()
     }
 
     private fun showError(message: String) {

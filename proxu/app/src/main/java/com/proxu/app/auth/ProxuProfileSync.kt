@@ -725,7 +725,7 @@ object ProxuProfileSync {
     }
 
     fun clearCloudProfiles() {
-        MmkvManager.clearAllCloudProfiles()
+        MmkvManager.clearAllProfiles()
     }
 
     fun createProfile(context: Context, token: String, onComplete: ((SyncResult) -> Unit)? = null) {

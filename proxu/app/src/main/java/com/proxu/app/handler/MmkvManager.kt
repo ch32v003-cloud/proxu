@@ -355,6 +355,37 @@ object MmkvManager {
     }
 
     /**
+     * Removes ALL server/proxy configurations, subscription lists, and selected server.
+     * Preserves settings, auth tokens, and other mainStorage data.
+     * Call this on login to ensure a completely fresh profile cache.
+     */
+    fun clearAllProfiles() {
+        try {
+            // 1. Remove all server lists from mainStorage
+            mainStorage.allKeys()?.filter { it.startsWith("SERVER_AFF_") }?.forEach { key ->
+                mainStorage.removeValueForKey(key)
+            }
+
+            // 2. Remove selected server
+            mainStorage.remove(KEY_SELECTED_SERVER)
+
+            // 3. Remove all subscription entries (including proxu subscriptions)
+            mainStorage.remove(KEY_SUB_IDS)
+            subStorage.clearAll()
+
+            // 4. Remove all profile configs
+            profileFullStorage.clearAll()
+
+            // 5. Remove all server affiliation data
+            serverAffStorage.clearAll()
+
+            LogUtil.i(TAG, "All profiles and subscriptions cleared")
+        } catch (e: Exception) {
+            LogUtil.e(TAG, "Failed to clear all profiles", e)
+        }
+    }
+
+    /**
      * Removes invalid server configurations.
      *
      * @param guid The server GUID.

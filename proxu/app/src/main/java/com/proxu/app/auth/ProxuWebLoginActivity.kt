@@ -89,30 +89,15 @@ class ProxuWebLoginActivity : BaseActivity() {
         Toast.makeText(this, R.string.auth_login_successful, Toast.LENGTH_SHORT).show()
         setResult(RESULT_OK)
 
-        val token = ProxuAuthManager.getToken(this)
-        if (!token.isNullOrBlank()) {
-            lifecycleScope.launch {
-                // Always start fresh — remove any stale profiles from previous user/session
-                ProxuProfileSync.clearCloudProfiles()
-                Toast.makeText(this@ProxuWebLoginActivity, R.string.auth_syncing_profiles, Toast.LENGTH_SHORT).show()
-                val result = ProxuProfileSync.syncProfilesAndSelectFirst(this@ProxuWebLoginActivity, token)
-                LogUtil.i(TAG, "Profile sync result: ${result.message} (added=${result.added}, skipped=${result.skipped})")
-                
-                if (shouldOpenMainOnSuccess) {
-                    val intent = Intent(this@ProxuWebLoginActivity, MainActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-                    startActivity(intent)
-                }
-                finish()
-            }
-        } else {
-            if (shouldOpenMainOnSuccess) {
-                val intent = Intent(this, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-                startActivity(intent)
-            }
-            finish()
+        // Always start fresh — remove any stale profiles from previous user/session
+        ProxuProfileSync.clearCloudProfiles()
+
+        if (shouldOpenMainOnSuccess) {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
         }
+        finish()
     }
 
     companion object {
