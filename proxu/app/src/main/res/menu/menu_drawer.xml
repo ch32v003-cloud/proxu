@@ -58,6 +58,10 @@
             android:icon="@drawable/ic_account_24dp"
             android:title="@string/auth_account" />
         <item
+            android:id="@+id/transaction_history"
+            android:icon="@drawable/ic_history_24dp"
+            android:title="@string/proxu_transaction_history" />
+        <item
             android:id="@+id/recharge"
             android:icon="@drawable/ic_wallet_24dp"
             android:title="@string/proxu_recharge_balance" />

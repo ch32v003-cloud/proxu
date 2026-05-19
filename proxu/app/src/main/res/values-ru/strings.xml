@@ -297,6 +297,7 @@
     <string name="proxu_no_profiles">Нет VPN профилей</string>
     <string name="proxu_create_profile">Создать профиль</string>
     <string name="proxu_creating_profile">Создание…</string>
+    <string name="proxu_transaction_history">История транзакций</string>
     <string name="proxu_profile_created">Профиль создан</string>
     <string name="proxu_profile_creation_failed">Не удалось создать профиль. Нет доступных VPN. Создайте через сайт Proxu.pro.</string>
     <string name="extended_menu_enabled">Расширенное меню включено</string>

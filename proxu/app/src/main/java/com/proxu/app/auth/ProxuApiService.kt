@@ -242,7 +242,19 @@ object ProxuApiService {
 
     fun getTransactions(token: String): JSONArray? {
         val request = createAuthRequest(token, "$BASE_URL/transactions").build()
-        return executeRequest(request) { it.optJSONArray("transactions") }
+        return try {
+            client.newCall(request).execute().use { response ->
+                val body = response.body?.string() ?: return null
+                if (response.code != 200) {
+                    LogUtil.e(TAG, "getTransactions failed: HTTP ${response.code}: ${body.take(200)}")
+                    return null
+                }
+                JSONArray(body)
+            }
+        } catch (e: Exception) {
+            LogUtil.e(TAG, "getTransactions failed", e)
+            null
+        }
     }
 
     fun getPricing(token: String): JSONObject? {

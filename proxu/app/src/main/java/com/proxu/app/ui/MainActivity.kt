@@ -849,6 +849,7 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
         val email = ProxuAuthManager.getUserEmail(this)
         // Update navigation drawer items
         binding.navView.menu.findItem(R.id.account)?.title = email ?: getString(R.string.auth_account)
+        binding.navView.menu.findItem(R.id.transaction_history)?.isVisible = isLoggedIn
         binding.navView.menu.findItem(R.id.recharge)?.isVisible = isLoggedIn
         binding.navView.menu.findItem(R.id.logout)?.isVisible = isLoggedIn
         // Update overflow menu items visibility
@@ -1122,6 +1123,7 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
                 // Don't close drawer - allow multiple clicks for easter egg (10 clicks toggles hidden menu)
                 return true
             }
+            R.id.transaction_history -> startActivity(Intent(this, TransactionHistoryActivity::class.java))
             R.id.recharge -> showRechargeDialog()
             R.id.logout -> performLogout()
             R.id.sub_setting -> requestActivityLauncher.launch(Intent(this, SubSettingActivity::class.java))
