@@ -172,11 +172,12 @@ class ProxuLoginActivity : BaseActivity() {
 
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val response = ProxuAuthApiService.loginWithGoogle(idToken, email, name)
+                // New endpoint auto-creates users with 50 rub balance
+                val response = ProxuAuthApiService.loginWithGoogle(idToken)
                 withContext(Dispatchers.Main) {
                     binding.loginProgressBar.visibility = View.GONE
                     binding.googleSignInButton.isEnabled = true
-                    handleAuthResponse(response, email, idToken, name)
+                    handleAuthResponse(response, email, name)
                 }
             } catch (e: Exception) {
                 LogUtil.e(TAG, "Google auth backend request failed", e)
@@ -189,86 +190,27 @@ class ProxuLoginActivity : BaseActivity() {
         }
     }
 
-    private fun handleAuthResponse(response: AuthResponse, email: String, idToken: String? = null, name: String = "") {
-        LogUtil.d(TAG, "handleAuthResponse: code=${response.code}, body=${response.body.take(200)}, error=${response.error}, message=${response.message}")
+    private fun handleAuthResponse(response: AuthResponse, email: String, name: String) {
+        LogUtil.d(TAG, "handleAuthResponse: code=${response.code}, token=${!response.token.isNullOrBlank()}, balance=${response.balance}, error=${response.error}")
         val token = response.token
         if (!token.isNullOrBlank()) {
-            LogUtil.d(TAG, "Saving auth with balance: ${response.balance}")
+            LogUtil.i(TAG, "Auth success! Saving token, balance=${response.balance}")
             ProxuAuthManager.saveAuth(this, token, response.refreshToken, email, response.balance)
+            
+            // Show welcome toast for new users (balance = 50 is the default)
+            if (response.balance == "50" || response.balance == "50.0") {
+                Toast.makeText(this, "Добро пожаловать! Ваш аккаунт создан, баланс: 50 руб.", Toast.LENGTH_LONG).show()
+            }
+            
             finishLoginSuccessfully()
             return
         }
 
-        // Check if server says user doesn't exist or is blocked (new account needs registration)
-        val isUserNotFound = response.error?.contains("not found", true) == true
-                || response.error?.contains("not registered", true) == true
-                || response.error?.contains("blocked", true) == true
-                || response.error?.contains("user", true) == true
-                || response.message?.contains("not found", true) == true
-                || response.body.contains("not found", true)
-                || response.body.contains("not registered", true)
-                || response.body.contains("blocked", true)
-
-        // If user not found and we have the Google id_token, try auto-registration
-        if (isUserNotFound && !idToken.isNullOrBlank()) {
-            LogUtil.i(TAG, "User not found, attempting auto-registration...")
-            Toast.makeText(this, R.string.auth_auto_registering, Toast.LENGTH_SHORT).show()
-            binding.loginProgressBar.visibility = View.VISIBLE
-            binding.googleSignInButton.isEnabled = false
-            
-            lifecycleScope.launch(Dispatchers.IO) {
-                try {
-                    // Step 1: Auto-register
-                    val registerResponse = ProxuAuthApiService.registerWithGoogle(idToken, email, name)
-                    LogUtil.i(TAG, "Auto-register response: code=${registerResponse.code}, error=${registerResponse.error}")
-                    
-                    if (!registerResponse.token.isNullOrBlank()) {
-                        // Registration succeeded and returned token immediately
-                        LogUtil.i(TAG, "Auto-registration succeeded with token!")
-                        withContext(Dispatchers.Main) {
-                            ProxuAuthManager.saveAuth(this@ProxuLoginActivity, registerResponse.token, registerResponse.refreshToken, email, registerResponse.balance)
-                            finishLoginSuccessfully()
-                        }
-                        return@launch
-                    }
-                    
-                    // Step 2: If registration didn't return token, retry login
-                    LogUtil.i(TAG, "Registration done but no token, retrying login...")
-                    val retryResponse = ProxuAuthApiService.loginWithGoogle(idToken, email, name)
-                    
-                    withContext(Dispatchers.Main) {
-                        binding.loginProgressBar.visibility = View.GONE
-                        binding.googleSignInButton.isEnabled = true
-                        
-                        if (!retryResponse.token.isNullOrBlank()) {
-                            LogUtil.i(TAG, "Retry login succeeded after registration!")
-                            ProxuAuthManager.saveAuth(this@ProxuLoginActivity, retryResponse.token, retryResponse.refreshToken, email, retryResponse.balance)
-                            finishLoginSuccessfully()
-                        } else {
-                            LogUtil.e(TAG, "Retry login failed: ${retryResponse.error}")
-                            showError(getString(R.string.auth_auto_register_failed))
-                        }
-                    }
-                } catch (e: Exception) {
-                    LogUtil.e(TAG, "Auto-registration failed", e)
-                    withContext(Dispatchers.Main) {
-                        binding.loginProgressBar.visibility = View.GONE
-                        binding.googleSignInButton.isEnabled = true
-                        showError(getString(R.string.auth_auto_register_failed))
-                    }
-                }
-            }
-            return
-        }
-
-        val message = when {
-            isUserNotFound -> {
-                LogUtil.w(TAG, "User not found on server: $email")
-                getString(R.string.auth_account_not_found)
-            }
-            response.code == 400 -> response.error ?: getString(R.string.auth_invalid_request)
-            response.code == 401 -> getString(R.string.auth_invalid_google_token)
-            response.code == 404 -> getString(R.string.auth_endpoint_not_found)
+        val message = when (response.code) {
+            400 -> response.error ?: getString(R.string.auth_invalid_request)
+            401 -> response.error ?: getString(R.string.auth_invalid_google_token)
+            404 -> response.error ?: getString(R.string.auth_endpoint_not_found)
+            500 -> response.error ?: "Ошибка сервера. Попробуйте позже."
             else -> response.error ?: response.message ?: getString(R.string.auth_server_error_with_code, response.code)
         }
         showError(message)

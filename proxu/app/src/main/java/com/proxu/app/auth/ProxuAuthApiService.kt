@@ -17,63 +17,73 @@ object ProxuAuthApiService {
 
     private val jsonMediaType = "application/json; charset=utf-8".toMediaType()
 
-    fun loginWithGoogle(idToken: String, email: String = "", name: String = ""): AuthResponse {
-        return authRequest("google-mobile", idToken, email, name)
-    }
-
     /**
-     * Attempts to auto-register a new Google user on the server.
-     * Sends same payload but with auto_register flag so server creates account if not exists.
+     * New unified endpoint that handles both login and auto-registration.
+     * Server automatically creates new users with 50 rub balance.
+     *
+     * POST /api/public/auth/google/api
+     * Body: {"id_token": "..."}
+     * Response: {"success": true, "token": "...", "user": {"balance": 50, "is_new": true}}
      */
-    fun registerWithGoogle(idToken: String, email: String = "", name: String = ""): AuthResponse {
-        return authRequest("google-mobile", idToken, email, name, autoRegister = true)
-    }
-
-    private fun authRequest(
-        endpoint: String,
-        idToken: String,
-        email: String = "",
-        name: String = "",
-        autoRegister: Boolean = false
-    ): AuthResponse {
-        val json = JSONObject()
-            .put("id_token", idToken)
-            .put("email", email)
-            .put("name", name)
-        if (autoRegister) {
-            json.put("auto_register", true)
-        }
+    fun loginWithGoogle(idToken: String): AuthResponse {
+        val json = JSONObject().put("id_token", idToken).toString()
 
         val request = Request.Builder()
-            .url("$BASE_URL/api/public/auth/$endpoint")
-            .post(json.toString().toRequestBody(jsonMediaType))
+            .url("$BASE_URL/api/public/auth/google/api")
+            .post(json.toRequestBody(jsonMediaType))
             .build()
 
         client.newCall(request).execute().use { response ->
             val body = response.body.string()
-            LogUtil.d("ProxuAuthApiService", "Auth response body (autoRegister=$autoRegister): $body")
-            return AuthResponse(
-                code = response.code,
-                body = body,
-                token = body.extractJsonString("token"),
-                refreshToken = body.extractJsonString("refresh_token"),
-                message = body.extractJsonString("message"),
-                error = body.extractJsonString("error"),
-                balance = body.extractJsonString("balance")
-            )
+            LogUtil.d("ProxuAuthApiService", "Auth response: HTTP ${response.code}, body: ${body.take(500)}")
+
+            return parseAuthResponse(response.code, body)
         }
     }
 
-    private fun String.extractJsonString(key: String): String? {
-        return runCatching {
-            if (isBlank()) return@runCatching null
-            val json = JSONObject(this)
-            if (json.has(key) && !json.isNull(key)) {
-                json.getString(key).takeIf { it.isNotBlank() }
-            } else {
-                null
+    private fun parseAuthResponse(code: Int, body: String): AuthResponse {
+        return try {
+            if (body.isBlank()) {
+                return AuthResponse(code, body, null, null, null, "Empty response", null)
             }
-        }.getOrNull()
+
+            val json = JSONObject(body)
+
+            // New API format: {"success": true, "token": "...", "user": {...}}
+            val success = json.optBoolean("success", false)
+            val token = json.optString("token", "").takeIf { it.isNotBlank() }
+            val refreshToken = json.optString("refresh_token", "").takeIf { it.isNotBlank() }
+
+            // Extract balance from user object
+            val userObj = json.optJSONObject("user")
+            val balance = userObj?.optDouble("balance", -1.0)
+                ?.takeIf { it >= 0 }
+                ?.toInt()
+                ?.toString()
+
+            // Extract is_new flag for logging
+            val isNew = userObj?.optBoolean("is_new", false) ?: false
+            if (isNew) {
+                LogUtil.i("ProxuAuthApiService", "New user registered automatically!")
+            }
+
+            val error = if (!success && code != 200) {
+                json.optString("error", json.optString("message", "Unknown error"))
+            } else null
+
+            AuthResponse(
+                code = code,
+                body = body,
+                token = token,
+                refreshToken = refreshToken,
+                message = json.optString("message", "").takeIf { it.isNotBlank() },
+                error = error,
+                balance = balance
+            )
+        } catch (e: Exception) {
+            LogUtil.e("ProxuAuthApiService", "Failed to parse auth response", e)
+            AuthResponse(code, body, null, null, null, "Parse error: ${e.message}", null)
+        }
     }
 }
 
