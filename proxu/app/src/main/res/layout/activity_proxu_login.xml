@@ -66,19 +66,6 @@
                 android:textColor="@color/proxu_text_secondary"
                 android:visibility="gone" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/web_sign_in_button"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginTop="@dimen/proxu_spacing_16"
-                android:backgroundTint="@android:color/transparent"
-                android:text="@string/auth_continue_in_browser"
-                android:textColor="@color/proxu_primary"
-                android:visibility="gone"
-                app:cornerRadius="28dp"
-                app:strokeColor="@color/proxu_border_accent"
-                app:strokeWidth="1dp" />
-
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

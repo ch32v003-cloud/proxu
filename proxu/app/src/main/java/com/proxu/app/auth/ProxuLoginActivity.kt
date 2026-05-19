@@ -47,12 +47,6 @@ class ProxuLoginActivity : BaseActivity() {
         handleGoogleSignInResult(result.data)
     }
 
-    private val webLoginLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            finishLoginSuccessfully()
-        }
-    }
-
     private val isRequiredLogin: Boolean
         get() = intent.getBooleanExtra(EXTRA_REQUIRED_LOGIN, false)
     private val shouldOpenMainOnSuccess: Boolean
@@ -78,13 +72,6 @@ class ProxuLoginActivity : BaseActivity() {
         // For non-required login (e.g. launched from Settings), keep system back button only
         configureRequiredLoginGate()
 
-        // Hide Google Sign-In if Play Services are unavailable (e.g. F-Droid builds)
-        val availability = GoogleApiAvailability.getInstance()
-        if (availability.isGooglePlayServicesAvailable(this) != ConnectionResult.SUCCESS) {
-            binding.googleSignInButton.visibility = View.GONE
-            binding.webSignInButton.visibility = View.VISIBLE
-        }
-
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions())
 
         binding.googleSignInButton.setOnClickListener {
@@ -92,10 +79,6 @@ class ProxuLoginActivity : BaseActivity() {
             binding.loginProgressBar.visibility = View.VISIBLE
             binding.googleSignInButton.isEnabled = false
             launchGoogleSignIn()
-        }
-
-        binding.webSignInButton.setOnClickListener {
-            webLoginLauncher.launch(ProxuWebLoginActivity.createIntent(this, isRequiredLogin, shouldOpenMainOnSuccess))
         }
     }
 
@@ -289,7 +272,6 @@ class ProxuLoginActivity : BaseActivity() {
     private fun showError(message: String) {
         binding.errorText.text = message
         binding.errorText.visibility = View.VISIBLE
-        binding.webSignInButton.visibility = View.VISIBLE
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 
