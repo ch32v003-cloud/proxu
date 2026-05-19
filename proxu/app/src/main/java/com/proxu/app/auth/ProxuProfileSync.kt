@@ -166,42 +166,20 @@ object ProxuProfileSync {
                 val savedList = MmkvManager.decodeServerList(SUBSCRIPTION_ID)
                 LogUtil.e(TAG, "Verified saved list: ${savedList.size} items")
                 
-                // Debug: check all server keys in mainStorage
+                // Register the subscription if not exists (using MmkvManager helper)
                 try {
-                    val mainStorage = com.tencent.mmkv.MMKV.mmkvWithID("MAIN")
-                    val allKeys = mainStorage.allKeys()
-                    LogUtil.e(TAG, "All MAIN storage keys count: ${allKeys?.size ?: 0}")
-                    val relevantKeys = allKeys?.filter { it.contains("SUB_SERVERS") || it == "SELECTED_SERVER" || it.contains("ANG_CONFIG") || it.contains("proxu") }
-                    LogUtil.e(TAG, "Relevant keys: ${relevantKeys?.joinToString()}")
-                    // Also check what SUB_IDS contains
-                    val subIds = mainStorage.decodeString("SUB_IDS")
-                    LogUtil.e(TAG, "SUB_IDS: $subIds")
-                    
-                    // Register the subscription if not exists
-                    if (subIds != null && !subIds.contains(SUBSCRIPTION_ID)) {
+                    val subsList = MmkvManager.decodeSubsList()
+                    if (!subsList.contains(SUBSCRIPTION_ID)) {
                         LogUtil.e(TAG, "Registering subscription: $SUBSCRIPTION_ID")
-                        try {
-                            val jsonArray = org.json.JSONArray(subIds)
-                            val currentSubIds = mutableListOf<String>()
-                            for (i in 0 until jsonArray.length()) {
-                                currentSubIds.add(jsonArray.getString(i))
-                            }
-                            currentSubIds.add(SUBSCRIPTION_ID)
-                            mainStorage.encode("SUB_IDS", currentSubIds.joinToString(",", "[", "]"))
-                            
-                            // Create subscription entry
-                            val subItem = com.proxu.app.dto.entities.SubscriptionItem()
-                            subItem.remarks = "PROXU.PRO"
-                            subItem.url = ""
-                            subItem.enabled = true
-                            com.proxu.app.handler.MmkvManager.encodeSubscription(SUBSCRIPTION_ID, subItem)
-                            LogUtil.e(TAG, "Subscription registered")
-                        } catch (e: Exception) {
-                            LogUtil.e(TAG, "Failed to parse SUB_IDS", e)
-                        }
+                        val subItem = com.proxu.app.dto.entities.SubscriptionItem()
+                        subItem.remarks = "PROXU.PRO"
+                        subItem.url = ""
+                        subItem.enabled = true
+                        com.proxu.app.handler.MmkvManager.encodeSubscription(SUBSCRIPTION_ID, subItem)
+                        LogUtil.e(TAG, "Subscription registered")
                     }
                 } catch (e: Exception) {
-                    LogUtil.e(TAG, "Failed to check storage keys", e)
+                    LogUtil.e(TAG, "Failed to register subscription", e)
                 }
 
                 val currentSelected = MmkvManager.getSelectServer()
