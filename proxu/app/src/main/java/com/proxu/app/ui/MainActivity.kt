@@ -79,18 +79,36 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
         updateAccountMenu()
         if (it.resultCode == RESULT_OK) {
             toast(R.string.auth_login_successful)
-        }
-        // Refresh group tabs and server list after login (profile sync may have created/updated servers)
-        if (SettingsChangeManager.consumeSetupGroupTab()) {
-            setupGroupTab()
-        }
-        // CRITICAL: Set subscriptionId to default where proxu profiles are saved
-        if (mainViewModel.subscriptionId != AppConfig.DEFAULT_SUBSCRIPTION_ID) {
-            mainViewModel.subscriptionIdChanged(AppConfig.DEFAULT_SUBSCRIPTION_ID)
+            // CRITICAL: Sync profiles from server after successful login
+            // (onCreate won't run when returning via FLAG_ACTIVITY_CLEAR_TOP)
+            lifecycleScope.launch {
+                val token = ProxuAuthManager.getToken(this@MainActivity)
+                if (!token.isNullOrBlank()) {
+                    val result = ProxuProfileSync.syncProfilesAndSelectFirst(this@MainActivity, token)
+                    LogUtil.i(AppConfig.TAG, "Post-login profile sync: ${result.message} (added=${result.added})")
+                    // Refresh UI after sync completes
+                    setupGroupTab()
+                    if (mainViewModel.subscriptionId != AppConfig.DEFAULT_SUBSCRIPTION_ID) {
+                        mainViewModel.subscriptionIdChanged(AppConfig.DEFAULT_SUBSCRIPTION_ID)
+                    } else {
+                        mainViewModel.reloadServerList()
+                    }
+                    updateToolbarTitle()
+                }
+            }
         } else {
-            mainViewModel.reloadServerList()
+            // Refresh group tabs and server list after login dismissed
+            if (SettingsChangeManager.consumeSetupGroupTab()) {
+                setupGroupTab()
+            }
+            // CRITICAL: Set subscriptionId to default where proxu profiles are saved
+            if (mainViewModel.subscriptionId != AppConfig.DEFAULT_SUBSCRIPTION_ID) {
+                mainViewModel.subscriptionIdChanged(AppConfig.DEFAULT_SUBSCRIPTION_ID)
+            } else {
+                mainViewModel.reloadServerList()
+            }
+            updateToolbarTitle()
         }
-        updateToolbarTitle()
         showLoginGateIfRequired()
     }
 
