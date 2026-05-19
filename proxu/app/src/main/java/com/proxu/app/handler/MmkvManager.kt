@@ -301,8 +301,8 @@ object MmkvManager {
      */
     fun clearAllCloudProfiles() {
         try {
-            // 1. Remove proxu profiles from all subscription lists (SERVER_AFF_*)
-            mainStorage.allKeys()?.filter { it.startsWith("SERVER_AFF_") }?.forEach { key ->
+            // 1. Remove proxu profiles from all subscription lists (SUB_SERVERS_*)
+            mainStorage.allKeys()?.filter { it.startsWith(KEY_SUB_SERVER_PREFIX) }?.forEach { key ->
                 val json = mainStorage.decodeString(key)
                 if (!json.isNullOrBlank()) {
                     try {
@@ -361,8 +361,8 @@ object MmkvManager {
      */
     fun clearAllProfiles() {
         try {
-            // 1. Remove all server lists from mainStorage
-            mainStorage.allKeys()?.filter { it.startsWith("SERVER_AFF_") }?.forEach { key ->
+            // 1. Remove all server lists from mainStorage (keys are SUB_SERVERS_*)
+            mainStorage.allKeys()?.filter { it.startsWith(KEY_SUB_SERVER_PREFIX) }?.forEach { key ->
                 mainStorage.removeValueForKey(key)
             }
 
