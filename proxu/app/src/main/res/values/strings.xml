@@ -27,6 +27,8 @@
     <string name="auth_google_token_missing">Google did not return an ID token. Try browser login.</string>
     <string name="auth_google_signin_config_error">Google Sign-In configuration error. Check package name and SHA-1 in Google Console.</string>
     <string name="auth_google_signin_error_with_code">Google Sign-In error: %d</string>
+    <string name="auth_account_not_found">Account not found. Please register at proxu.pro</string>
+    <string name="auth_register_on_website">Register on website</string>
     <string name="auth_network_error">Network error. Check your connection.</string>
     <string name="auth_network_error_with_message">Network error: %s</string>
     <string name="auth_cancelled">Sign-in cancelled</string>

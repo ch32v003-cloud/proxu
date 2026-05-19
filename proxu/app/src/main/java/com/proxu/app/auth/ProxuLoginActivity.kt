@@ -4,6 +4,7 @@ package com.proxu.app.auth
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -189,7 +190,7 @@ class ProxuLoginActivity : BaseActivity() {
     }
 
     private fun handleAuthResponse(response: AuthResponse, email: String) {
-        LogUtil.d(TAG, "handleAuthResponse: balance=${response.balance}, code=${response.code}")
+        LogUtil.d(TAG, "handleAuthResponse: code=${response.code}, body=${response.body.take(200)}, error=${response.error}, message=${response.message}")
         val token = response.token
         if (!token.isNullOrBlank()) {
             LogUtil.d(TAG, "Saving auth with balance: ${response.balance}")
@@ -198,13 +199,34 @@ class ProxuLoginActivity : BaseActivity() {
             return
         }
 
-        val message = when (response.code) {
-            400 -> response.error ?: getString(R.string.auth_invalid_request)
-            401 -> getString(R.string.auth_invalid_google_token)
-            404 -> getString(R.string.auth_endpoint_not_found)
+        // Check if server says user doesn't exist (new account needs registration)
+        val isUserNotFound = response.error?.contains("not found", true) == true
+                || response.error?.contains("not registered", true) == true
+                || response.error?.contains("user", true) == true
+                || response.message?.contains("not found", true) == true
+                || response.body.contains("not found", true)
+                || response.body.contains("not registered", true)
+
+        val message = when {
+            isUserNotFound -> {
+                LogUtil.w(TAG, "User not found on server: $email")
+                getString(R.string.auth_account_not_found)
+            }
+            response.code == 400 -> response.error ?: getString(R.string.auth_invalid_request)
+            response.code == 401 -> getString(R.string.auth_invalid_google_token)
+            response.code == 404 -> getString(R.string.auth_endpoint_not_found)
             else -> response.error ?: response.message ?: getString(R.string.auth_server_error_with_code, response.code)
         }
         showError(message)
+        
+        // If user not found, auto-show browser login (which handles registration)
+        if (isUserNotFound) {
+            binding.webSignInButton.visibility = View.VISIBLE
+            binding.webSignInButton.text = getString(R.string.auth_register_on_website)
+            binding.webSignInButton.setOnClickListener {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://proxu.pro/register")))
+            }
+        }
     }
 
     private fun finishLoginSuccessfully() {

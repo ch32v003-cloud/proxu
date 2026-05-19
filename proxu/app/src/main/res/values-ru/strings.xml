@@ -279,6 +279,8 @@
     <string name="auth_google_token_missing">Google не вернул токен. Попробуйте вход через браузер.</string>
     <string name="auth_google_signin_config_error">Ошибка конфигурации Google Sign-In. Проверьте имя пакета и SHA-1 в Google Console.</string>
     <string name="auth_google_signin_error_with_code">Ошибка Google Sign-In: %d</string>
+    <string name="auth_account_not_found">Аккаунт не найден. Зарегистрируйтесь на proxu.pro</string>
+    <string name="auth_register_on_website">Зарегистрироваться на сайте</string>
     <string name="auth_network_error">Ошибка сети. Проверьте подключение.</string>
     <string name="auth_network_error_with_message">Ошибка сети: %s</string>
     <string name="auth_cancelled">Вход отменён</string>
