@@ -168,8 +168,8 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
         // reloadServerList is called in onResume() to ensure sync has completed
         updateToolbarTitle()
 
-        // Auto-sync proxu profiles on startup if logged in
-        if (ProxuAuthManager.isLoggedIn(this)) {
+        // Auto-sync proxu profiles on startup if logged in (only on first creation, not rotation)
+        if (savedInstanceState == null && ProxuAuthManager.isLoggedIn(this)) {
             lifecycleScope.launch {
                 val token = ProxuAuthManager.getToken(this@MainActivity)
                 if (!token.isNullOrBlank()) {
