@@ -18,20 +18,40 @@ object ProxuAuthApiService {
     private val jsonMediaType = "application/json; charset=utf-8".toMediaType()
 
     fun loginWithGoogle(idToken: String, email: String = "", name: String = ""): AuthResponse {
+        return authRequest("google-mobile", idToken, email, name)
+    }
+
+    /**
+     * Attempts to auto-register a new Google user on the server.
+     * Sends same payload but with auto_register flag so server creates account if not exists.
+     */
+    fun registerWithGoogle(idToken: String, email: String = "", name: String = ""): AuthResponse {
+        return authRequest("google-mobile", idToken, email, name, autoRegister = true)
+    }
+
+    private fun authRequest(
+        endpoint: String,
+        idToken: String,
+        email: String = "",
+        name: String = "",
+        autoRegister: Boolean = false
+    ): AuthResponse {
         val json = JSONObject()
             .put("id_token", idToken)
             .put("email", email)
             .put("name", name)
-            .toString()
+        if (autoRegister) {
+            json.put("auto_register", true)
+        }
 
         val request = Request.Builder()
-            .url("$BASE_URL/api/public/auth/google-mobile")
-            .post(json.toRequestBody(jsonMediaType))
+            .url("$BASE_URL/api/public/auth/$endpoint")
+            .post(json.toString().toRequestBody(jsonMediaType))
             .build()
 
         client.newCall(request).execute().use { response ->
             val body = response.body.string()
-            LogUtil.d("ProxuAuthApiService", "Auth response body: $body")
+            LogUtil.d("ProxuAuthApiService", "Auth response body (autoRegister=$autoRegister): $body")
             return AuthResponse(
                 code = response.code,
                 body = body,

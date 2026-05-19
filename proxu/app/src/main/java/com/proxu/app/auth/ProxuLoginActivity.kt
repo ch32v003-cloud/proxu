@@ -176,7 +176,7 @@ class ProxuLoginActivity : BaseActivity() {
                 withContext(Dispatchers.Main) {
                     binding.loginProgressBar.visibility = View.GONE
                     binding.googleSignInButton.isEnabled = true
-                    handleAuthResponse(response, email)
+                    handleAuthResponse(response, email, idToken, name)
                 }
             } catch (e: Exception) {
                 LogUtil.e(TAG, "Google auth backend request failed", e)
@@ -189,7 +189,7 @@ class ProxuLoginActivity : BaseActivity() {
         }
     }
 
-    private fun handleAuthResponse(response: AuthResponse, email: String) {
+    private fun handleAuthResponse(response: AuthResponse, email: String, idToken: String? = null, name: String = "") {
         LogUtil.d(TAG, "handleAuthResponse: code=${response.code}, body=${response.body.take(200)}, error=${response.error}, message=${response.message}")
         val token = response.token
         if (!token.isNullOrBlank()) {
@@ -209,6 +209,58 @@ class ProxuLoginActivity : BaseActivity() {
                 || response.body.contains("not registered", true)
                 || response.body.contains("blocked", true)
 
+        // If user not found and we have the Google id_token, try auto-registration
+        if (isUserNotFound && !idToken.isNullOrBlank()) {
+            LogUtil.i(TAG, "User not found, attempting auto-registration...")
+            Toast.makeText(this, R.string.auth_auto_registering, Toast.LENGTH_SHORT).show()
+            binding.loginProgressBar.visibility = View.VISIBLE
+            binding.googleSignInButton.isEnabled = false
+            
+            lifecycleScope.launch(Dispatchers.IO) {
+                try {
+                    // Step 1: Auto-register
+                    val registerResponse = ProxuAuthApiService.registerWithGoogle(idToken, email, name)
+                    LogUtil.i(TAG, "Auto-register response: code=${registerResponse.code}, error=${registerResponse.error}")
+                    
+                    if (!registerResponse.token.isNullOrBlank()) {
+                        // Registration succeeded and returned token immediately
+                        LogUtil.i(TAG, "Auto-registration succeeded with token!")
+                        withContext(Dispatchers.Main) {
+                            ProxuAuthManager.saveAuth(this@ProxuLoginActivity, registerResponse.token, registerResponse.refreshToken, email, registerResponse.balance)
+                            finishLoginSuccessfully()
+                        }
+                        return@launch
+                    }
+                    
+                    // Step 2: If registration didn't return token, retry login
+                    LogUtil.i(TAG, "Registration done but no token, retrying login...")
+                    val retryResponse = ProxuAuthApiService.loginWithGoogle(idToken, email, name)
+                    
+                    withContext(Dispatchers.Main) {
+                        binding.loginProgressBar.visibility = View.GONE
+                        binding.googleSignInButton.isEnabled = true
+                        
+                        if (!retryResponse.token.isNullOrBlank()) {
+                            LogUtil.i(TAG, "Retry login succeeded after registration!")
+                            ProxuAuthManager.saveAuth(this@ProxuLoginActivity, retryResponse.token, retryResponse.refreshToken, email, retryResponse.balance)
+                            finishLoginSuccessfully()
+                        } else {
+                            LogUtil.e(TAG, "Retry login failed: ${retryResponse.error}")
+                            showError(getString(R.string.auth_auto_register_failed))
+                        }
+                    }
+                } catch (e: Exception) {
+                    LogUtil.e(TAG, "Auto-registration failed", e)
+                    withContext(Dispatchers.Main) {
+                        binding.loginProgressBar.visibility = View.GONE
+                        binding.googleSignInButton.isEnabled = true
+                        showError(getString(R.string.auth_auto_register_failed))
+                    }
+                }
+            }
+            return
+        }
+
         val message = when {
             isUserNotFound -> {
                 LogUtil.w(TAG, "User not found on server: $email")
@@ -220,17 +272,6 @@ class ProxuLoginActivity : BaseActivity() {
             else -> response.error ?: response.message ?: getString(R.string.auth_server_error_with_code, response.code)
         }
         showError(message)
-        
-        // If user not found, automatically switch to web login flow
-        // which handles registration + auth in one step
-        if (isUserNotFound) {
-            LogUtil.i(TAG, "User not found, switching to web login for registration...")
-            Toast.makeText(this, R.string.auth_redirecting_to_web_register, Toast.LENGTH_LONG).show()
-            binding.loginProgressBar.visibility = View.VISIBLE
-            binding.googleSignInButton.isEnabled = false
-            // Launch web login activity which will handle registration
-            webLoginLauncher.launch(ProxuWebLoginActivity.createIntent(this, isRequiredLogin, shouldOpenMainOnSuccess))
-        }
     }
 
     private fun finishLoginSuccessfully() {
