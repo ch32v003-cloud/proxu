@@ -197,16 +197,37 @@ class ProxuLoginActivity : BaseActivity() {
             LogUtil.i(TAG, "Auth success! Saving token, balance=${response.balance}")
             ProxuAuthManager.saveAuth(this, token, response.refreshToken, email, response.balance)
             
-            // Show welcome toast for new users (balance = 50 is the default)
-            if (response.balance == "50" || response.balance == "50.0") {
-                Toast.makeText(this, "Добро пожаловать! Ваш аккаунт создан, баланс: 50 руб.", Toast.LENGTH_LONG).show()
+            // Verify account is not blocked by calling getProfile
+            LogUtil.i(TAG, "Verifying account is active...")
+            lifecycleScope.launch(Dispatchers.IO) {
+                try {
+                    val profile = ProxuApiService.getProfile(token)
+                    val rawResponse = ProxuApiService.getProfileRaw(token)
+                    
+                    withContext(Dispatchers.Main) {
+                        if (profile == null && ProxuApiService.isBlockedResponse(rawResponse?.toString())) {
+                            LogUtil.e(TAG, "Account is BLOCKED! Clearing auth and showing error.")
+                            ProxuAuthManager.clearAuth(this@ProxuLoginActivity)
+                            showError(getString(R.string.auth_account_blocked))
+                        } else {
+                            // Show welcome toast for new users (balance = 50 is the default)
+                            if (response.balance == "50" || response.balance == "50.0") {
+                                Toast.makeText(this@ProxuLoginActivity, "Добро пожаловать! Ваш аккаунт создан, баланс: 50 руб.", Toast.LENGTH_LONG).show()
+                            }
+                            finishLoginSuccessfully()
+                        }
+                    }
+                } catch (e: Exception) {
+                    LogUtil.e(TAG, "Account verification failed", e)
+                    withContext(Dispatchers.Main) {
+                        showError("Ошибка проверки аккаунта. Попробуйте позже.")
+                    }
+                }
             }
-            
-            finishLoginSuccessfully()
             return
         }
 
-        // Check if account is blocked
+        // Check if account is blocked (direct response)
         if (response.isBlocked) {
             val blockedMessage = response.error ?: getString(R.string.auth_account_blocked)
             LogUtil.w(TAG, "Account blocked: $blockedMessage")
