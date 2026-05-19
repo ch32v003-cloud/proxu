@@ -53,7 +53,9 @@ object ProxuApiService {
                             username = it.optString("proxy_user").takeIf { it.isNotBlank() },
                             password = it.optString("proxy_pass").takeIf { it.isNotBlank() },
                             encryption = null, // Not provided in API
-                            extra = null // Not provided in API
+                            extra = null, // Not provided in API
+                            link = it.optString("link").takeIf { it.isNotBlank() }
+                                ?: it.optString("connection_string").takeIf { it.isNotBlank() }
                         )
                         list.add(proxy)
                     }
@@ -167,6 +169,48 @@ object ProxuApiService {
             }
         } catch (e: Exception) {
             LogUtil.e("ProxuApiService", "createVpn failed", e)
+            null
+        }
+    }
+
+    fun createProxy(token: String, type: String, quantity: Int = 1, xuiServerId: Int? = null, xuiInboundId: Int? = null): ProxuProxy? {
+        val bodyJson = JSONObject()
+            .put("type", type)
+            .put("quantity", quantity)
+        xuiServerId?.let { bodyJson.put("xui_server_id", it) }
+        xuiInboundId?.let { bodyJson.put("xui_inbound_id", it) }
+        val request = createAuthRequest(token, "$BASE_URL/proxies", "POST", bodyJson.toString()).build()
+        return try {
+            client.newCall(request).execute().use { response ->
+                val bodyStr = response.body?.string() ?: return null
+                LogUtil.e("ProxuApiService", "createProxy HTTP ${response.code}: $bodyStr")
+                if (response.code != 200) {
+                    LogUtil.e("ProxuApiService", "createProxy failed with code ${response.code}")
+                    return null
+                }
+                val json = JSONObject(bodyStr)
+                val proxies = json.optJSONArray("proxies")
+                if (proxies != null && proxies.length() > 0) {
+                    val proxyObj = proxies.getJSONObject(0)
+                    ProxuProxy(
+                        id = proxyObj.getString("id"),
+                        name = proxyObj.optString("name", ""),
+                        server = proxyObj.optString("domain", proxyObj.optString("ip", "")),
+                        port = proxyObj.optString("port").toIntOrNull() ?: 0,
+                        protocol = proxyObj.optString("protocol", type).lowercase(),
+                        username = proxyObj.optString("proxy_user").takeIf { it.isNotBlank() },
+                        password = proxyObj.optString("proxy_pass").takeIf { it.isNotBlank() },
+                        encryption = null,
+                        extra = null,
+                        link = proxyObj.optString("link").takeIf { it.isNotBlank() }
+                            ?: proxyObj.optString("connection_string").takeIf { it.isNotBlank() }
+                    )
+                } else {
+                    null
+                }
+            }
+        } catch (e: Exception) {
+            LogUtil.e("ProxuApiService", "createProxy failed", e)
             null
         }
     }

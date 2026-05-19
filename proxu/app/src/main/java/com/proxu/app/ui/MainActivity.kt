@@ -132,11 +132,26 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
         binding.fab.setOnClickListener { handleFabAction() }
         binding.layoutTest.setOnClickListener { handleLayoutTestClick() }
 
+        // Clear stale proxu profiles before building UI tabs (sync will repopulate with fresh data)
+        if (ProxuAuthManager.isLoggedIn(this)) {
+            ProxuProfileSync.clearCloudProfiles()
+        }
         setupGroupTab()
         setupViewModel()
         SubscriptionUpdater.sync()
         // reloadServerList is called in onResume() to ensure sync has completed
         updateToolbarTitle()
+
+        // Auto-sync proxu profiles on startup if logged in
+        if (ProxuAuthManager.isLoggedIn(this)) {
+            lifecycleScope.launch {
+                val token = ProxuAuthManager.getToken(this@MainActivity)
+                if (!token.isNullOrBlank()) {
+                    val result = ProxuProfileSync.syncProfilesAndSelectFirst(this@MainActivity, token)
+                    LogUtil.i(AppConfig.TAG, "Startup profile sync: ${result.message} (added=${result.added})")
+                }
+            }
+        }
 
         checkAndRequestPermission(PermissionType.POST_NOTIFICATIONS) {
         }

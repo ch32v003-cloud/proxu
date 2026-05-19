@@ -241,6 +241,8 @@ class ProxuLoginActivity : BaseActivity() {
         val token = ProxuAuthManager.getToken(this)
         if (!token.isNullOrBlank()) {
             lifecycleScope.launch {
+                // Always start fresh — remove any stale profiles from previous user/session
+                ProxuProfileSync.clearCloudProfiles()
                 // Sync profiles from server
                 Toast.makeText(this@ProxuLoginActivity, R.string.auth_syncing_profiles, Toast.LENGTH_SHORT).show()
                 val result = ProxuProfileSync.syncProfilesAndSelectFirst(this@ProxuLoginActivity, token)

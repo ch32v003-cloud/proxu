@@ -12,7 +12,8 @@ data class ProxuProxy(
     val username: String?,
     val password: String?,
     val encryption: String?,
-    val extra: JSONObject?
+    val extra: JSONObject?,
+    val link: String? = null
 )
 
 data class ProxuVpnServer(

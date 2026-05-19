@@ -111,11 +111,6 @@ object ProxuProfileSync {
                     allProfiles.add(serverKey to profile)
                 }
                 
-                if (allProfiles.isEmpty()) {
-                    LogUtil.w(TAG, "No proxies or VPNs returned from proxu.pro")
-                    return@withContext SyncResult(0, 0, "No profiles available")
-                }
-
                 LogUtil.e(TAG, "Processing ${allProfiles.size} total profiles...")
                 var added = 0
                 var skipped = 0
@@ -154,6 +149,15 @@ object ProxuProfileSync {
                         MmkvManager.removeServer(oldKey)
                         LogUtil.i(TAG, "Removed old profile: $oldKey")
                     }
+                }
+                
+                if (allProfiles.isEmpty()) {
+                    LogUtil.w(TAG, "No proxies or VPNs returned from proxu.pro — cleared all old profiles")
+                    MmkvManager.encodeServerList(newServerList, SUBSCRIPTION_ID)
+                    MmkvManager.setSelectServer("")
+                    MessageUtil.sendMsg2UI(context, AppConfig.MSG_RELOAD_SERVER_LIST, "")
+                    SettingsChangeManager.makeSetupGroupTab()
+                    return@withContext SyncResult(0, 0, "No profiles available")
                 }
                 MmkvManager.encodeServerList(newServerList.toMutableList(), SUBSCRIPTION_ID)
                 LogUtil.e(TAG, "Saved server list to MmkvManager: $newServerList")
@@ -245,16 +249,15 @@ object ProxuProfileSync {
                 var added = 0
                 for (server in vpnServers) {
                     try {
-                        val vpnConfig = ProxuApiService.createVpn(token)
-                        if (vpnConfig != null) {
-                            val configContent = ProxuApiService.getVpnConfig(token, vpnConfig.id)
-                            if (!configContent.isNullOrBlank()) {
-                                val profile = convertVpnConfigToProfile(server, configContent)
-                                if (profile != null) {
-                                    val key = MmkvManager.encodeServerConfig("", profile)
-                                    LogUtil.i(TAG, "Added VPN config: ${server.name}")
-                                    added++
-                                }
+                        val proxy = ProxuApiService.createProxy(token, "vpn")
+                        if (proxy != null && !proxy.link.isNullOrBlank()) {
+                            val profile = importFromLink(proxy.link, proxy.id)
+                            if (profile != null) {
+                                profile.subscriptionId = SUBSCRIPTION_ID
+                                profile.description = "PROXU.PRO"
+                                val key = MmkvManager.encodeServerConfig("proxu_${proxy.id}", profile)
+                                LogUtil.i(TAG, "Added VPN config: ${server.name}")
+                                added++
                             }
                         }
                     } catch (e: Exception) {
@@ -273,7 +276,19 @@ object ProxuProfileSync {
 
     private fun convertProxyToProfile(token: String, proxy: ProxuProxy): ProfileItem? {
         return try {
-            LogUtil.e(TAG, "Converting proxy: ${proxy.id}, type=${proxy.protocol}, server=${proxy.server}, port=${proxy.port}, extra=${proxy.extra}")
+            LogUtil.e(TAG, "Converting proxy: ${proxy.id}, type=${proxy.protocol}, server=${proxy.server}, port=${proxy.port}, link=${proxy.link?.take(50)}, extra=${proxy.extra}")
+            
+            // If proxy has a direct link (from /api/user/proxies), parse it directly
+            if (!proxy.link.isNullOrBlank()) {
+                LogUtil.e(TAG, "Proxy has direct link, parsing...")
+                val profile = importFromLink(proxy.link, proxy.id)
+                if (profile != null) {
+                    profile.subscriptionId = SUBSCRIPTION_ID
+                    profile.description = "PROXU.PRO"
+                    return profile
+                }
+                LogUtil.w(TAG, "Failed to parse direct link for ${proxy.id}, falling back to API fields")
+            }
             
             // For VPN-type proxies, get the full config including TLS/reality settings
             if (proxy.id.startsWith("vpn_") || proxy.protocol == "vpn") {
@@ -299,17 +314,31 @@ object ProxuProfileSync {
     
     private fun convertVpnProxy(token: String, proxy: ProxuProxy): ProfileItem? {
         return try {
+            // If proxy already has a link (from /api/user/proxies), use it directly
+            val link = proxy.link
+            if (!link.isNullOrBlank()) {
+                LogUtil.e(TAG, "Using direct VPN link for ${proxy.id}: ${link.take(50)}...")
+                val profile = importFromLink(link, proxy.id)
+                if (profile != null) {
+                    profile.subscriptionId = SUBSCRIPTION_ID
+                    profile.description = "PROXU.PRO"
+                    return profile
+                }
+                LogUtil.e(TAG, "Failed to parse direct VPN link")
+            }
+            
+            // Fallback: fetch full VPN config via legacy endpoint
             LogUtil.e(TAG, "Getting VPN config for ${proxy.id}")
             val vpnConfigJson = ProxuApiService.getVpnConfigJson(token, proxy.id)
             if (vpnConfigJson != null) {
                 LogUtil.e(TAG, "Got VPN config JSON: ${vpnConfigJson}")
-                val link = vpnConfigJson.optString("link", "")
-                if (link.isNotBlank()) {
-                    LogUtil.e(TAG, "Got VPN link: ${link.take(50)}...")
+                val configLink = vpnConfigJson.optString("link", "")
+                if (configLink.isNotBlank()) {
+                    LogUtil.e(TAG, "Got VPN link: ${configLink.take(50)}...")
                     
                     // Parse the link directly instead of using AngConfigManager
                     // This ensures we get the correct profile with proxu_{id} key
-                    val profile = importFromLink(link, proxy.id)
+                    val profile = importFromLink(configLink, proxy.id)
                     if (profile != null) {
                         profile.subscriptionId = SUBSCRIPTION_ID
                         profile.description = "PROXU.PRO"
@@ -749,15 +778,15 @@ object ProxuProfileSync {
                 
                 LogUtil.i(TAG, "Selected server: ${selectedServer.name} (ID: $xuiServerId), inbound ID: $xuiInboundId")
                 
-                val vpnConfig = ProxuApiService.createVpn(token, xuiServerId, xuiInboundId)
-                if (vpnConfig == null) {
-                    LogUtil.e(TAG, "Failed to create VPN config")
+                val proxy = ProxuApiService.createProxy(token, "vpn", 1, xuiServerId, xuiInboundId)
+                if (proxy == null) {
+                    LogUtil.e(TAG, "Failed to create VPN proxy")
                     onComplete?.invoke(SyncResult(0, 0, "Failed to create VPN"))
                     return@Thread
                 }
                 
-                val link = vpnConfig.config
-                if (link.isBlank() || !link.startsWith("vless://")) {
+                val link = proxy.link
+                if (link.isNullOrBlank() || !link.startsWith("vless://")) {
                     LogUtil.e(TAG, "Invalid VPN link received: $link")
                     onComplete?.invoke(SyncResult(0, 0, "Invalid VPN link"))
                     return@Thread
@@ -770,20 +799,20 @@ object ProxuProfileSync {
                 if (profile != null) {
                     LogUtil.e(TAG, "STEP 3: Profile not null, saving...")
                     // Save to default subscription so it shows up immediately in UI
-                    profile.subscriptionId = ""
+                    profile.subscriptionId = SUBSCRIPTION_ID
                     profile.description = "PROXU.PRO"
-                    val serverKey = "proxu_${vpnConfig.id}"
+                    val serverKey = "proxu_${proxy.id}"
                     LogUtil.e(TAG, "STEP 4: serverKey=$serverKey")
                     val key = MmkvManager.encodeServerConfig(serverKey, profile)
                     LogUtil.e(TAG, "STEP 5: encoded server config, key=$key")
                     MmkvManager.setSelectServer(key)
                     LogUtil.e(TAG, "STEP 6: set selected server")
                     
-                    val serverList = MmkvManager.decodeServerList("").toMutableList()
+                    val serverList = MmkvManager.decodeServerList(SUBSCRIPTION_ID).toMutableList()
                     LogUtil.e(TAG, "STEP 7: current serverList size=${serverList.size}")
                     if (!serverList.contains(serverKey)) {
                         serverList.add(0, serverKey)
-                        MmkvManager.encodeServerList(serverList, "")
+                        MmkvManager.encodeServerList(serverList, SUBSCRIPTION_ID)
                         LogUtil.e(TAG, "STEP 8: added to server list")
                     }
                     
