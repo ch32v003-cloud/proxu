@@ -101,7 +101,7 @@ object ProxuConfigDownloader {
         return try {
             val request = Request.Builder()
                 .url(url)
-                .header("User-Agent", "ProxuApp/2.1.7")
+                .header("User-Agent", "ProxuApp/2.1.7.1")
                 .build()
             client.newCall(request).execute()
         } catch (e: Exception) {
