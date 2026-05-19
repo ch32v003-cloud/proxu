@@ -429,17 +429,13 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
     private fun startBalanceSync() {
         balanceSyncJob?.cancel()
         balanceSyncJob = lifecycleScope.launch {
-            var tick = 0
             while (isActive) {
                 // Check every 30 seconds if there is a pending payment, otherwise every 5 minutes
                 val prefs = getSharedPreferences("proxu_auth", Context.MODE_PRIVATE)
                 val hasPendingPayment = prefs.getString("pending_payment_id", null) != null
                 val delayMs = if (hasPendingPayment) 30_000L else 300_000L // 30 sec or 5 min
 
-                if (tick > 0 || hasPendingPayment) { // First immediate tick only if pending
-                    delay(delayMs)
-                }
-                tick++
+                delay(delayMs)
 
                 if (!ProxuAuthManager.isLoggedIn(this@MainActivity)) continue
                 val token = ProxuAuthManager.getToken(this@MainActivity)
@@ -449,42 +445,6 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
                     // If pending payment exists, try to resolve it in background
                     if (hasPendingPayment) {
                         pollPendingPaymentInBackground()
-                    }
-
-                    // Regular balance refresh
-                    val profile = withContext(Dispatchers.IO) {
-                        ProxuApiService.getProfile(token)
-                    }
-                    
-                    // Check if account is blocked
-                    if (profile == null) {
-                        val rawBody = withContext(Dispatchers.IO) {
-                            ProxuApiService.getProfileRawString(token)
-                        }
-                        if (ProxuApiService.isBlockedResponse(rawBody)) {
-                            withContext(Dispatchers.Main) {
-                                toast(R.string.auth_account_blocked)
-                                performLogout()
-                            }
-                            return@launch
-                        }
-                    }
-                    
-                    profile?.balance?.let { balance ->
-                        val oldBalance = ProxuAuthManager.getBalance(this@MainActivity)
-                        ProxuAuthManager.updateBalance(this@MainActivity, balance)
-                        updateToolbarTitle()
-                        updateAccountMenu()
-                        val oldValue = oldBalance?.toIntOrNull() ?: 0
-                        val newValue = balance.toIntOrNull() ?: 0
-                        if (newValue != oldValue) {
-                            LogUtil.i("MainActivity", "Balance changed: $oldValue -> $newValue")
-                            if (newValue > oldValue) {
-                                toast("Баланс пополнен! Текущий баланс: $balance р.")
-                            }
-                        } else {
-                            LogUtil.d("MainActivity", "Balance synced: $balance")
-                        }
                     }
                 } catch (e: Exception) {
                     LogUtil.e("MainActivity", "Balance sync failed", e)
