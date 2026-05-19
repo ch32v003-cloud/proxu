@@ -12,8 +12,8 @@ android {
         applicationId = "com.proxu.app"
         minSdk = 24
         targetSdk = 36
-        versionCode = 72701
-        versionName = "2.1.7.1"
+        versionCode = 72702
+        versionName = "2.1.7.2"
         multiDexEnabled = true
 
         val abiFilterList = (properties["ABI_FILTERS"] as? String)?.split(';')
