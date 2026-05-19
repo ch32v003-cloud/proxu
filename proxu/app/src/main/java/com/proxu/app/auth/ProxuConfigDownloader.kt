@@ -83,6 +83,10 @@ object ProxuConfigDownloader {
             
             if (count > 0) {
                 LogUtil.i(TAG, "Config applied successfully. Restored $count items.")
+                // Remote config may contain stale bundled/example profiles (e.g. old price in VLESS remark).
+                // User VPN profiles must always come from proxu.pro API sync, so strip restored profiles
+                // while keeping restored app settings/theme preferences.
+                ProxuProfileSync.clearCloudProfiles()
                 SettingsChangeManager.makeSetupGroupTab()
                 SettingsChangeManager.makeRestartService()
                 return@withContext true

@@ -273,6 +273,7 @@
     <string name="auth_login_successful">Вход выполнен</string>
     <string name="auth_logout">Выйти</string>
     <string name="auth_logout_successful">Выход выполнен</string>
+    <string name="auth_vpn_stopped_on_logout">VPN отключён</string>
     <string name="auth_not_logged_in">Не вошли в аккаунт</string>
     <string name="auth_account">Аккаунт</string>
     <string name="auth_google_play_services_unavailable">Сервисы Google Play недоступны на этом устройстве.</string>

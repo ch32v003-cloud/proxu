@@ -183,10 +183,10 @@ class ProxuLoginActivity : BaseActivity() {
         LogUtil.d(TAG, "handleAuthResponse: code=${response.code}, token=${!response.token.isNullOrBlank()}, balance=${response.balance}, error=${response.error}")
         val token = response.token
         if (!token.isNullOrBlank()) {
-            // Only trust balance from auth response for NEW users.
-            // For existing users, getProfile in syncProfilesAndSelectFirst will set the real balance.
-            val trustedBalance = if (response.isNew) response.balance else null
-            LogUtil.i(TAG, "Auth success! isNew=${response.isNew}, saving balance=${trustedBalance}")
+            // Do NOT save balance from auth response — always fetch from getProfile()
+            // to avoid showing stale/incorrect balance (e.g. 50r placeholder for existing users)
+            val trustedBalance = null
+            LogUtil.i(TAG, "Auth success! isNew=${response.isNew}, balance will be fetched via getProfile()")
             ProxuAuthManager.saveAuth(this, token, response.refreshToken, email, trustedBalance)
             
             // Verify account is not blocked by calling getProfile

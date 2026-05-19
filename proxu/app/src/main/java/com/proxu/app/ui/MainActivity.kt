@@ -162,18 +162,14 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
         binding.fab.setOnClickListener { handleFabAction() }
         binding.layoutTest.setOnClickListener { handleLayoutTestClick() }
 
-        // Clear stale proxu profiles before building UI tabs (sync will repopulate with fresh data)
-        if (ProxuAuthManager.isLoggedIn(this)) {
-            ProxuProfileSync.clearCloudProfiles()
-        }
         setupGroupTab()
         setupViewModel()
         SubscriptionUpdater.sync()
         // reloadServerList is called in onResume() to ensure sync has completed
         updateToolbarTitle()
 
-        // Auto-sync proxu profiles on startup if logged in
-        if (ProxuAuthManager.isLoggedIn(this)) {
+        // Auto-sync proxu profiles on startup if logged in (only on first creation, not rotation)
+        if (savedInstanceState == null && ProxuAuthManager.isLoggedIn(this)) {
             lifecycleScope.launch {
                 val token = ProxuAuthManager.getToken(this@MainActivity)
                 if (!token.isNullOrBlank()) {
@@ -479,7 +475,9 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
                         val newValue = balance.toIntOrNull() ?: 0
                         if (newValue != oldValue) {
                             LogUtil.i("MainActivity", "Balance changed: $oldValue -> $newValue")
-                            if (newValue > oldValue) {
+                            // Do not show "balance topped up" during ordinary login/startup sync.
+                            // Toast only if we are resolving an actual payment created in this app session.
+                            if (hasPendingPayment && oldBalance != null && newValue > oldValue) {
                                 toast("Баланс пополнен! Текущий баланс: $balance р.")
                             }
                         } else {
@@ -1004,6 +1002,13 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
     }
 
     private fun performLogout() {
+        // Stop VPN service before clearing profiles (user no longer has valid access)
+        if (mainViewModel.isRunning.value == true) {
+            CoreServiceManager.stopVService(this)
+            toast(R.string.auth_vpn_stopped_on_logout)
+        }
+        // Clear pending payment marker from previous session to avoid false "balance topped up" toasts after next login
+        getSharedPreferences("proxu_auth", Context.MODE_PRIVATE).edit().remove("pending_payment_id").apply()
         // Clear all proxu.pro VPN profiles on logout to ensure fresh sync on next login
         ProxuProfileSync.clearCloudProfiles()
         ProxuAuthManager.clearAuth(this)
