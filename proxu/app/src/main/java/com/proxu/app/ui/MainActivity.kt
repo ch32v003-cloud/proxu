@@ -186,7 +186,15 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
 
     private fun setupGroupTab() {
         val groups = mainViewModel.getSubscriptions(this)
-        groupPagerAdapter.update(groups)
+        // CRITICAL: Ensure at least one group exists so ViewPager creates a fragment.
+        // When all subscriptions are cleared (e.g., after logout/login), getSubscriptions()
+        // may return an empty list if PREF_GROUP_ALL_DISPLAY is false.
+        val effectiveGroups = if (groups.isEmpty()) {
+            listOf(com.proxu.app.dto.GroupMapItem(id = "", remarks = getString(R.string.filter_config_all)))
+        } else {
+            groups
+        }
+        groupPagerAdapter.update(effectiveGroups)
 
         tabMediator?.detach()
         tabMediator = TabLayoutMediator(binding.tabGroup, binding.viewPager) { tab, position ->
@@ -198,10 +206,10 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
 
         updateToolbarTitle()
 
-        val targetIndex = groups.indexOfFirst { it.id == mainViewModel.subscriptionId }.takeIf { it >= 0 } ?: (groups.size - 1)
+        val targetIndex = effectiveGroups.indexOfFirst { it.id == mainViewModel.subscriptionId }.takeIf { it >= 0 } ?: (effectiveGroups.size - 1)
         binding.viewPager.setCurrentItem(targetIndex, false)
 
-        binding.tabGroup.isVisible = groups.size > 1
+        binding.tabGroup.isVisible = effectiveGroups.size > 1
     }
 
     private fun handleFabAction() {
