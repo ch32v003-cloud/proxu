@@ -957,6 +957,9 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
         } catch (_: Exception) { }
         updateAccountMenu()
         toast(R.string.auth_logout_successful)
+        // CRITICAL: Rebuild UI tabs so old profiles disappear immediately
+        setupGroupTab()
+        mainViewModel.reloadServerList()
         binding.root.post { showLoginGateIfRequired() }
     }
 

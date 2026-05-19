@@ -13,9 +13,11 @@ import com.proxu.app.dto.entities.SubscriptionCache
 import com.proxu.app.dto.entities.SubscriptionItem
 import com.proxu.app.dto.entities.WebDavConfig
 import com.proxu.app.util.JsonUtil
+import com.proxu.app.util.LogUtil
 import com.proxu.app.util.Utils
 
 object MmkvManager {
+    private const val TAG = "MmkvManager"
 
     //region private
 
@@ -290,6 +292,66 @@ object MmkvManager {
         profileFullStorage.clearAll()
         serverAffStorage.clearAll()
         return count
+    }
+
+    /**
+     * Removes all cloud (proxu) profiles from all subscription lists and storage.
+     * This is more thorough than removeServerViaSubid as it scans all subscription lists
+     * and also removes orphan profiles not referenced by any list.
+     */
+    fun clearAllCloudProfiles() {
+        try {
+            // 1. Remove proxu profiles from all subscription lists (SERVER_AFF_*)
+            mainStorage.allKeys()?.filter { it.startsWith("SERVER_AFF_") }?.forEach { key ->
+                val json = mainStorage.decodeString(key)
+                if (!json.isNullOrBlank()) {
+                    try {
+                        val list = JsonUtil.fromJson(json, Array<String>::class.java)?.toMutableList() ?: mutableListOf()
+                        val proxuGuids = list.filter { it.startsWith("proxu_") }
+                        if (proxuGuids.isNotEmpty()) {
+                            list.removeAll(proxuGuids)
+                            mainStorage.encode(key, JsonUtil.toJson(list))
+                            proxuGuids.forEach { guid ->
+                                profileFullStorage.remove(guid)
+                                serverAffStorage.remove(guid)
+                            }
+                        }
+                    } catch (e: Exception) {
+                        mainStorage.removeValueForKey(key)
+                    }
+                }
+            }
+
+            // 2. Remove orphan proxu profiles not in any list
+            profileFullStorage.allKeys()?.filter { it.startsWith("proxu_") }?.forEach { key ->
+                profileFullStorage.removeValueForKey(key)
+            }
+            serverAffStorage.allKeys()?.filter { it.startsWith("proxu_") }?.forEach { key ->
+                serverAffStorage.removeValueForKey(key)
+            }
+
+            // 3. Clear selected server if it's a proxu profile
+            val selected = getSelectServer()
+            if (selected?.startsWith("proxu_") == true) {
+                mainStorage.remove(KEY_SELECTED_SERVER)
+            }
+
+            // 4. Clean up proxu subscription entries from SUB_IDS
+            val subIdsJson = mainStorage.decodeString(KEY_SUB_IDS)
+            if (!subIdsJson.isNullOrBlank()) {
+                try {
+                    val subIds = JsonUtil.fromJson(subIdsJson, Array<String>::class.java)?.toMutableList() ?: mutableListOf()
+                    // Remove empty/default subscription entries that were used for proxu
+                    // (keep only non-default subscriptions that user manually added)
+                    val cleaned = subIds.filter { it != DEFAULT_SUBSCRIPTION_ID && it.isNotBlank() }
+                    if (cleaned.size != subIds.size) {
+                        mainStorage.encode(KEY_SUB_IDS, JsonUtil.toJson(cleaned))
+                    }
+                } catch (_: Exception) { }
+            }
+        } catch (e: Exception) {
+            LogUtil.e(TAG, "Failed to clear all cloud profiles", e)
+        }
     }
 
     /**
