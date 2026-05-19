@@ -78,7 +78,13 @@ class ProxuLoginActivity : BaseActivity() {
             binding.errorText.visibility = View.GONE
             binding.loginProgressBar.visibility = View.VISIBLE
             binding.googleSignInButton.isEnabled = false
-            launchGoogleSignIn()
+            
+            // Force account picker: sign out any previous Google account
+            googleSignInClient?.signOut()?.addOnCompleteListener {
+                launchGoogleSignIn()
+            } ?: run {
+                launchGoogleSignIn()
+            }
         }
     }
 

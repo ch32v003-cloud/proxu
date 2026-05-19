@@ -89,16 +89,34 @@ object ProxuProfileSync {
                     LogUtil.i(TAG, "Updated balance: $balance")
                 }
                 
-                // Get all proxies from API - this includes VPN configs with full VLESS links
+                // Get all proxies AND VPN configs from API
                 val proxies = ProxuApiService.getProxies(token)
-                LogUtil.e(TAG, "Proxies returned: ${proxies?.size ?: -1}")
+                val vpnConfigs = ProxuApiService.getUserVpns(token)
                 
-                if (proxies.isNullOrEmpty()) {
-                    LogUtil.w(TAG, "No proxies returned from proxu.pro")
-                    return@withContext SyncResult(0, 0, "No proxies available")
+                LogUtil.e(TAG, "Proxies returned: ${proxies?.size ?: 0}, VPNs returned: ${vpnConfigs?.size ?: 0}")
+                
+                val allProfiles = mutableListOf<Pair<String, ProfileItem?>>()
+                
+                // Process proxies (regular proxy entries)
+                proxies?.forEach { proxy ->
+                    val serverKey = "proxu_${proxy.id}"
+                    val profile = convertProxyToProfile(token, proxy)
+                    allProfiles.add(serverKey to profile)
+                }
+                
+                // Process VPN configs (created via createVpn API)
+                vpnConfigs?.forEach { vpn ->
+                    val serverKey = "proxu_vpn_${vpn.id}"
+                    val profile = convertVpnConfigToProfile(vpn, token)
+                    allProfiles.add(serverKey to profile)
+                }
+                
+                if (allProfiles.isEmpty()) {
+                    LogUtil.w(TAG, "No proxies or VPNs returned from proxu.pro")
+                    return@withContext SyncResult(0, 0, "No profiles available")
                 }
 
-                LogUtil.e(TAG, "Processing proxies...")
+                LogUtil.e(TAG, "Processing ${allProfiles.size} total profiles...")
                 var added = 0
                 var skipped = 0
                 val existingServers = MmkvManager.decodeServerList(SUBSCRIPTION_ID).toMutableSet()
@@ -106,11 +124,7 @@ object ProxuProfileSync {
                 val newServerList = mutableListOf<String>()
                 var firstServerKey: String? = null
 
-                for (proxy in proxies) {
-                    LogUtil.e(TAG, "Loop iteration for proxy: ${proxy.id}, protocol=${proxy.protocol}")
-                    val serverKey = "proxu_${proxy.id}"
-                    
-                    val profile = convertProxyToProfile(token, proxy)
+                for ((serverKey, profile) in allProfiles) {
                     if (profile != null) {
                         // Only add to list AFTER successful parsing
                         if (!newServerList.contains(serverKey)) {
@@ -119,7 +133,7 @@ object ProxuProfileSync {
                         
                         if (existingServers.contains(serverKey)) {
                             MmkvManager.removeServer(serverKey)
-                            LogUtil.i(TAG, "Removed old proxy for update: $serverKey")
+                            LogUtil.i(TAG, "Removed old profile for update: $serverKey")
                         }
                         MmkvManager.encodeServerConfig(serverKey, profile)
                         LogUtil.e(TAG, "Successfully saved profile: $serverKey")
@@ -128,28 +142,21 @@ object ProxuProfileSync {
                             firstServerKey = serverKey
                         }
                     } else {
-                        LogUtil.e(TAG, "Failed to convert proxy: ${proxy.id} - keeping existing if present")
-                        // Don't add to newServerList - keep existing profile if it exists
+                        LogUtil.e(TAG, "Failed to convert profile: $serverKey")
                     }
                 }
 
-                LogUtil.e(TAG, "Finished processing proxies. added=$added, skipped=$skipped, newServerList=${newServerList.size}, existing=${existingServers.size}")
+                LogUtil.e(TAG, "Finished processing. added=$added, newServerList=${newServerList.size}, existing=${existingServers.size}")
                 
                 // CRITICAL: Remove old profiles that are no longer on server
-                // If API returned empty list (user deleted all profiles), we must clear them
-                // If API returned null (error), we keep existing profiles
-                if (proxies != null) {
-                    for (oldKey in existingServers) {
-                        if (!newServerList.contains(oldKey)) {
-                            MmkvManager.removeServer(oldKey)
-                            LogUtil.i(TAG, "Removed old proxy: $oldKey")
-                        }
+                for (oldKey in existingServers) {
+                    if (!newServerList.contains(oldKey)) {
+                        MmkvManager.removeServer(oldKey)
+                        LogUtil.i(TAG, "Removed old profile: $oldKey")
                     }
-                    MmkvManager.encodeServerList(newServerList.toMutableList(), SUBSCRIPTION_ID)
-                    LogUtil.e(TAG, "Saved server list to MmkvManager: $newServerList")
-                } else {
-                    LogUtil.w(TAG, "API returned null (error) - keeping existing ${existingServers.size} profiles")
                 }
+                MmkvManager.encodeServerList(newServerList.toMutableList(), SUBSCRIPTION_ID)
+                LogUtil.e(TAG, "Saved server list to MmkvManager: $newServerList")
                 
                 // Verify what was saved
                 val savedList = MmkvManager.decodeServerList(SUBSCRIPTION_ID)
@@ -642,6 +649,44 @@ object ProxuProfileSync {
             profile
         } catch (e: Exception) {
             LogUtil.e(TAG, "Failed to convert VPN config", e)
+            null
+        }
+    }
+
+    /**
+     * Convert a ProxuVpnConfig (from getUserVpns API) to a ProfileItem.
+     * The vpnConfig.config field contains the VLESS link.
+     */
+    private fun convertVpnConfigToProfile(vpnConfig: ProxuVpnConfig, token: String): ProfileItem? {
+        return try {
+            val link = vpnConfig.config
+            if (link.isNotBlank() && link.startsWith("vless://")) {
+                // Direct VLESS link - parse it
+                val profile = importVlessLink(link)
+                if (profile != null) {
+                    profile.subscriptionId = SUBSCRIPTION_ID
+                    profile.description = "PROXU.PRO"
+                    return profile
+                }
+            }
+            
+            // If config doesn't contain VLESS link, try fetching full config
+            if (vpnConfig.id.isNotBlank()) {
+                val fullConfig = ProxuApiService.getVpnConfig(token, vpnConfig.id)
+                if (!fullConfig.isNullOrBlank() && fullConfig.startsWith("vless://")) {
+                    val profile = importVlessLink(fullConfig)
+                    if (profile != null) {
+                        profile.subscriptionId = SUBSCRIPTION_ID
+                        profile.description = "PROXU.PRO"
+                        return profile
+                    }
+                }
+            }
+            
+            LogUtil.w(TAG, "Could not parse VPN config for id=${vpnConfig.id}, config=${link.take(50)}")
+            null
+        } catch (e: Exception) {
+            LogUtil.e(TAG, "Failed to convert VPN config ${vpnConfig.id}", e)
             null
         }
     }
