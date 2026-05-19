@@ -202,10 +202,6 @@ class ProxuLoginActivity : BaseActivity() {
                             ProxuAuthManager.clearAuth(this@ProxuLoginActivity)
                             showError(getString(R.string.auth_account_blocked))
                         } else {
-                            // Show welcome toast only for newly registered users
-                            if (response.isNew) {
-                                Toast.makeText(this@ProxuLoginActivity, "Добро пожаловать! Ваш аккаунт создан, баланс: ${response.balance ?: "50"} руб.", Toast.LENGTH_LONG).show()
-                            }
                             finishLoginSuccessfully()
                         }
                     }
