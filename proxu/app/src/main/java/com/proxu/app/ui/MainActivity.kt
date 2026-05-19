@@ -84,9 +84,21 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
             lifecycleScope.launch {
                 val token = ProxuAuthManager.getToken(this@MainActivity)
                 if (!token.isNullOrBlank()) {
-                    val result = ProxuProfileSync.syncProfilesAndSelectFirst(this@MainActivity, token)
-                    LogUtil.i(AppConfig.TAG, "Post-login profile sync: ${result.message} (added=${result.added})")
-                    // Refresh UI after sync completes
+                    // Show progress dialog during sync so user can't click "Create Profile"
+                    val progressDialog = android.app.ProgressDialog(this@MainActivity).apply {
+                        setMessage(getString(R.string.auth_syncing_profiles))
+                        setCancelable(false)
+                        show()
+                    }
+                    try {
+                        val result = ProxuProfileSync.syncProfilesAndSelectFirst(this@MainActivity, token)
+                        LogUtil.i(AppConfig.TAG, "Post-login profile sync: ${result.message} (added=${result.added})")
+                    } catch (e: Exception) {
+                        LogUtil.e(AppConfig.TAG, "Post-login sync failed", e)
+                    } finally {
+                        progressDialog.dismiss()
+                    }
+                    // Refresh UI after sync completes (or fails)
                     setupGroupTab()
                     if (mainViewModel.subscriptionId != AppConfig.DEFAULT_SUBSCRIPTION_ID) {
                         mainViewModel.subscriptionIdChanged(AppConfig.DEFAULT_SUBSCRIPTION_ID)
@@ -165,8 +177,28 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
             lifecycleScope.launch {
                 val token = ProxuAuthManager.getToken(this@MainActivity)
                 if (!token.isNullOrBlank()) {
-                    val result = ProxuProfileSync.syncProfilesAndSelectFirst(this@MainActivity, token)
-                    LogUtil.i(AppConfig.TAG, "Startup profile sync: ${result.message} (added=${result.added})")
+                    // Show progress dialog during startup sync to prevent "Create Profile" button flash
+                    val progressDialog = android.app.ProgressDialog(this@MainActivity).apply {
+                        setMessage(getString(R.string.auth_syncing_profiles))
+                        setCancelable(false)
+                        show()
+                    }
+                    try {
+                        val result = ProxuProfileSync.syncProfilesAndSelectFirst(this@MainActivity, token)
+                        LogUtil.i(AppConfig.TAG, "Startup profile sync: ${result.message} (added=${result.added})")
+                    } catch (e: Exception) {
+                        LogUtil.e(AppConfig.TAG, "Startup sync failed", e)
+                    } finally {
+                        progressDialog.dismiss()
+                    }
+                    // Refresh UI after sync completes
+                    setupGroupTab()
+                    if (mainViewModel.subscriptionId != AppConfig.DEFAULT_SUBSCRIPTION_ID) {
+                        mainViewModel.subscriptionIdChanged(AppConfig.DEFAULT_SUBSCRIPTION_ID)
+                    } else {
+                        mainViewModel.reloadServerList()
+                    }
+                    updateToolbarTitle()
                 }
             }
         }
