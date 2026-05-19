@@ -18,6 +18,11 @@ proxu/app/release/output.json
 /build
 /captures
 proxu/app/build
+
+# Ignore design documents and generated icon outputs
+Vision-Framework-Architect-DESIGN.md
+Heddle-Studio-Mobile-Flow-DESIGN.md
+IconKitchen-Output/
 proxu/build
 proxu/local.properties
 
