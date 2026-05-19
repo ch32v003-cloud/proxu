@@ -199,13 +199,15 @@ class ProxuLoginActivity : BaseActivity() {
             return
         }
 
-        // Check if server says user doesn't exist (new account needs registration)
+        // Check if server says user doesn't exist or is blocked (new account needs registration)
         val isUserNotFound = response.error?.contains("not found", true) == true
                 || response.error?.contains("not registered", true) == true
+                || response.error?.contains("blocked", true) == true
                 || response.error?.contains("user", true) == true
                 || response.message?.contains("not found", true) == true
                 || response.body.contains("not found", true)
                 || response.body.contains("not registered", true)
+                || response.body.contains("blocked", true)
 
         val message = when {
             isUserNotFound -> {
