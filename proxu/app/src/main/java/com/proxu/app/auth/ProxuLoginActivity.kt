@@ -221,13 +221,15 @@ class ProxuLoginActivity : BaseActivity() {
         }
         showError(message)
         
-        // If user not found, auto-show browser login (which handles registration)
+        // If user not found, automatically switch to web login flow
+        // which handles registration + auth in one step
         if (isUserNotFound) {
-            binding.webSignInButton.visibility = View.VISIBLE
-            binding.webSignInButton.text = getString(R.string.auth_register_on_website)
-            binding.webSignInButton.setOnClickListener {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://proxu.pro/register")))
-            }
+            LogUtil.i(TAG, "User not found, switching to web login for registration...")
+            Toast.makeText(this, R.string.auth_redirecting_to_web_register, Toast.LENGTH_LONG).show()
+            binding.loginProgressBar.visibility = View.VISIBLE
+            binding.googleSignInButton.isEnabled = false
+            // Launch web login activity which will handle registration
+            webLoginLauncher.launch(ProxuWebLoginActivity.createIntent(this, isRequiredLogin, shouldOpenMainOnSuccess))
         }
     }
 
