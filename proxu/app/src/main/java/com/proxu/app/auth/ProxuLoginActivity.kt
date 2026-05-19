@@ -183,8 +183,11 @@ class ProxuLoginActivity : BaseActivity() {
         LogUtil.d(TAG, "handleAuthResponse: code=${response.code}, token=${!response.token.isNullOrBlank()}, balance=${response.balance}, error=${response.error}")
         val token = response.token
         if (!token.isNullOrBlank()) {
-            LogUtil.i(TAG, "Auth success! Saving token, balance=${response.balance}")
-            ProxuAuthManager.saveAuth(this, token, response.refreshToken, email, response.balance)
+            // Only trust balance from auth response for NEW users.
+            // For existing users, getProfile in syncProfilesAndSelectFirst will set the real balance.
+            val trustedBalance = if (response.isNew) response.balance else null
+            LogUtil.i(TAG, "Auth success! isNew=${response.isNew}, saving balance=${trustedBalance}")
+            ProxuAuthManager.saveAuth(this, token, response.refreshToken, email, trustedBalance)
             
             // Verify account is not blocked by calling getProfile
             LogUtil.i(TAG, "Verifying account is active...")
@@ -199,9 +202,9 @@ class ProxuLoginActivity : BaseActivity() {
                             ProxuAuthManager.clearAuth(this@ProxuLoginActivity)
                             showError(getString(R.string.auth_account_blocked))
                         } else {
-                            // Show welcome toast for new users (balance = 50 is the default)
-                            if (response.balance == "50" || response.balance == "50.0") {
-                                Toast.makeText(this@ProxuLoginActivity, "Добро пожаловать! Ваш аккаунт создан, баланс: 50 руб.", Toast.LENGTH_LONG).show()
+                            // Show welcome toast only for newly registered users
+                            if (response.isNew) {
+                                Toast.makeText(this@ProxuLoginActivity, "Добро пожаловать! Ваш аккаунт создан, баланс: ${response.balance ?: "50"} руб.", Toast.LENGTH_LONG).show()
                             }
                             finishLoginSuccessfully()
                         }

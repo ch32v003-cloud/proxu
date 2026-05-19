@@ -85,6 +85,7 @@ object ProxuAuthApiService {
                 message = json.optString("message", "").takeIf { it.isNotBlank() },
                 error = errorStr,
                 balance = balance,
+                isNew = isNew,
                 isBlocked = isBlocked
             )
         } catch (e: Exception) {
@@ -102,5 +103,6 @@ data class AuthResponse(
     val message: String?,
     val error: String?,
     val balance: String?,
+    val isNew: Boolean = false,
     val isBlocked: Boolean = false
 )
