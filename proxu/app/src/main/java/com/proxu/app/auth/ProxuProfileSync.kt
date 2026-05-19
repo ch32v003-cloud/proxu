@@ -82,13 +82,6 @@ object ProxuProfileSync {
                 LogUtil.e(TAG, "Starting profile sync from proxu.pro")
                 LogUtil.e(TAG, "Token length: ${token.length}")
                 
-                // Always fetch profile to get balance
-                val userProfile = ProxuApiService.getProfile(token)
-                userProfile?.balance?.let { balance ->
-                    ProxuAuthManager.updateBalance(context, balance)
-                    LogUtil.i(TAG, "Updated balance: $balance")
-                }
-                
                 // Get all proxies AND VPN configs from API
                 val proxies = ProxuApiService.getProxies(token)
                 val vpnConfigs = ProxuApiService.getUserVpns(token)
