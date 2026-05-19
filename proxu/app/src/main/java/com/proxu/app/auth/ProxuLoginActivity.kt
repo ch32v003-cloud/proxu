@@ -214,9 +214,19 @@ class ProxuLoginActivity : BaseActivity() {
         val token = ProxuAuthManager.getToken(this)
         if (!token.isNullOrBlank()) {
             lifecycleScope.launch {
+                // Sync profiles from server
                 Toast.makeText(this@ProxuLoginActivity, R.string.auth_syncing_profiles, Toast.LENGTH_SHORT).show()
                 val result = ProxuProfileSync.syncProfilesAndSelectFirst(this@ProxuLoginActivity, token)
                 LogUtil.i(TAG, "Profile sync result: ${result.message} (added=${result.added}, skipped=${result.skipped})")
+                
+                // Download and apply remote configuration (if available)
+                LogUtil.i(TAG, "Attempting to download remote config...")
+                val configApplied = ProxuConfigDownloader.downloadAndApplyConfig(this@ProxuLoginActivity)
+                if (configApplied) {
+                    Toast.makeText(this@ProxuLoginActivity, R.string.auth_downloading_config, Toast.LENGTH_SHORT).show()
+                } else {
+                    LogUtil.i(TAG, "Remote config not available or failed to apply")
+                }
                 
                 // Request MainActivity to refresh groups
                 SettingsChangeManager.makeSetupGroupTab()

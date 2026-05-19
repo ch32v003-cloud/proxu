@@ -290,6 +290,7 @@
     <string name="auth_endpoint_not_found">Точка авторизации не найдена.</string>
     <string name="auth_server_error_with_code">Ошибка сервера: %d</string>
     <string name="auth_syncing_profiles">Синхронизация профилей с Proxu.pro…</string>
+    <string name="auth_downloading_config">Загрузка конфигурации…</string>
     <string name="auth_sync_complete">Синхронизация завершена: %1$d добавлено, %2$d пропущено</string>
     <string name="auth_sync_failed">Ошибка синхронизации: %s</string>
     <string name="auth_sync_no_proxies">Нет доступных прокси</string>
