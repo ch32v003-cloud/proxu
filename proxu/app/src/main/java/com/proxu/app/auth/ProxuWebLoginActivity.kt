@@ -92,12 +92,23 @@ class ProxuWebLoginActivity : BaseActivity() {
         // Always start fresh — remove any stale profiles from previous user/session
         ProxuProfileSync.clearCloudProfiles()
 
-        if (shouldOpenMainOnSuccess) {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
+        lifecycleScope.launch {
+            // Download and apply remote configuration (if available)
+            LogUtil.i(TAG, "Attempting to download remote config...")
+            val configApplied = ProxuConfigDownloader.downloadAndApplyConfig(this@ProxuWebLoginActivity)
+            if (configApplied) {
+                Toast.makeText(this@ProxuWebLoginActivity, R.string.auth_downloading_config, Toast.LENGTH_SHORT).show()
+            } else {
+                LogUtil.i(TAG, "Remote config not available or failed to apply")
+            }
+
+            if (shouldOpenMainOnSuccess) {
+                val intent = Intent(this@ProxuWebLoginActivity, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+            }
+            finish()
         }
-        finish()
     }
 
     companion object {

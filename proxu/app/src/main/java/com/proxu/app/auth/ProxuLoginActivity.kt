@@ -242,12 +242,23 @@ class ProxuLoginActivity : BaseActivity() {
         // Request MainActivity to refresh groups (sync will happen in MainActivity.onCreate)
         SettingsChangeManager.makeSetupGroupTab()
 
-        if (shouldOpenMainOnSuccess) {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
+        lifecycleScope.launch {
+            // Download and apply remote configuration (if available)
+            LogUtil.i(TAG, "Attempting to download remote config...")
+            val configApplied = ProxuConfigDownloader.downloadAndApplyConfig(this@ProxuLoginActivity)
+            if (configApplied) {
+                Toast.makeText(this@ProxuLoginActivity, R.string.auth_downloading_config, Toast.LENGTH_SHORT).show()
+            } else {
+                LogUtil.i(TAG, "Remote config not available or failed to apply")
+            }
+
+            if (shouldOpenMainOnSuccess) {
+                val intent = Intent(this@ProxuLoginActivity, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+            }
+            finish()
         }
-        finish()
     }
 
     private fun showError(message: String) {
