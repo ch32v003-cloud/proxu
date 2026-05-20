@@ -259,6 +259,9 @@
     <string name="summary_pref_group_all_display">Показывать дополнительную вкладку со всеми профилями групп</string>
 
     <!-- AboutActivity -->
+    <string name="title_support">Поддержка</string>
+    <string name="support_telegram">Telegram-канал</string>
+    <string name="support_github">GitHub Issues</string>
     <string name="title_pref_feedback">Обратная связь</string>
     <string name="summary_pref_feedback">Предложить улучшение или сообщить об ошибке на GitHub</string>
     <string name="summary_pref_tg_group">Присоединиться к группе в Telegram</string>
