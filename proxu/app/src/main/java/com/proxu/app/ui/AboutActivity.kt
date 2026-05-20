@@ -21,7 +21,16 @@ class AboutActivity : BaseActivity() {
         }
 
         binding.layoutFeedback.setOnClickListener {
-            Utils.openUri(this, AppConfig.APP_ISSUES_URL)
+            android.app.AlertDialog.Builder(this)
+                .setTitle(R.string.title_support)
+                .setItems(arrayOf(getString(R.string.support_telegram), getString(R.string.support_github))) { _, which ->
+                    when (which) {
+                        0 -> Utils.openUri(this, AppConfig.TG_CHANNEL_URL)
+                        1 -> Utils.openUri(this, AppConfig.APP_ISSUES_URL)
+                    }
+                }
+                .setNegativeButton(android.R.string.cancel, null)
+                .show()
         }
 
         binding.layoutOssLicenses.setOnClickListener {
@@ -32,10 +41,6 @@ class AboutActivity : BaseActivity() {
                 .setView(webView)
                 .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
                 .show()
-        }
-
-        binding.layoutTgChannel.setOnClickListener {
-            Utils.openUri(this, AppConfig.TG_CHANNEL_URL)
         }
 
         binding.layoutPrivacyPolicy.setOnClickListener {

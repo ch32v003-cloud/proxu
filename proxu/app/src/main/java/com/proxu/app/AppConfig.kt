@@ -120,7 +120,7 @@ object AppConfig {
     const val APP_API_URL = "https://api.github.com/repos/2dust/v2rayNG/releases"
     const val APP_ISSUES_URL = "$APP_URL/issues"
     const val APP_WIKI_MODE = "$APP_URL/wiki/Mode"
-    const val APP_PRIVACY_POLICY = "$GITHUB_RAW_URL/ch32v003-cloud/proxu/master/PRIVACY_POLICY.md"
+    const val APP_PRIVACY_POLICY = "$GITHUB_RAW_URL/ch32v003-cloud/proxu/main/PRIVACY_POLICY.md"
     const val APP_PROMOTION_URL = "aHR0cHM6Ly85LjIzNDQ1Ni54eXovYWJjLmh0bWw="
     const val TG_CHANNEL_URL = "https://t.me/proxupro"
     const val DELAY_TEST_URL = "https://www.gstatic.com/generate_204"

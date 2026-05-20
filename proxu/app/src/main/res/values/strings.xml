@@ -324,6 +324,9 @@
     <string name="title_about">About</string>
     <string name="title_source_code">Source code</string>
     <string name="title_oss_license">Open Source licenses</string>
+    <string name="title_support">Support</string>
+    <string name="support_telegram">Telegram Channel</string>
+    <string name="support_github">GitHub Issues</string>
     <string name="title_tg_channel">Telegram channel</string>
 
     <string name="title_pref_promotion">Promotion</string>
