@@ -419,6 +419,41 @@ class MainActivity : HelperBaseActivity(), NavigationView.OnNavigationItemSelect
         // Start periodic balance sync (every 5 minutes)
         startBalanceSync()
     }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        // SAFETY NET: If MainActivity is brought to front via onNewIntent (e.g. from login flow
+        // when FLAG_ACTIVITY_CLEAR_TOP brings existing instance to front), the startup sync in
+        // onCreate() was skipped. Trigger sync here to ensure profiles are loaded.
+        if (intent.getBooleanExtra(ProxuLoginActivity.EXTRA_FROM_LOGIN, false)) {
+            LogUtil.i(AppConfig.TAG, "onNewIntent: triggered from login flow, running profile sync")
+            lifecycleScope.launch {
+                val token = ProxuAuthManager.getToken(this@MainActivity)
+                if (!token.isNullOrBlank()) {
+                    val progressDialog = android.app.ProgressDialog(this@MainActivity).apply {
+                        setMessage(getString(R.string.auth_syncing_profiles))
+                        setCancelable(false)
+                        show()
+                    }
+                    try {
+                        val result = ProxuProfileSync.syncProfilesAndSelectFirst(this@MainActivity, token)
+                        LogUtil.i(AppConfig.TAG, "onNewIntent profile sync: ${result.message} (added=${result.added})")
+                    } catch (e: Exception) {
+                        LogUtil.e(AppConfig.TAG, "onNewIntent sync failed", e)
+                    } finally {
+                        progressDialog.dismiss()
+                    }
+                    setupGroupTab()
+                    if (mainViewModel.subscriptionId != AppConfig.DEFAULT_SUBSCRIPTION_ID) {
+                        mainViewModel.subscriptionIdChanged(AppConfig.DEFAULT_SUBSCRIPTION_ID)
+                    } else {
+                        mainViewModel.reloadServerList()
+                    }
+                    updateToolbarTitle()
+                }
+            }
+        }
+    }
     
     private var balanceSyncJob: kotlinx.coroutines.Job? = null
 
