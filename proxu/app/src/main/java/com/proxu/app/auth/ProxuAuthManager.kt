@@ -47,7 +47,9 @@ object ProxuAuthManager {
                 putString(KEY_BALANCE, it) 
             }
             putBoolean(KEY_PROFILES_SYNC_PENDING, true)
-            apply()
+            // Use commit() for synchronous write to avoid race conditions where
+            // MainActivity reads token before apply() async write completes.
+            commit()
         }
     }
 
@@ -56,7 +58,9 @@ object ProxuAuthManager {
     }
 
     fun clearAuth(context: Context) {
-        getPrefs(context).edit().clear().apply()
+        // Use commit() for synchronous write to ensure token is immediately cleared
+        // before AuthGateActivity checks isLoggedIn() after logout.
+        getPrefs(context).edit().clear().commit()
     }
 
     fun setProfilesSyncPending(context: Context, pending: Boolean) {

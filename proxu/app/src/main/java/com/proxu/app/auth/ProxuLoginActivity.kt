@@ -254,7 +254,11 @@ class ProxuLoginActivity : BaseActivity() {
 
             if (shouldOpenMainOnSuccess) {
                 val intent = Intent(this@ProxuLoginActivity, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                // CRITICAL: Use CLEAR_TASK instead of CLEAR_TOP to force MainActivity.onCreate()
+                // CLEAR_TOP would bring an existing MainActivity to front via onNewIntent(),
+                // skipping the startup sync in onCreate(). CLEAR_TASK ensures a fresh instance.
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                intent.putExtra(EXTRA_FROM_LOGIN, true)
                 startActivity(intent)
             }
             finish()
@@ -270,6 +274,7 @@ class ProxuLoginActivity : BaseActivity() {
     companion object {
         const val EXTRA_REQUIRED_LOGIN = "com.proxu.app.auth.extra.REQUIRED_LOGIN"
         private const val EXTRA_OPEN_MAIN_ON_SUCCESS = "com.proxu.app.auth.extra.OPEN_MAIN_ON_SUCCESS"
+        const val EXTRA_FROM_LOGIN = "com.proxu.app.auth.extra.FROM_LOGIN"
         private const val TAG = "ProxuLogin"
 
         fun createIntent(context: Context, required: Boolean = false, openMainOnSuccess: Boolean = false): Intent {
